@@ -1,0 +1,590 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;1,700;1,800&display=swap');
+
+.graphiofolio,
+.graphiofolio * {
+  box-sizing: border-box;
+}
+.graphiofolio {
+  background: #f9f9f9;
+  height: 2403px;
+  position: relative;
+  overflow: hidden;
+}
+.footer {
+  height: 212px;
+  position: absolute;
+  right: 0px;
+  left: 0px;
+  bottom: 30px;
+}
+.rectangle-black {
+  background: #2e2e2e;
+  height: 303px;
+  position: absolute;
+  right: 0px;
+  left: 0px;
+  top: -61px;
+}
+.graphio-studio-logo-white {
+  width: 265px;
+  height: 106px;
+  position: absolute;
+  left: calc(50% - 674px);
+  bottom: 106px;
+  object-fit: cover;
+  aspect-ratio: 265/106;
+}
+.about-graphio-studio {
+  color: #f9f9f9;
+  text-align: center;
+  font-family: "Poppins", Arial, sans-serif;
+  font-size: 20px;
+  line-height: 23px;
+  font-weight: 300;
+  position: absolute;
+  left: calc(50% - -135px);
+  top: 91px;
+}
+.privacy-policy {
+  color: #f9f9f9;
+  text-align: center;
+  font-family: "Poppins", Arial, sans-serif;
+  font-size: 20px;
+  line-height: 23px;
+  font-weight: 300;
+  position: absolute;
+  left: calc(50% - -135px);
+  top: 54px;
+}
+.terms-conditions {
+  color: #f9f9f9;
+  text-align: center;
+  font-family: "Poppins", Arial, sans-serif;
+  font-size: 20px;
+  line-height: 23px;
+  font-weight: 300;
+  position: absolute;
+  left: calc(50% - -135px);
+  top: 17px;
+}
+.help-center {
+  color: #f9f9f9;
+  text-align: center;
+  font-family: "Poppins", Arial, sans-serif;
+  font-size: 20px;
+  line-height: 23px;
+  font-weight: 300;
+  position: absolute;
+  left: calc(50% - 109px);
+  top: 91px;
+}
+.company {
+  color: #f9f9f9;
+  text-align: center;
+  font-family: "Poppins", Arial, sans-serif;
+  font-size: 20px;
+  line-height: 23px;
+  font-weight: 300;
+  position: absolute;
+  left: calc(50% - 112px);
+  top: 54px;
+}
+.contact-us {
+  color: #f9f9f9;
+  text-align: center;
+  font-family: "Poppins", Arial, sans-serif;
+  font-size: 20px;
+  line-height: 23px;
+  font-weight: 300;
+  position: absolute;
+  left: calc(50% - 112px);
+  top: 17px;
+}
+.products {
+  color: #f9f9f9;
+  text-align: center;
+  font-family: "Poppins", Arial, sans-serif;
+  font-size: 20px;
+  line-height: 23px;
+  font-weight: 300;
+  position: absolute;
+  left: calc(50% - 343px);
+  top: 91px;
+}
+.services {
+  color: #f9f9f9;
+  text-align: center;
+  font-family: "Poppins", Arial, sans-serif;
+  font-size: 20px;
+  line-height: 23px;
+  font-weight: 300;
+  position: absolute;
+  left: calc(50% - 343px);
+  top: 54px;
+}
+.marketplace {
+  color: #f9f9f9;
+  text-align: center;
+  font-family: "Poppins", Arial, sans-serif;
+  font-size: 20px;
+  line-height: 23px;
+  font-weight: 300;
+  position: absolute;
+  left: calc(50% - 343px);
+  top: 17px;
+}
+.social-media {
+  height: 287px;
+  position: absolute;
+  right: 0px;
+  left: 0px;
+  top: 1835px;
+}
+.rectangle-9 {
+  background: #e5e5e5;
+  height: 287px;
+  position: absolute;
+  right: 0px;
+  left: 0px;
+  top: 0px;
+}
+.instagram {
+  width: 90px;
+  height: 90px;
+  position: absolute;
+  left: 50%;
+  translate: -50%;
+  top: 99px;
+  object-fit: cover;
+}
+.linked-in {
+  width: 90px;
+  height: 90px;
+  position: absolute;
+  left: calc(50% - -113px);
+  top: 99px;
+  object-fit: cover;
+}
+.facebook {
+  width: 90px;
+  height: 90px;
+  position: absolute;
+  left: calc(50% - 203px);
+  top: 99px;
+  object-fit: cover;
+}
+.frame-8 {
+  height: 552px;
+  position: absolute;
+  right: 0px;
+  left: 0px;
+  top: 1283px;
+}
+.rectangle-5 {
+  background: #0030ff;
+  height: 552px;
+  position: absolute;
+  right: 0px;
+  left: 0px;
+  top: 0px;
+}
+.lorem-ipsum-dolor-sit-amet-consectetur-adipiscing-elit-sed-do-eiusmod-tempor-incididunt-ut-labore-et-dolore-magna-aliqua-ut-enim-ad-minim-veniam-quis-nostrud-exercitation-ullamco-laboris-nisi-ut-aliquip-ex-ea-commodo-consequat-duis-aute-irure-dolor-in-reprehenderit-in-voluptate-velit-esse-cillum-dolore-eu-fugiat-nulla-pariatur-excepteur-sint-occaecat-cupidatat-non-proident-sunt-in-culpa-qui-officia-deserunt-mollit-anim-id-est-laborum {
+  color: #f9f9f9;
+  text-align: center;
+  font-family: "Poppins", Arial, sans-serif;
+  font-size: 28px;
+  line-height: 73px;
+  font-weight: 400;
+  position: absolute;
+  left: 50%;
+  translate: -50%;
+  top: 57px;
+  width: 1109px;
+  height: 438px;
+}
+.rectangle-7 {
+  background: linear-gradient(to left, #d9d9d9, #d9d9d9);
+  height: 273px;
+  position: absolute;
+  right: 0px;
+  left: 0px;
+  top: 54px;
+  object-fit: cover;
+}
+.rectangle-8 {
+  background: #ff6f61;
+  height: 54px;
+  position: absolute;
+  right: 0px;
+  left: 0px;
+  top: 0px;
+}
+.graphiofolio-log-o {
+  width: 182px;
+  height: 42px;
+  position: absolute;
+  left: 50%;
+  translate: -50%;
+  top: 6px;
+  object-fit: cover;
+  aspect-ratio: 182/42;
+}
+.line-1 {
+  margin-top: -2px;
+  border-style: solid;
+  border-color: rgba(0, 0, 0, 0.2);
+  border-width: 2px 0 0 0;
+  height: 0px;
+  position: absolute;
+  right: 81.99px;
+  left: 81px;
+  top: 557px;
+}
+.designer-photo {
+  background: linear-gradient(to left, #f9f9f9, #f9f9f9);
+  border-radius: 50%;
+  border-style: solid;
+  border-color: #f9f9f9;
+  border-width: 20px;
+  width: 288px;
+  height: 11.99%;
+  position: absolute;
+  left: calc(50% - -337px);
+  bottom: 79.61%;
+  top: 8.41%;
+  box-shadow: 9px 10px 26px 0px rgba(0, 0, 0, 0.5);
+  object-fit: cover;
+}
+.gospel-timothy-manalo-baracael {
+  color: #2e2e2e;
+  text-align: right;
+  font-family: "Poppins", Arial, sans-serif;
+  font-size: 47px;
+  line-height: 67px;
+  font-weight: 600;
+  position: absolute;
+  left: calc(50% - 658px);
+  top: 363px;
+  width: 922px;
+  height: 96px;
+}
+.student-at-national-university-philippines {
+  color: #2e2e2e;
+  text-align: right;
+  font-family: "Poppins", Arial, sans-serif;
+  font-size: 28px;
+  line-height: 67px;
+  font-weight: 400;
+  position: absolute;
+  left: calc(50% - 658px);
+  top: 430px;
+  width: 922px;
+  height: 67px;
+}
+.graphio-designs-blue {
+  width: 224px;
+  height: 90px;
+  position: absolute;
+  left: 50%;
+  translate: -50%;
+  top: 595px;
+  object-fit: cover;
+  aspect-ratio: 224/90;
+}
+
+.rectangle-4 {
+  background: #f9f9f9;
+  border-radius: 13.16px;
+  width: 270px;
+  height: 373px;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+}
+.review {
+  width: 52px;
+  height: 23px;
+  position: absolute;
+  left: 194px;
+  top: 324px;
+}
+._10 {
+  color: #0030ff;
+  text-align: right;
+  font-family: "Poppins", Arial, sans-serif;
+  font-size: 24px;
+  line-height: 23px;
+  font-weight: 700;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 52px;
+}
+.star {
+  width: 17px;
+  height: 17px;
+  position: absolute;
+  left: 5px;
+  top: 3px;
+  overflow: visible;
+}
+._99-99 {
+  color: #0030ff;
+  text-align: left;
+  font-family: "Poppins", Arial, sans-serif;
+  font-size: 24px;
+  line-height: 23px;
+  font-weight: 700;
+  position: absolute;
+  left: 23px;
+  top: 324px;
+  width: 173px;
+}
+.line-01 {
+  margin-top: -1.06px;
+  border-style: solid;
+  border-color: #dddddd;
+  border-width: 1.06px 0 0 0;
+  width: 82.89%;
+  height: 0%;
+  position: absolute;
+  right: 8.96%;
+  left: 8.15%;
+  bottom: 16.09%;
+  top: 83.91%;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+}
+.by-jade-caponpon {
+  color: #2e2e2e;
+  text-align: left;
+  font-family: "Poppins", Arial, sans-serif;
+  font-size: 12px;
+  line-height: 23px;
+  font-weight: 300;
+  position: absolute;
+  left: 23px;
+  top: 283px;
+  width: 169px;
+}
+.book-cover-template {
+  color: #2e2e2e;
+  text-align: left;
+  font-family: "Poppins", Arial, sans-serif;
+  font-size: 24px;
+  line-height: 23px;
+  font-weight: 600;
+  position: absolute;
+  left: 23px;
+  top: 235px;
+  width: 223px;
+}
+.product-image {
+  background: linear-gradient(to left, #ffffff, #ffffff);
+  border-radius: 13.16px;
+  width: 91.85%;
+  height: 55.5%;
+  position: absolute;
+  right: 4.07%;
+  left: 4.07%;
+  bottom: 41.82%;
+  top: 2.68%;
+  object-fit: cover;
+}
+.designer-photo2 {
+  border-radius: 50%;
+  border-style: solid;
+  border-color: #f9f9f9;
+  border-width: 3px;
+  width: 14.44%;
+  height: 10.46%;
+  position: absolute;
+  right: 75.56%;
+  left: 10%;
+  bottom: 82.57%;
+  top: 6.97%;
+  object-fit: cover;
+}
+
+._7 {
+  color: #0030ff;
+  text-align: right;
+  font-family: "Poppins", Arial, sans-serif;
+  font-size: 24px;
+  line-height: 23px;
+  font-weight: 700;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 52px;
+}
+.star2 {
+  width: 17px;
+  height: 17px;
+  position: absolute;
+  left: 5px;
+  top: 3px;
+  overflow: visible;
+}
+._157-00 {
+  color: #0030ff;
+  text-align: left;
+  font-family: "Poppins", Arial, sans-serif;
+  font-size: 24px;
+  line-height: 23px;
+  font-weight: 700;
+  position: absolute;
+  left: 23px;
+  top: 324px;
+  width: 173px;
+}
+.by-timothy-baracael {
+  color: #2e2e2e;
+  text-align: left;
+  font-family: "Poppins", Arial, sans-serif;
+  font-size: 12px;
+  line-height: 23px;
+  font-weight: 300;
+  position: absolute;
+  left: 23px;
+  top: 283px;
+  width: 169px;
+}
+.presentation {
+  color: #2e2e2e;
+  text-align: left;
+  font-family: "Poppins", Arial, sans-serif;
+  font-size: 24px;
+  line-height: 23px;
+  font-weight: 600;
+  position: absolute;
+  left: 23px;
+  top: 235px;
+  width: 223px;
+}
+
+._9 {
+  color: #0030ff;
+  text-align: right;
+  font-family: "Poppins", Arial, sans-serif;
+  font-size: 24px;
+  line-height: 23px;
+  font-weight: 700;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 52px;
+}
+.star3 {
+  width: 17px;
+  height: 17px;
+  position: absolute;
+  left: 5px;
+  top: 3px;
+  overflow: visible;
+}
+._49-99 {
+  color: #0030ff;
+  text-align: left;
+  font-family: "Poppins", Arial, sans-serif;
+  font-size: 24px;
+  line-height: 23px;
+  font-weight: 700;
+  position: absolute;
+  left: 23px;
+  top: 324px;
+  width: 173px;
+}
+.by-johannes-claus {
+  color: #2e2e2e;
+  text-align: left;
+  font-family: "Poppins", Arial, sans-serif;
+  font-size: 12px;
+  line-height: 23px;
+  font-weight: 300;
+  position: absolute;
+  left: 23px;
+  top: 283px;
+  width: 169px;
+}
+.personal-planner-template {
+  color: #2e2e2e;
+  text-align: left;
+  font-family: "Poppins", Arial, sans-serif;
+  font-size: 24px;
+  line-height: 23px;
+  font-weight: 600;
+  position: absolute;
+  left: 23px;
+  top: 235px;
+  width: 223px;
+}
+.design-card-01 {
+  width: 270px;
+  height: 373px;
+  position: absolute;
+  left: calc(50% - 624px);
+  top: 709px;
+  border-radius: 13.16px;
+  box-shadow: 3px 3px 12px 0px rgba(0, 0, 0, 0.42);
+}
+.star4 {
+  width: 17px;
+  height: 17px;
+  position: absolute;
+  left: 5px;
+  top: 3px;
+  overflow: visible;
+}
+._199-99 {
+  color: #0030ff;
+  text-align: left;
+  font-family: "Poppins", Arial, sans-serif;
+  font-size: 24px;
+  line-height: 23px;
+  font-weight: 700;
+  position: absolute;
+  left: 23px;
+  top: 324px;
+  width: 173px;
+}
+.by-carl-andrei-rocafor {
+  color: #2e2e2e;
+  text-align: left;
+  font-family: "Poppins", Arial, sans-serif;
+  font-size: 12px;
+  line-height: 23px;
+  font-weight: 300;
+  position: absolute;
+  left: 23px;
+  top: 283px;
+  width: 169px;
+}
+._2025-monthly-calendar {
+  color: #2e2e2e;
+  text-align: left;
+  font-family: "Poppins", Arial, sans-serif;
+  font-size: 24px;
+  line-height: 23px;
+  font-weight: 600;
+  position: absolute;
+  left: 23px;
+  top: 235px;
+  width: 223px;
+}
+.previous-page {
+  width: 68px;
+  height: 68px;
+  position: absolute;
+  left: calc(50% - 150px);
+  top: 1150px;
+  object-fit: cover;
+}
+.next-page {
+  width: 68px;
+  height: 68px;
+  position: absolute;
+  left: calc(50% - -83px);
+  top: 1150px;
+  object-fit: cover;
+}

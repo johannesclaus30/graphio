@@ -1,0 +1,496 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;1,700;1,800&display=swap');
+
+.home,
+.home * {
+  box-sizing: border-box;
+}
+.home {
+  background: #f9f9f9;
+  height: 3758px;
+  position: relative;
+  overflow: hidden;
+}
+
+.footer {
+  width: 1440px;
+  height: 212px;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%);
+  bottom: -12px;
+  background-color: #f9f9f9;
+}
+.about-graphio-studio {
+  color: #2e2e2e;
+  text-align: center;
+  font-family: "Poppins", Arial, sans-serif;
+  font-size: 20px;
+  line-height: 23px;
+  font-weight: 300;
+  position: absolute;
+  left: 855px;
+  top: 91px;
+}
+.privacy-policy {
+  color: #2e2e2e;
+  text-align: center;
+  font-family: "Poppins", Arial, sans-serif;
+  font-size: 20px;
+  line-height: 23px;
+  font-weight: 300;
+  position: absolute;
+  left: 855px;
+  top: 54px;
+}
+.terms-conditions {
+  color: #2e2e2e;
+  text-align: center;
+  font-family: "Poppins", Arial, sans-serif;
+  font-size: 20px;
+  line-height: 23px;
+  font-weight: 300;
+  position: absolute;
+  left: 855px;
+  top: 17px;
+}
+.help-center {
+  color: #2e2e2e;
+  text-align: center;
+  font-family: "Poppins", Arial, sans-serif;
+  font-size: 20px;
+  line-height: 23px;
+  font-weight: 300;
+  position: absolute;
+  left: 611px;
+  top: 91px;
+}
+.company {
+  color: #2e2e2e;
+  text-align: center;
+  font-family: "Poppins", Arial, sans-serif;
+  font-size: 20px;
+  line-height: 23px;
+  font-weight: 300;
+  position: absolute;
+  left: 608px;
+  top: 54px;
+}
+.contact-us {
+  color: #2e2e2e;
+  text-align: center;
+  font-family: "Poppins", Arial, sans-serif;
+  font-size: 20px;
+  line-height: 23px;
+  font-weight: 300;
+  position: absolute;
+  left: 608px;
+  top: 17px;
+}
+.products {
+  color: #2e2e2e;
+  text-align: center;
+  font-family: "Poppins", Arial, sans-serif;
+  font-size: 20px;
+  line-height: 23px;
+  font-weight: 300;
+  position: absolute;
+  left: 377px;
+  top: 91px;
+}
+.services {
+  color: #2e2e2e;
+  text-align: center;
+  font-family: "Poppins", Arial, sans-serif;
+  font-size: 20px;
+  line-height: 23px;
+  font-weight: 300;
+  position: absolute;
+  left: 377px;
+  top: 54px;
+}
+.marketplace {
+  color: #2e2e2e;
+  text-align: center;
+  font-family: "Poppins", Arial, sans-serif;
+  font-size: 20px;
+  line-height: 23px;
+  font-weight: 300;
+  position: absolute;
+  left: 377px;
+  top: 17px;
+}
+.graphio-studio-logo-blue {
+  width: 265px;
+  height: 106px;
+  position: absolute;
+  left: 46px;
+  bottom: 106px;
+  object-fit: cover;
+  aspect-ratio: 265/106;
+}
+.build-your-career-with-graphiofolio {
+  height: 997px;
+  position: absolute;
+  right: 0px;
+  left: 0px;
+  top: 2520px;
+}
+.rectangle-red {
+  background-color: #ff6f61;
+  height: 997px;
+  position: absolute;
+  right: 0px;
+  left: 0px;
+  top: 0px;
+  overflow: visible;
+}
+.graphiofolio-log-o {
+  width: 840px;
+  height: 194px;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%);
+  top: 138px;
+  object-fit: cover;
+  aspect-ratio: 840/194;
+}
+.portfolio-01 {
+  width: 1272px;
+  height: 636px;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%);
+  top: 311px;
+  object-fit: cover;
+  aspect-ratio: 2/1;
+}
+.build-your-career-with {
+  color: #f9f9f9;
+  text-align: center;
+  font-family: "Poppins", Arial, sans-serif;
+  font-size: 49px;
+  line-height: 89px;
+  font-weight: 500;
+  position: absolute;
+  right: 208px;
+  left: 208px;
+  top: 76px;
+}
+.looking-for-graphic-designer {
+  height: 840px;
+  position: absolute;
+  right: 0px;
+  left: 0px;
+  top: 1680px;
+}
+.rectangle-gray {
+  background-color: #e5e5e5;
+  height: 840px;
+  position: absolute;
+  right: 0px;
+  left: 0px;
+  top: 0px;
+  overflow: visible;
+}
+.looking-for-a-graphic-designer-artist {
+  color: #2e2e2e;
+  text-align: right;
+  font-family: "Poppins", Arial, sans-serif;
+  font-size: 76px;
+  line-height: 88px;
+  font-weight: 500;
+  position: absolute;
+  left: calc(50% - 186px);
+  top: 138px;
+  width: 826px;
+  height: 189px;
+}
+.create-a-graphio-account {
+  width: 520px;
+  height: 100px;
+  position: absolute;
+  left: calc(50% - -117px);
+  top: 337px;
+}
+.hire-a-graphio-designer {
+  color: #2e2e2e;
+  text-align: center;
+  font-family: "Poppins", Arial, sans-serif;
+  font-size: 35px;
+  line-height: 100px;
+  font-weight: 400;
+  position: absolute;
+  right: 5.4%;
+  left: 5.52%;
+  width: 89.08%;
+  bottom: -1px;
+  height: 100px;
+}
+.hire-a-graphio-designer-span {
+  font-family: "Poppins", Arial, sans-serif;
+  font-weight: 500;
+}
+.hire-a-graphio-designer-span2 {
+  font-family: "Poppins", Arial, sans-serif;
+  font-weight: 800;
+  font-style: italic;
+}
+.rectangle-3 {
+  background: rgba(255, 255, 255, 0);
+  border-radius: 43px;
+  border-style: solid;
+  border-color: #2e2e2e;
+  border-width: 3px;
+  width: 100%;
+  height: 70px;
+  position: absolute;
+  right: 0%;
+  left: 0%;
+  bottom: 14px;
+}
+.artist-01 {
+  width: 608px;
+  height: 608px;
+  position: absolute;
+  left: calc(50% - 681px);
+  top: 116px;
+  object-fit: cover;
+  aspect-ratio: 1;
+}
+.your-creations {
+  height: 711px;
+  position: absolute;
+  right: 23px;
+  left: 79px;
+  top: 898px;
+}
+.your-creations-deserved-to-be-in-the-spotlight {
+  color: #2e2e2e;
+  text-align: left;
+  font-family: "Poppins", Arial, sans-serif;
+  font-size: 76px;
+  line-height: 88px;
+  font-weight: 500;
+  position: absolute;
+  left: calc(50% - 669px);
+  top: 168px;
+  width: 654px;
+}
+.picture-frame-01 {
+  width: 711px;
+  height: 711px;
+  position: absolute;
+  left: calc(50% - 42px);
+  top: 0px;
+  object-fit: cover;
+  aspect-ratio: 1;
+}
+.upload-designs {
+  width: 379px;
+  height: 100px;
+  position: absolute;
+  left: calc(50% - 669px);
+  top: 457px;
+}
+.upload-designs2 {
+  color: #2e2e2e;
+  text-align: center;
+  font-family: "Poppins", Arial, sans-serif;
+  font-size: 35px;
+  line-height: 100px;
+  font-weight: 500;
+  position: absolute;
+  right: 5.4%;
+  left: 5.52%;
+  width: 89.08%;
+  bottom: 0px;
+  height: 100px;
+}
+.upper-header-blue {
+  height: 840px;
+  position: absolute;
+  right: 0px;
+  left: -2px;
+  top: 0px;
+}
+.rectangle-blue {
+  background-color: #0030FF;
+  height: 840px;
+  position: absolute;
+  right: 0px;
+  left: 0px;
+  top: 0px;
+  overflow: visible;
+}
+.explore-designs-earn-with-your-works {
+  color: #f9f9f9;
+  text-align: center;
+  font-family: "Poppins", Arial, sans-serif;
+  font-size: 80px;
+  line-height: 89px;
+  font-weight: 300;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%);
+  top: 275px;
+  width: 1111px;
+}
+.create-a-graphio-account2 {
+  width: 853.18px;
+  height: 100px;
+  position: absolute;
+  left: calc(50% - 418.58px);
+  top: 469px;
+}
+.create-a-graphio-account3 {
+  text-align: center;
+  font-family: "Poppins", Arial, sans-serif;
+  font-size: 54px;
+  line-height: 100px;
+  font-weight: 400;
+  position: absolute;
+  right: 5.4%;
+  left: 5.52%;
+  width: 89.08%;
+  bottom: 0px;
+}
+.create-a-graphio-account-3-span {
+  color: #f9f9f9;
+  font-family: "Poppins", Arial, sans-serif;
+  font-weight: 300;
+}
+.create-a-graphio-account-3-span2 {
+  color: #fbd117;
+  font-family: "Poppins", Arial, sans-serif;
+  font-weight: 700;
+  font-style: italic;
+}
+.rectangle-32 {
+  background: rgba(255, 255, 255, 0);
+  border-radius: 43px;
+  border-style: solid;
+  border-color: #f9f9f9;
+  border-width: 3px;
+  width: 100%;
+  height: 70px;
+  position: absolute;
+  right: 0%;
+  left: 0%;
+  bottom: 14px;
+}
+.be-a-graphio-designer {
+  height: 49px;
+  position: absolute;
+  right: 43px;
+  left: 1201px;
+  top: 68px;
+}
+.designer {
+  color: #fbd117;
+  text-align: center;
+  font-family: "Poppins", Arial, sans-serif;
+  font-size: 20px;
+  line-height: 23px;
+  font-weight: 600;
+  position: absolute;
+  right: 0px;
+  left: 0px;
+  top: 23px;
+  height: 26px;
+}
+.be-a-graphio {
+  color: #fbd117;
+  text-align: center;
+  font-family: "Poppins", Arial, sans-serif;
+  font-size: 20px;
+  line-height: 23px;
+  font-weight: 600;
+  position: absolute;
+  right: 0px;
+  left: 0px;
+  top: 0px;
+  height: 49px;
+}
+.be-a-graphio-span {
+  font-family: "Poppins", Arial, sans-serif;
+  font-weight: 600;
+}
+.be-a-graphio-span2 {
+  font-family: "Poppins", Arial, sans-serif;
+  font-weight: 800;
+  font-style: italic;
+}
+.help {
+  color: #fbd117;
+  text-align: center;
+  font-family: "Poppins", Arial, sans-serif;
+  font-size: 24px;
+  line-height: 100px;
+  font-weight: 600;
+  position: absolute;
+  right: 245px;
+  left: 1051px;
+  top: 44px;
+  height: 86px;
+}
+.login {
+  color: #fbd117;
+  text-align: center;
+  font-family: "Poppins", Arial, sans-serif;
+  font-size: 24px;
+  line-height: 100px;
+  font-weight: 600;
+  position: absolute;
+  right: 389px;
+  left: 907px;
+  top: 44px;
+  height: 86px;
+}
+.graphio-logo-white {
+  width: 183px;
+  height: 73px;
+  position: absolute;
+  left: calc(50% - 90px);
+  top: 61px;
+  object-fit: cover;
+  aspect-ratio: 183/73;
+}
+.artists {
+  color: #fbd117;
+  text-align: center;
+  font-family: "Poppins", Arial, sans-serif;
+  font-size: 24px;
+  line-height: 100px;
+  font-weight: 600;
+  position: absolute;
+  right: 903px;
+  left: 393px;
+  top: 44px;
+  height: 86px;
+}
+.services2 {
+  color: #fbd117;
+  text-align: center;
+  font-family: "Poppins", Arial, sans-serif;
+  font-size: 24px;
+  line-height: 100px;
+  font-weight: 600;
+  position: absolute;
+  right: 1066px;
+  left: 230px;
+  top: 44px;
+  height: 86px;
+}
+.designs {
+  color: #fbd117;
+  text-align: center;
+  font-family: "Poppins", Arial, sans-serif;
+  font-size: 24px;
+  line-height: 100px;
+  font-weight: 600;
+  position: absolute;
+  right: 1235px;
+  left: 61px;
+  top: 44px;
+  height: 86px;
+}
