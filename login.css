@@ -1,9 +1,20 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;1,700;1,800&display=swap');
 
+/* Reset default margins and set full viewport coverage */
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #f9f9f9; /* Matches .login background to avoid white gaps */
+  overflow-x: hidden; /* Prevents horizontal scroll */
+}
+
 .login,
 .login * {
   box-sizing: border-box;
 }
+
 .login {
   background: #f9f9f9;
   display: flex;
@@ -14,6 +25,7 @@
   position: relative;
   overflow: hidden;
 }
+
 .upper-header-blue {
   background: linear-gradient(
     130.2deg,
@@ -28,7 +40,11 @@
   overflow: hidden;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   grid-template-rows: repeat(1, minmax(0, 1fr));
+  width: 100%;
+  max-width: 1440px; /* Matches signup.css */
+  margin: 0 auto; /* Centers the section */
 }
+
 .welcome-to-graphio {
   display: flex;
   flex-direction: column;
@@ -40,6 +56,7 @@
   grid-column: 1 / span 1;
   grid-row: 1 / span 1;
 }
+
 .welcome-to {
   color: #f9f9f9;
   text-align: left;
@@ -51,6 +68,7 @@
   align-self: stretch;
   height: 46px;
 }
+
 .graphio-logo-white {
   flex-shrink: 0;
   width: 527px;
@@ -59,6 +77,7 @@
   object-fit: cover;
   aspect-ratio: 527/163;
 }
+
 .login-fields {
   display: flex;
   flex-direction: column;
@@ -71,6 +90,7 @@
   grid-column: 2 / span 1;
   grid-row: 1 / span 1;
 }
+
 .email {
   display: flex;
   flex-direction: column;
@@ -81,6 +101,7 @@
   flex-shrink: 0;
   position: relative;
 }
+
 .email-txt {
   color: #fbd117;
   text-align: left;
@@ -91,6 +112,7 @@
   position: relative;
   align-self: stretch;
 }
+
 .email-field {
   border-radius: 20px;
   border-style: solid;
@@ -100,7 +122,6 @@
   flex-shrink: 0;
   height: 87px;
   position: relative;
-
   background-color: transparent;
   font-size: 33px;
   padding: 5px 10px;
@@ -108,6 +129,7 @@
   color: #f9f9f9;
   outline: none;
 }
+
 .password {
   display: flex;
   flex-direction: column;
@@ -118,6 +140,7 @@
   flex-shrink: 0;
   position: relative;
 }
+
 .password-txt {
   color: #fbd117;
   text-align: left;
@@ -128,6 +151,7 @@
   position: relative;
   align-self: stretch;
 }
+
 .password-field {
   border-radius: 20px;
   border-style: solid;
@@ -137,7 +161,6 @@
   flex-shrink: 0;
   height: 87px;
   position: relative;
-
   background-color: transparent;
   font-size: 33px;
   padding: 5px 10px;
@@ -145,6 +168,7 @@
   color: #f9f9f9;
   outline: none;
 }
+
 .login-button {
   background: #fbd117;
   border-radius: 20px;
@@ -158,14 +182,15 @@
   flex-shrink: 0;
   height: 85px;
   position: relative;
-
   opacity: 0.8;
   transition: 0.3s;
-  
   text-decoration: none;
   cursor: pointer;
 }
-.login-button:hover {opacity: 1}
+
+.login-button:hover {
+  opacity: 1;
+}
 
 .login-txt {
   color: #0030ff;
@@ -176,6 +201,7 @@
   font-weight: 700;
   position: relative;
 }
+
 .signup-text {
   display: flex;
   flex-direction: row;
@@ -187,6 +213,7 @@
   height: 124.6px;
   position: relative;
 }
+
 .don-t-have-an-account {
   color: #f9f9f9;
   text-align: left;
@@ -197,6 +224,7 @@
   position: relative;
   width: 278px;
 }
+
 .signup-txt {
   color: #fbd117;
   text-align: left;
@@ -207,6 +235,7 @@
   position: relative;
   width: 108px;
 }
+
 .your-creations {
   background: #f9f9f9;
   display: flex;
@@ -215,10 +244,13 @@
   align-items: center;
   justify-content: flex-end;
   flex-shrink: 0;
-  width: 1440px;
+  width: 100%;
+  max-width: 1440px; /* Matches signup.css */
+  margin: 0 auto; /* Centers the section */
   height: 881px;
   position: relative;
 }
+
 .frame-10 {
   display: flex;
   flex-direction: column;
@@ -229,6 +261,7 @@
   width: 634px;
   position: relative;
 }
+
 .your-creations-deserved-to-be-in-the-spotlight {
   color: #2e2e2e;
   text-align: left;
@@ -239,12 +272,14 @@
   position: relative;
   align-self: stretch;
 }
+
 .upload-designs {
   flex-shrink: 0;
   width: 379px;
   height: 100px;
   position: relative;
 }
+
 .upload-designs2 {
   color: #2e2e2e;
   text-align: center;
@@ -259,6 +294,7 @@
   bottom: 0px;
   height: 100px;
 }
+
 .rectangle-3 {
   background: rgba(255, 255, 255, 0);
   border-radius: 43px;
@@ -272,6 +308,7 @@
   left: 0%;
   bottom: 14px;
 }
+
 .picture-frame-01 {
   flex-shrink: 0;
   width: 712px;
@@ -280,6 +317,7 @@
   object-fit: cover;
   aspect-ratio: 712/757;
 }
+
 .footer {
   background: #2e2e2e;
   padding: 28px 47px 28px 47px;
@@ -289,9 +327,12 @@
   align-items: center;
   justify-content: flex-start;
   flex-shrink: 0;
-  width: 1440px;
+  width: 100%;
+  max-width: 1440px; /* Matches signup.css */
+  margin: 0 auto; /* Centers the section */
   position: relative;
 }
+
 .frame-14 {
   display: flex;
   flex-direction: row;
@@ -303,6 +344,7 @@
   height: 134px;
   position: relative;
 }
+
 .graphio-studio-logo-white {
   flex-shrink: 0;
   width: 265px;
@@ -311,6 +353,7 @@
   object-fit: cover;
   aspect-ratio: 265/106;
 }
+
 .frame-13 {
   flex-shrink: 0;
   width: 685px;
@@ -319,6 +362,7 @@
   left: calc(50% - 376px);
   top: 9.5px;
 }
+
 .about-graphio-studio {
   color: #f9f9f9;
   text-align: center;
@@ -330,6 +374,7 @@
   left: 478px;
   top: 74px;
 }
+
 .privacy-policy {
   color: #f9f9f9;
   text-align: center;
@@ -341,6 +386,7 @@
   left: 478px;
   top: 37px;
 }
+
 .terms-conditions {
   color: #f9f9f9;
   text-align: center;
@@ -352,6 +398,7 @@
   left: 478px;
   top: 0px;
 }
+
 .help-center {
   color: #f9f9f9;
   text-align: center;
@@ -363,6 +410,7 @@
   left: 234px;
   top: 74px;
 }
+
 .company {
   color: #f9f9f9;
   text-align: center;
@@ -374,6 +422,7 @@
   left: 231px;
   top: 37px;
 }
+
 .contact-us {
   color: #f9f9f9;
   text-align: center;
@@ -385,6 +434,7 @@
   left: 231px;
   top: 0px;
 }
+
 .products {
   color: #f9f9f9;
   text-align: center;
@@ -396,6 +446,7 @@
   left: 0px;
   top: 74px;
 }
+
 .services {
   color: #f9f9f9;
   text-align: center;
@@ -407,6 +458,7 @@
   left: 0px;
   top: 37px;
 }
+
 .marketplace {
   color: #f9f9f9;
   text-align: center;

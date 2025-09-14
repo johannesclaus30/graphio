@@ -37,6 +37,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if($check_email_row > 0) {
             $User_EmailErr = "Email is already registered!";
+        } else if ($User_Password != $User_ConfirmPassword) {
+            $User_ConfirmPasswordErr = "Password did not match!";
         } else {
             $query = mysqli_query($connections, "INSERT INTO user (User_Name, User_Email, User_Password, User_Type) VALUES ('$User_Name','$User_Email','$User_Password','1')");
 
@@ -50,9 +52,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <style>
 .error {
-    color: #fafafa;
     font-family: "Poppins", sans-serif;
     font-size: 15px;
+    color: #fafafa;
     margin-top: 5px;
 }
 </style>
@@ -96,13 +98,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <span class="error"><?php echo $User_ConfirmPasswordErr; ?></span>
             </div>
             <button type="submit" class="signup-button">
-                <div class="signup-lbl">Signup</div>    
+                <div class="signup-lbl">Sign Up</div>    
             </button>
         </form>
 
         <div class="login">
             <div class="already-have-an-account">Already have an account?</div>
-            <div class="log-in">Log In</div>
+            <div><a href="login.php" class="log-in">Log In</a></div>
         </div>
         </div>
     </div>

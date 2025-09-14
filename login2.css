@@ -8,11 +8,11 @@ html, body {
   background-color: #f9f9f9; /* Matches your .signup background to avoid white gaps */
   
 }
-.signup,
-.signup * {
+.login,
+.login * {
   box-sizing: border-box;
 }
-.signup {
+.login {
   background: #f9f9f9;
   display: flex;
   flex-direction: column;
@@ -23,11 +23,11 @@ html, body {
 }
 .upper-header-blue {
   background: linear-gradient(
-    107.23deg,
-    rgba(0, 29, 153, 1) 31.361153721809387%,
-    rgba(0, 48, 255, 1) 100%
+    130.2deg,
+    rgba(0, 48, 255, 1) 0%,
+    rgba(0, 29, 153, 1) 100%
   );
-  padding: 72px 125px 82px 125px;
+  padding: 116px 125px 116px 125px;
   flex-shrink: 0;
   display: grid;
   gap: 95px;
@@ -43,7 +43,7 @@ html, body {
   gap: 0px;
   align-items: flex-start;
   justify-content: center;
-  height: 712px;
+  height: 634px;
   position: relative;
   grid-column: 1 / span 1;
   grid-row: 1 / span 1;
@@ -61,88 +61,53 @@ html, body {
 }
 .graphio-logo-white {
   flex-shrink: 0;
-  width: 526px;
+  width: 527px;
   height: 163px;
   position: relative;
   object-fit: cover;
-  aspect-ratio: 526/163;
+  aspect-ratio: 527/163;
 }
-.signup-fields {
+.login-fields {
   display: flex;
   flex-direction: column;
-  gap: 21px;
+  gap: 39px;
   align-items: flex-start;
   justify-content: flex-start;
+  width: 529px;
+  height: 572px;
   position: relative;
   grid-column: 2 / span 1;
   grid-row: 1 / span 1;
 }
-.name {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  align-items: flex-start;
-  justify-content: flex-start;
-  align-self: stretch;
-  flex-shrink: 0;
-  position: relative;
-}
-.name-txt {
-  color: #fbd117;
-  text-align: left;
-  font-family: "Poppins", sans-serif;
-  font-size: 26px;
-  line-height: 40px;
-  font-weight: 500;
-  position: relative;
-  align-self: stretch;
-  height: 32px;
-}
-.name-field {
-  border-radius: 12px;
-  border-style: solid;
-  border-color: #f9f9f9;
-  border-width: 4px;
-  align-self: stretch;
-  flex-shrink: 0;
-  height: 68px;
-  position: relative;
-  background-color: transparent;
-  padding: 5px 10px;
-  font-size: 26px;
-  font-family: "Poppins", sans-serif;
-  color: #f9f9f9;
-  outline: none;
-}
 .email {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 20px;
   align-items: flex-start;
   justify-content: flex-start;
   align-self: stretch;
   flex-shrink: 0;
+  min-width: 300px;
   position: relative;
 }
 .email-txt {
   color: #fbd117;
   text-align: left;
   font-family: "Poppins", sans-serif;
-  font-size: 26px;
+  font-size: 33px;
   line-height: 40px;
   font-weight: 500;
   position: relative;
   align-self: stretch;
-  height: 32px;
 }
 .email-field {
-  border-radius: 12px;
+  border-radius: 20px;
   border-style: solid;
   border-color: #f9f9f9;
   border-width: 4px;
   align-self: stretch;
   flex-shrink: 0;
-  height: 68px;
+  height: 87px;
   position: relative;
   background-color: transparent;
   padding: 5px 10px;
@@ -154,32 +119,32 @@ html, body {
 .password {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 20px;
   align-items: flex-start;
   justify-content: flex-start;
   align-self: stretch;
   flex-shrink: 0;
+  min-width: 300px;
   position: relative;
 }
 .password-txt {
   color: #fbd117;
   text-align: left;
   font-family: "Poppins", sans-serif;
-  font-size: 26px;
+  font-size: 33px;
   line-height: 40px;
   font-weight: 500;
   position: relative;
   align-self: stretch;
-  height: 32px;
 }
 .password-field {
-  border-radius: 12px;
+  border-radius: 20px;
   border-style: solid;
   border-color: #f9f9f9;
   border-width: 4px;
   align-self: stretch;
   flex-shrink: 0;
-  height: 69px;
+  height: 87px;
   position: relative;
   background-color: transparent;
   padding: 5px 10px;
@@ -188,55 +153,20 @@ html, body {
   color: #f9f9f9;
   outline: none;
 }
-.confirm-password {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  align-items: flex-start;
-  justify-content: flex-start;
-  align-self: stretch;
-  flex-shrink: 0;
-  position: relative;
-}
-.confirm-password-txt {
-  color: #fbd117;
-  text-align: left;
-  font-family: "Poppins", sans-serif;
-  font-size: 26px;
-  line-height: 40px;
-  font-weight: 500;
-  position: relative;
-  align-self: stretch;
-  height: 32px;
-}
-.confirm-password-field {
-  border-radius: 12px;
-  border-style: solid;
-  border-color: #f9f9f9;
-  border-width: 4px;
-  align-self: stretch;
-  flex-shrink: 0;
-  height: 69px;
-  position: relative;
-  background-color: transparent;
-  padding: 5px 10px;
-  font-size: 26px;
-  font-family: "Poppins", sans-serif;
-  color: #f9f9f9;
-  outline: none;
-}
-.signup-button { 
+.login-button {
   background: #fbd117;
   border: none;
   border-radius: 20px;
-  padding: 21px 175px 21px 175px;
+  padding: 35px 50px 35px 50px;
   display: flex;
   flex-direction: row;
-  gap: 10px;
+  gap: 16px;
   align-items: center;
   justify-content: center;
   align-self: stretch;
   flex-shrink: 0;
+  height: 85px;
+  min-width: 300px;
   position: relative;
 
   opacity: 0.8;
@@ -245,10 +175,10 @@ html, body {
   text-decoration: none;
   cursor: pointer;
 }
-.signup-button:hover {opacity: 1}
+.login-button:hover {opacity: 1}
 
-.signup-lbl {
-  color: #001d99;
+.login-txt {
+  color: #0030ff;
   text-align: center;
   font-family: "Poppins", sans-serif;
   font-size: 33px;
@@ -256,17 +186,18 @@ html, body {
   font-weight: 700;
   position: relative;
 }
-
-.login {
+.signup-text {
   display: flex;
   flex-direction: row;
-  gap: 0px;
-  align-items: center;
+  gap: 6px;
+  align-items: flex-start;
   justify-content: flex-start;
   flex-shrink: 0;
+  height: 40px;
+  min-width: 300px;
   position: relative;
 }
-.already-have-an-account {
+.don-t-have-an-account {
   color: #f9f9f9;
   text-align: left;
   font-family: "Poppins", sans-serif;
@@ -274,10 +205,9 @@ html, body {
   line-height: 40px;
   font-weight: 300;
   position: relative;
-  width: 320px;
-  height: 37px;
+  width: 278px;
 }
-.log-in {
+.signup-txt {
   color: #fbd117; /* Yellow color as requested */
   text-align: left;
   font-family: "Poppins", sans-serif;
@@ -286,10 +216,10 @@ html, body {
   position: relative;
   cursor: pointer;
   text-decoration: none; /* Remove default underline for <a> tag */
-  transition: opacity 0.3s; /* Smooth hover effect, matches login.css buttons */
+  transition: opacity 0.3s;
 }
-.log-in:hover {
-  opacity: 0.5; /* Hover effect without underline, matches login.css button style */
+.signup-txt:hover {
+  opacity: 0.5;
 }
 .your-creations {
   background: #f9f9f9;
@@ -413,11 +343,6 @@ html, body {
   position: absolute;
   left: 478px;
   top: 74px;
-
-  cursor: pointer;
-}
-.about-graphio-studio:hover {
-  text-decoration: underline;
 }
 .privacy-policy {
   color: #f9f9f9;
@@ -429,10 +354,6 @@ html, body {
   position: absolute;
   left: 478px;
   top: 37px;
-  cursor: pointer;
-}
-.privacy-policy:hover {
-  text-decoration: underline;
 }
 .terms-conditions {
   color: #f9f9f9;
@@ -444,10 +365,6 @@ html, body {
   position: absolute;
   left: 478px;
   top: 0px;
-  cursor: pointer;
-}
-.terms-conditions:hover {
-  text-decoration: underline;
 }
 .help-center {
   color: #f9f9f9;
@@ -459,10 +376,6 @@ html, body {
   position: absolute;
   left: 234px;
   top: 74px;
-  cursor: pointer;
-}
-.help-center:hover {
-  text-decoration: underline;
 }
 .company {
   color: #f9f9f9;
@@ -474,10 +387,6 @@ html, body {
   position: absolute;
   left: 231px;
   top: 37px;
-  cursor: pointer;
-}
-.company:hover {
-  text-decoration: underline;
 }
 .contact-us {
   color: #f9f9f9;
@@ -489,10 +398,6 @@ html, body {
   position: absolute;
   left: 231px;
   top: 0px;
-  cursor: pointer;
-}
-.contact-us:hover {
-  text-decoration: underline;
 }
 .products {
   color: #f9f9f9;
@@ -504,10 +409,6 @@ html, body {
   position: absolute;
   left: 0px;
   top: 74px;
-  cursor: pointer;
-}
-.products:hover {
-  text-decoration: underline;
 }
 .services {
   color: #f9f9f9;
@@ -519,10 +420,6 @@ html, body {
   position: absolute;
   left: 0px;
   top: 37px;
-  cursor: pointer;
-}
-.services:hover {
-  text-decoration: underline;
 }
 .marketplace {
   color: #f9f9f9;
@@ -534,8 +431,4 @@ html, body {
   position: absolute;
   left: 0px;
   top: 0px;
-  cursor: pointer;
-}
-.marketplace:hover {
-  text-decoration: underline;
 }

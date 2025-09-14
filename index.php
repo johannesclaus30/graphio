@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Document</title>
-    <link rel="stylesheet" href="index.css">
+    <title>graphio | Home</title>
+    <link rel="stylesheet" href="index_design.css">
 </head>
 <body>
    <div class="home">
@@ -14,10 +14,11 @@
         <div class="designs">Designs</div>
         <div class="services">Services</div>
         <div class="artists">Artists</div>
-        <img class="graphio-logo-white" src="graphio-logo-white0.png" />
-        <div class="login">Login</div>
+        <img class="graphio-logo-white" src="logos/graphio_logo_white.png" />
+        <div class="login" onclick="location.href='login.php';" style="cursor: pointer;">Login</div>
         <div class="help">Help</div>
         <div class="be-a-graphio-designer">
+            <a href="signup.php">
             <div class="designer">Designer</div>
             <div class="be-a-graphio">
             <span>
@@ -26,6 +27,8 @@
                 <span class="be-a-graphio-span"></span>
             </span>
             </div>
+            </a>
+            
         </div>
         </div>
         <div class="main-text">
@@ -56,10 +59,10 @@
             <div class="rectangle-32"></div>
         </div>
         </div>
-        <img class="picture-frame-01" src="picture-frame-010.png" />
+        <img class="picture-frame-01" src="elements/Picture_Frame.png" />
     </div>
     <div class="looking-for-graphic-designer">
-        <img class="artist-01" src="artist-010.png" />
+        <img class="artist-01" src="elements/Artist.png" />
         <div class="frame-11">
         <div class="looking-for-a-graphic-designer-artist">
             Looking for a Graphic Designer/Artist?
@@ -79,15 +82,15 @@
     <div class="build-your-career-with-graphiofolio">
         <div class="frame-12">
         <div class="build-your-career-with">Build Your Career With</div>
-        <img class="graphiofolio-log-o" src="graphiofolio-log-o0.png" />
+        <img class="graphiofolio-log-o" src="elements/graphiofolio_logo.png" />
         </div>
-        <img class="portfolio-01" src="portfolio-010.png" />
+        <img class="portfolio-01" src="elements/Portfolio.png" />
     </div>
     <div class="footer">
         <div class="frame-14">
         <img
             class="graphio-studio-logo-blue"
-            src="graphio-studio-logo-blue0.png"
+            src="logos/graphio_logo_blue.png"
         />
         <div class="frame-13">
             <div class="about-graphio-studio">About graphio.studio</div>
