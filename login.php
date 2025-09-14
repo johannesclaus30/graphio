@@ -11,16 +11,16 @@
     <div class="upper-header-blue">
         <div class="welcome-to-graphio">
         <div class="welcome-to">Welcome to</div>
-        <img class="graphio-logo-white" src="graphio-logo-white0.png" />
+        <img class="graphio-logo-white" src="logos/graphio_logo_white.png" />
         </div>
         <div class="login-fields">
         <div class="email">
             <div class="email-txt">Email</div>
-            <div class="email-field"></div>
+            <input type="text" class="email-field">
         </div>
         <div class="password">
             <div class="password-txt">Password</div>
-            <div class="password-field"></div>
+            <input type="password" class="password-field">
         </div>
         <div class="login-button">
             <div class="login-txt">Log In</div>
@@ -41,13 +41,13 @@
             <div class="rectangle-3"></div>
         </div>
         </div>
-        <img class="picture-frame-01" src="picture-frame-010.png" />
+        <img class="picture-frame-01" src="elements/Picture_Frame.png" />
     </div>
     <div class="footer">
         <div class="frame-14">
         <img
-            class="graphio-studio-logo-blue"
-            src="graphio-studio-logo-blue0.png"
+            class="graphio-studio-logo-white"
+            src="logos/graphio_logo_white.png"
         />
         <div class="frame-13">
             <div class="about-graphio-studio">About graphio.studio</div>

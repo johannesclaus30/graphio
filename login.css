@@ -100,6 +100,13 @@
   flex-shrink: 0;
   height: 87px;
   position: relative;
+
+  background-color: transparent;
+  font-size: 33px;
+  padding: 5px 10px;
+  font-family: "Poppins", sans-serif;
+  color: #f9f9f9;
+  outline: none;
 }
 .password {
   display: flex;
@@ -130,6 +137,13 @@
   flex-shrink: 0;
   height: 87px;
   position: relative;
+
+  background-color: transparent;
+  font-size: 33px;
+  padding: 5px 10px;
+  font-family: "Poppins", sans-serif;
+  color: #f9f9f9;
+  outline: none;
 }
 .login-button {
   background: #fbd117;
@@ -144,7 +158,15 @@
   flex-shrink: 0;
   height: 85px;
   position: relative;
+
+  opacity: 0.8;
+  transition: 0.3s;
+  
+  text-decoration: none;
+  cursor: pointer;
 }
+.login-button:hover {opacity: 1}
+
 .login-txt {
   color: #0030ff;
   text-align: center;
@@ -281,7 +303,7 @@
   height: 134px;
   position: relative;
 }
-.graphio-studio-logo-blue {
+.graphio-studio-logo-white {
   flex-shrink: 0;
   width: 265px;
   height: 106px;

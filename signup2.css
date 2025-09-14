@@ -27,6 +27,7 @@
   overflow: hidden;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   grid-template-rows: repeat(1, minmax(0, 1fr));
+  width: 1440px;
 }
 .welcome-to-graphio {
   display: flex;
@@ -67,6 +68,12 @@
   position: relative;
   grid-column: 2 / span 1;
   grid-row: 1 / span 1;
+}
+.error {
+  color: #fbd117;
+  font-family: "Poppins", sans-serif;
+  font-size: 15px;
+  margin-top: 5px;
 }
 .name {
   display: flex;
@@ -216,8 +223,9 @@
   color: #f9f9f9;
   outline: none;
 }
-.signup2 {
+.signup-button { 
   background: #fbd117;
+  border: none;
   border-radius: 20px;
   padding: 21px 175px 21px 175px;
   display: flex;
@@ -228,7 +236,15 @@
   align-self: stretch;
   flex-shrink: 0;
   position: relative;
+
+  opacity: 0.8;
+  transition: 0.3s;
+  
+  text-decoration: none;
+  cursor: pointer;
 }
+.signup-button:hover {opacity: 1}
+
 .signup-lbl {
   color: #001d99;
   text-align: center;
@@ -238,6 +254,7 @@
   font-weight: 700;
   position: relative;
 }
+
 .login {
   display: flex;
   flex-direction: row;
