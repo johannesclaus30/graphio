@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Company Profile - Graphio Business</title>
+    <link rel="stylesheet" href="company_profile.css">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+</head>
+<body>
+    <div class="profile-container">
+        <!-- Header -->
+        <header class="profile-header">
+            <div class="header-content">
+                <div class="header-left">
+                    <a href="business_dashboard.html" class="back-btn">
+                        <i data-lucide="arrow-left" class="back-icon"></i>
+                        <span>Back to Dashboard</span>
+                    </a>
+                </div>
+                
+                <div class="header-center">
+                    <a href="index.html" class="logo">
+                        <span class="logo-text">Graphio</span>
+                        <span class="business-badge">Business</span>
+                    </a>
+                </div>
+                
+                <div class="header-right">
+                    <div class="company-menu" id="companyMenu">
+                        <button class="company-logo-btn" id="companyLogoBtn">
+                            <img src="https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=100&h=100&fit=crop&crop=center" 
+                                 alt="Company Logo" class="company-logo">
+                            <i data-lucide="chevron-down" class="menu-arrow"></i>
+                        </button>
+                        <div class="company-dropdown" id="companyDropdown">
+                            <div class="dropdown-header">
+                                <img src="https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=60&h=60&fit=crop&crop=center" 
+                                     alt="Company Logo" class="dropdown-logo">
+                                <div class="company-info">
+                                    <div class="company-name">TechCorp Inc.</div>
+                                    <div class="company-email">admin@techcorp.com</div>
+                                </div>
+                            </div>
+                            <div class="dropdown-separator"></div>
+                            <a href="business_dashboard.html" class="dropdown-item">
+                                <i data-lucide="layout-dashboard" class="dropdown-icon"></i>
+                                Dashboard
+                            </a>
+                            <a href="#" class="dropdown-item active">
+                                <i data-lucide="user" class="dropdown-icon"></i>
+                                Company Profile
+                            </a>
+                            <a href="#" class="dropdown-item">
+                                <i data-lucide="help-circle" class="dropdown-icon"></i>
+                                Help & Support
+                            </a>
+                            <div class="dropdown-separator"></div>
+                            <a href="index.html" class="dropdown-item sign-out">
+                                <i data-lucide="log-out" class="dropdown-icon"></i>
+                                Sign Out
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="profile-main">
+            <!-- Breadcrumb Section -->
+            <div class="breadcrumb-section">
+                <div class="breadcrumb-content">
+                    <nav class="breadcrumb-nav">
+                        <a href="business_dashboard.html" class="breadcrumb-link">Dashboard</a>
+                        <i data-lucide="chevron-right" class="breadcrumb-separator"></i>
+                        <span class="breadcrumb-current">Company Profile</span>
+                    </nav>
+                    <h1 class="page-title">Company Profile</h1>
+                    <p class="page-subtitle">Manage your company information and public profile</p>
+                </div>
+            </div>
+            
+            <div class="profile-content">
+                <!-- Profile Header Section -->
+                <section class="profile-hero">
+                    <div class="hero-background"></div>
+                    <div class="hero-content">
+                        <div class="company-avatar-section">
+                            <div class="company-avatar-container">
+                                <img src="https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=150&h=150&fit=crop&crop=center" 
+                                     alt="TechCorp Inc. Logo" class="company-avatar" id="companyAvatar">
+                                <button class="avatar-edit-btn" onclick="showImageUpload()">
+                                    <i data-lucide="camera" class="camera-icon"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="company-header-info">
+                            <h1 class="company-title">TechCorp Inc.</h1>
+                            <p class="company-tagline">Innovative Technology Solutions</p>
+                            <div class="company-meta">
+                                <div class="meta-item">
+                                    <i data-lucide="map-pin" class="meta-icon"></i>
+                                    <span>San Francisco, California</span>
+                                </div>
+                                <div class="meta-item">
+                                    <i data-lucide="mail" class="meta-icon"></i>
+                                    <span>admin@techcorp.com</span>
+                                </div>
+                                <div class="meta-item">
+                                    <i data-lucide="calendar" class="meta-icon"></i>
+                                    <span>Member since December 2024</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="profile-actions">
+                            <button class="primary-btn" onclick="enableEditMode()">
+                                <i data-lucide="edit" class="btn-icon"></i>
+                                Edit Profile
+                            </button>
+                            <button class="secondary-btn" onclick="showShareModal()">
+                                <i data-lucide="share-2" class="btn-icon"></i>
+                                Share Profile
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Profile Details -->
+                <div class="profile-sections">
+                    <!-- Company Information -->
+                    <section class="profile-section">
+                        <div class="section-header">
+                            <h2 class="section-title">Company Information</h2>
+                            <button class="edit-section-btn" onclick="editSection('company-info')">
+                                <i data-lucide="edit-2" class="edit-icon"></i>
+                            </button>
+                        </div>
+                        <div class="section-content" id="company-info">
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <label class="info-label">Company Name</label>
+                                    <div class="info-value" data-field="company-name">TechCorp Inc.</div>
+                                </div>
+                                <div class="info-item">
+                                    <label class="info-label">Email Address</label>
+                                    <div class="info-value" data-field="email">admin@techcorp.com</div>
+                                </div>
+                                <div class="info-item">
+                                    <label class="info-label">Phone Number</label>
+                                    <div class="info-value" data-field="phone">+1 (555) 123-4567</div>
+                                </div>
+                                <div class="info-item">
+                                    <label class="info-label">Website</label>
+                                    <div class="info-value" data-field="website">
+                                        <a href="https://www.techcorp.com" target="_blank" class="website-link">
+                                            www.techcorp.com
+                                            <i data-lucide="external-link" class="external-icon"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="info-item full-width">
+                                    <label class="info-label">Location</label>
+                                    <div class="info-value" data-field="location">
+                                        <i data-lucide="map-pin" class="location-icon"></i>
+                                        San Francisco, California, United States
+                                    </div>
+                                </div>
+                                <div class="info-item full-width">
+                                    <label class="info-label">Industry</label>
+                                    <div class="info-value" data-field="industry">Technology & Software Development</div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Company Description -->
+                    <section class="profile-section">
+                        <div class="section-header">
+                            <h2 class="section-title">About Us</h2>
+                            <button class="edit-section-btn" onclick="editSection('company-bio')">
+                                <i data-lucide="edit-2" class="edit-icon"></i>
+                            </button>
+                        </div>
+                        <div class="section-content" id="company-bio">
+                            <div class="bio-content">
+                                <p class="bio-text" data-field="bio">
+                                    TechCorp Inc. is a leading technology company specializing in innovative software solutions and digital transformation services. Founded in 2015, we have been at the forefront of technological advancement, helping businesses worldwide achieve their digital goals.
+                                </p>
+                                <p class="bio-text" data-field="bio-2">
+                                    Our team of expert developers, designers, and strategists work collaboratively to deliver cutting-edge solutions that drive growth and efficiency. We pride ourselves on our commitment to excellence, innovation, and customer satisfaction.
+                                </p>
+
+                            </div>
+                        </div>
+                    </section>
+
+
+
+
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Image Upload Modal -->
+    <div class="modal-overlay" id="imageUploadModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Update Company Logo</h2>
+                <button class="modal-close" onclick="closeImageUpload()">
+                    <i data-lucide="x" class="close-icon"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="upload-area" id="uploadArea">
+                    <div class="upload-content">
+                        <i data-lucide="upload" class="upload-icon"></i>
+                        <div class="upload-text">
+                            <div class="upload-title">Upload Company Logo</div>
+                            <div class="upload-subtitle">Drag and drop your image here, or click to browse</div>
+                        </div>
+                    </div>
+                    <input type="file" id="logoUpload" accept="image/*" style="display: none;">
+                </div>
+                <div class="upload-info">
+                    <p class="upload-note">Recommended: Square image, at least 300x300px, max 5MB</p>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button class="secondary-btn" onclick="closeImageUpload()">Cancel</button>
+                <button class="primary-btn" onclick="saveNewLogo()">
+                    <i data-lucide="check" class="btn-icon"></i>
+                    Save Logo
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Share Profile Modal -->
+    <div class="modal-overlay" id="shareModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Share Company Profile</h2>
+                <button class="modal-close" onclick="closeShareModal()">
+                    <i data-lucide="x" class="close-icon"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="share-content">
+                    <div class="share-link-section">
+                        <label class="form-label">Profile Link</label>
+                        <div class="link-input-group">
+                            <input type="text" class="form-input" value="https://graphio.com/company/techcorp-inc" readonly id="profileLink">
+                            <button class="copy-btn" onclick="copyProfileLink()">
+                                <i data-lucide="copy" class="copy-icon"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="share-options">
+                        <div class="share-option">
+                            <button class="share-btn linkedin">
+                                <i data-lucide="linkedin" class="share-icon"></i>
+                                LinkedIn
+                            </button>
+                        </div>
+                        <div class="share-option">
+                            <button class="share-btn twitter">
+                                <i data-lucide="twitter" class="share-icon"></i>
+                                Twitter
+                            </button>
+                        </div>
+                        <div class="share-option">
+                            <button class="share-btn email">
+                                <i data-lucide="mail" class="share-icon"></i>
+                                Email
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Lucide icons
+        document.addEventListener('DOMContentLoaded', function() {
+            lucide.createIcons();
+            setupEventListeners();
+        });
+
+        function setupEventListeners() {
+            // Company menu toggle
+            const companyLogoBtn = document.getElementById('companyLogoBtn');
+            const companyDropdown = document.getElementById('companyDropdown');
+
+            companyLogoBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                companyDropdown.classList.toggle('show');
+            });
+
+            // Close dropdown when clicking outside
+            document.addEventListener('click', () => {
+                companyDropdown.classList.remove('show');
+            });
+
+            // Prevent dropdown from closing when clicking inside
+            companyDropdown.addEventListener('click', (e) => {
+                e.stopPropagation();
+            });
+
+            // Upload area click handler
+            const uploadArea = document.getElementById('uploadArea');
+            const logoUpload = document.getElementById('logoUpload');
+
+            uploadArea.addEventListener('click', () => {
+                logoUpload.click();
+            });
+
+            logoUpload.addEventListener('change', handleFileSelect);
+
+            // Drag and drop handlers
+            uploadArea.addEventListener('dragover', handleDragOver);
+            uploadArea.addEventListener('drop', handleDrop);
+        }
+
+        let isEditMode = false;
+
+        function enableEditMode() {
+            isEditMode = !isEditMode;
+            const editBtn = document.querySelector('.primary-btn');
+            
+            if (isEditMode) {
+                editBtn.innerHTML = '<i data-lucide="check" class="btn-icon"></i>Save Changes';
+                editBtn.className = 'primary-btn save-mode';
+                enableAllEditing();
+            } else {
+                editBtn.innerHTML = '<i data-lucide="edit" class="btn-icon"></i>Edit Profile';
+                editBtn.className = 'primary-btn';
+                saveAllChanges();
+                disableAllEditing();
+            }
+            lucide.createIcons();
+        }
+
+        function editSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            const isCurrentlyEditing = section.classList.contains('editing');
+            
+            if (isCurrentlyEditing) {
+                saveSectionChanges(sectionId);
+                disableSectionEditing(sectionId);
+            } else {
+                enableSectionEditing(sectionId);
+            }
+        }
+
+        function enableAllEditing() {
+            enableSectionEditing('company-info');
+            enableSectionEditing('company-bio');
+            
+            // Make header info editable
+            const companyTitle = document.querySelector('.company-title');
+            const companyTagline = document.querySelector('.company-tagline');
+            
+            makeEditable(companyTitle, 'text');
+            makeEditable(companyTagline, 'text');
+        }
+
+        function disableAllEditing() {
+            disableSectionEditing('company-info');
+            disableSectionEditing('company-bio');
+            
+            // Disable header editing
+            const companyTitle = document.querySelector('.company-title');
+            const companyTagline = document.querySelector('.company-tagline');
+            
+            makeUneditable(companyTitle);
+            makeUneditable(companyTagline);
+        }
+
+        function enableSectionEditing(sectionId) {
+            const section = document.getElementById(sectionId);
+            section.classList.add('editing');
+            
+            const editBtn = section.parentElement.querySelector('.edit-section-btn');
+            if (editBtn) {
+                editBtn.innerHTML = '<i data-lucide="check" class="edit-icon"></i>';
+                editBtn.classList.add('save-mode');
+            }
+            
+            // Make all info-value elements editable
+            const infoValues = section.querySelectorAll('.info-value, .bio-text');
+            infoValues.forEach(element => {
+                if (!element.querySelector('a')) { // Don't edit links
+                    makeEditable(element, getInputType(element));
+                }
+            });
+            
+            lucide.createIcons();
+        }
+
+        function disableSectionEditing(sectionId) {
+            const section = document.getElementById(sectionId);
+            section.classList.remove('editing');
+            
+            const editBtn = section.parentElement.querySelector('.edit-section-btn');
+            if (editBtn) {
+                editBtn.innerHTML = '<i data-lucide="edit-2" class="edit-icon"></i>';
+                editBtn.classList.remove('save-mode');
+            }
+            
+            // Make all elements uneditable
+            const editableElements = section.querySelectorAll('.editable-field');
+            editableElements.forEach(element => {
+                makeUneditable(element);
+            });
+            
+            lucide.createIcons();
+        }
+
+        function makeEditable(element, type = 'text') {
+            if (element.classList.contains('editable-field')) return;
+            
+            const currentText = element.textContent.trim();
+            element.classList.add('editable-field');
+            element.setAttribute('data-original', currentText);
+            
+            if (type === 'textarea') {
+                const textarea = document.createElement('textarea');
+                textarea.value = currentText;
+                textarea.className = 'edit-textarea';
+                textarea.rows = 4;
+                element.innerHTML = '';
+                element.appendChild(textarea);
+            } else {
+                const input = document.createElement('input');
+                input.type = type;
+                input.value = currentText;
+                input.className = 'edit-input';
+                element.innerHTML = '';
+                element.appendChild(input);
+            }
+        }
+
+        function makeUneditable(element) {
+            if (!element.classList.contains('editable-field')) return;
+            
+            const input = element.querySelector('input, textarea');
+            if (input) {
+                const newValue = input.value;
+                element.textContent = newValue;
+                element.classList.remove('editable-field');
+                element.removeAttribute('data-original');
+            }
+        }
+
+        function getInputType(element) {
+            const field = element.getAttribute('data-field');
+            if (field === 'email') return 'email';
+            if (field === 'phone') return 'tel';
+            if (field === 'website') return 'url';
+            if (field === 'bio' || field === 'bio-2') return 'textarea';
+            return 'text';
+        }
+
+        function saveSectionChanges(sectionId) {
+            const section = document.getElementById(sectionId);
+            const editableElements = section.querySelectorAll('.editable-field');
+            
+            editableElements.forEach(element => {
+                makeUneditable(element);
+            });
+            
+            // Show success message
+            showSuccessMessage('Section updated successfully!');
+        }
+
+        function saveAllChanges() {
+            // Save all sections
+            saveSectionChanges('company-info');
+            saveSectionChanges('company-bio');
+            
+            // Save header changes
+            const companyTitle = document.querySelector('.company-title');
+            const companyTagline = document.querySelector('.company-tagline');
+            
+            makeUneditable(companyTitle);
+            makeUneditable(companyTagline);
+            
+            showSuccessMessage('Profile updated successfully!');
+        }
+
+        function showSuccessMessage(message) {
+            // Create a temporary success notification
+            const notification = document.createElement('div');
+            notification.className = 'success-notification';
+            notification.innerHTML = `
+                <i data-lucide="check-circle" class="success-icon"></i>
+                <span>${message}</span>
+            `;
+            
+            document.body.appendChild(notification);
+            lucide.createIcons();
+            
+            // Auto-remove after 3 seconds
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+
+        function showImageUpload() {
+            document.getElementById('imageUploadModal').classList.add('show');
+        }
+
+        function closeImageUpload() {
+            document.getElementById('imageUploadModal').classList.remove('show');
+        }
+
+        function showShareModal() {
+            document.getElementById('shareModal').classList.add('show');
+        }
+
+        function closeShareModal() {
+            document.getElementById('shareModal').classList.remove('show');
+        }
+
+        function handleFileSelect(e) {
+            const file = e.target.files[0];
+            if (file) {
+                handleImageFile(file);
+            }
+        }
+
+        function handleDragOver(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            e.currentTarget.classList.add('drag-over');
+        }
+
+        function handleDrop(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            e.currentTarget.classList.remove('drag-over');
+            
+            const file = e.dataTransfer.files[0];
+            if (file && file.type.startsWith('image/')) {
+                handleImageFile(file);
+            }
+        }
+
+        function handleImageFile(file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const preview = document.createElement('img');
+                preview.src = e.target.result;
+                preview.className = 'upload-preview';
+                
+                const uploadArea = document.getElementById('uploadArea');
+                uploadArea.innerHTML = '';
+                uploadArea.appendChild(preview);
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function saveNewLogo() {
+            alert('Logo updated successfully!');
+            closeImageUpload();
+        }
+
+        function copyProfileLink() {
+            const profileLink = document.getElementById('profileLink');
+            profileLink.select();
+            document.execCommand('copy');
+            
+            const copyBtn = document.querySelector('.copy-btn');
+            const originalContent = copyBtn.innerHTML;
+            copyBtn.innerHTML = '<i data-lucide="check" class="copy-icon"></i>';
+            lucide.createIcons();
+            
+            setTimeout(() => {
+                copyBtn.innerHTML = originalContent;
+                lucide.createIcons();
+            }, 2000);
+        }
+    </script>
+</body>
+</html>

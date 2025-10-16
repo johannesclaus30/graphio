@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Senior UI/UX Designer - Graphio</title>
+    <link rel="stylesheet" href="view_career.css">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+</head>
+<body>
+    <div class="page-wrapper">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-container">
+                <div class="header-content">
+                    <div class="header-left">
+                        <a href="index.html" class="logo">
+                            <span class="logo-text">Graphio</span>
+                        </a>
+                    </div>
+                    <div class="header-right">
+                        <div class="user-avatar">
+                            <a href="profile.html" class="logo-link-white"><span class="avatar-text">SJ</span></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Breadcrumb -->
+        <div class="breadcrumb-section">
+            <div class="container">
+                <nav class="breadcrumb">
+                    <a href="index.html" class="breadcrumb-link">
+                        <i data-lucide="home" class="icon-sm"></i>
+                        Home
+                    </a>
+                    <i data-lucide="chevron-right" class="breadcrumb-separator"></i>
+                    <a href="careers.html" class="breadcrumb-link">Careers</a>
+                    <i data-lucide="chevron-right" class="breadcrumb-separator"></i>
+                    <span class="breadcrumb-current">Senior UI/UX Designer</span>
+                </nav>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="container">
+                <div class="job-content">
+                    <!-- Job Image -->
+                    <div class="job-image-section">
+                        <img src="https://images.unsplash.com/photo-1560472354-b33ff0c44a43?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0ZWNoJTIwY29tcGFueXxlbnwxfHx8fDE3NTg0MTUwMDB8MA&ixlib=rb-4.1.0&q=80&w=1080" alt="UI/UX Design Workspace" class="job-image">
+                    </div>
+
+                    <!-- Job Header -->
+                    <div class="job-header">
+                        <h1 class="job-title">Senior UI/UX Designer</h1>
+                        
+                        <div class="job-company-info">
+                            <div class="company-avatar">
+                                <img src="https://images.unsplash.com/photo-1560472354-b33ff0c44a43?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0ZWNoJTIwY29tcGFueXxlbnwxfHx8fDE3NTg0MTUwMDB8MA&ixlib=rb-4.1.0&q=80&w=1080" alt="TechFlow Solutions" class="company-logo">
+                            </div>
+                            <div class="company-details">
+                                <h3 class="company-name">TechFlow Solutions</h3>
+                                <div class="job-meta">
+                                    <span class="job-location">
+                                        <i data-lucide="map-pin" class="icon-sm"></i>
+                                        San Francisco, CA
+                                    </span>
+                                    <span class="job-posted">
+                                        <i data-lucide="calendar" class="icon-sm"></i>
+                                        Posted January 28, 2024
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="job-status">
+                            <span class="status-badge hiring">
+                                <i data-lucide="check-circle" class="icon-sm"></i>
+                                Actively Hiring
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Job Description -->
+                    <div class="job-description-section">
+                        <h2 class="section-title">Job Description</h2>
+                        <div class="job-description">
+                            <p>
+                                We're looking for a talented Senior UI/UX Designer to join our dynamic team at TechFlow Solutions. You'll be responsible for creating exceptional user experiences for our digital products and leading design initiatives across multiple projects.
+                            </p>
+                            <p>
+                                As a Senior UI/UX Designer, you'll work closely with product managers, developers, and stakeholders to transform complex requirements into intuitive and engaging user experiences. You'll have the opportunity to shape the future of our products and mentor junior designers.
+                            </p>
+                            
+                            <h3>Key Responsibilities:</h3>
+                            <ul class="job-list">
+                                <li>Lead the design process from concept to implementation</li>
+                                <li>Create wireframes, prototypes, and high-fidelity mockups</li>
+                                <li>Conduct user research and usability testing</li>
+                                <li>Collaborate with cross-functional teams</li>
+                                <li>Maintain and evolve our design system</li>
+                                <li>Mentor junior designers and provide design guidance</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Contact Action -->
+                    <div class="contact-action-section">
+                        <button class="btn btn-contact" onclick="contactCompany()">
+                            <i data-lucide="message-circle" class="icon-sm"></i>
+                            Contact Company
+                        </button>
+                        <p class="contact-note">Interested in this position? Contact TechFlow Solutions directly to learn more about this opportunity.</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-container">
+                <div class="footer-content">
+                    <div class="footer-copyright">
+                        © 2025 Graphio Studio. All rights reserved.
+                    </div>
+                    <div class="footer-legal">
+                        <a href="#" class="legal-link">Privacy Policy</a>
+                        <a href="#" class="legal-link">Terms of Service</a>
+                        <a href="#" class="legal-link">Cookie Policy</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Initialize Lucide icons
+        document.addEventListener('DOMContentLoaded', function() {
+            lucide.createIcons();
+        });
+
+        // Contact company functionality
+        function contactCompany() {
+            alert('Redirecting to company contact form...');
+        }
+    </script>
+</body>
+</html>

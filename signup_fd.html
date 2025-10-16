@@ -1,70 +1,3 @@
-<?php
-
-include("connections.php");
-
-$User_FirstName = $User_LastName = $User_Email = $User_Password = $User_ConfirmPassword = $User_Type = "";
-$User_FirstNameErr = $User_LastNameErr = $User_EmailErr = $User_PasswordErr = $User_ConfirmPasswordErr = "";
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
-    if (empty($_POST["User_FirstName"])) {
-        $User_FirstNameErr = "First Name is required!";
-    } else {
-        $User_FirstName = $_POST["User_FirstName"];
-    }
-
-    if (empty($_POST["User_LastName"])) {
-        $User_LastNameErr = "Last Name is required!";
-    } else {
-        $User_LastName = $_POST["User_LastName"];
-    }
-
-    if (empty($_POST["User_Email"])) {
-        $User_EmailErr = "Email is required!";
-    } else {
-        $User_Email = $_POST["User_Email"];
-    }
-
-    if (empty($_POST["User_Password"])) {
-        $User_PasswordErr = "Password is required!";
-    } else {
-        $User_Password = $_POST["User_Password"];
-    }
-
-    if (empty($_POST["User_ConfirmPassword"])) {
-        $User_ConfirmPasswordErr = "Confirm Password is required!";
-    } else {
-        $User_ConfirmPassword = $_POST["User_ConfirmPassword"];
-    }
-
-    if ($User_FirstName && $User_LastName && $User_Email && $User_Password && $User_ConfirmPassword) {
-        $check_email = mysqli_query($connections, "SELECT * FROM user WHERE User_Email='$User_Email'");
-        $check_email_row = mysqli_num_rows($check_email);
-
-        if($check_email_row > 0) {
-            $User_EmailErr = "Email is already registered!";
-        } else if ($User_Password != $User_ConfirmPassword) {
-            $User_ConfirmPasswordErr = "Password did not match!";
-        } else {
-            $query = mysqli_query($connections, "INSERT INTO user (User_FirstName, User_LastName, User_Email, User_Password, User_Type) VALUES ('$User_FirstName','$User_LastName','$User_Email','$User_Password','1')");
-
-            echo "<script language='javascript'>alert('New Record has been inserted!')</script>";
-            echo "<script>window.location.href='login.php';</script>";
-        }
-    }
-}
-
-?>
-
-<style>
-.error {
-    font-family: "Poppins", sans-serif;
-    font-size: 15px;
-    color: #fafafa;
-    margin-top: 5px;
-}
-</style>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -85,24 +18,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="header-content">
                     <!-- Logo -->
                     <div class="logo">
-                        <a href="index" class="logo-link">
+                        <a href="index.html" class="logo-link">
                             <img class="graphio-logo" src="logos/graphio_logo_blue.png" />
                         </a>
                     </div>
 
                     <!-- Desktop Navigation -->
                     <nav class="nav-desktop">
-                        <a href="designs" class="nav-link">Designs</a>
-                        <a href="careers" class="nav-link">Careers</a>
-                        <a href="artists" class="nav-link">Artists</a>
+                        <a href="designs.html" class="nav-link">Designs</a>
+                        <a href="careers.html" class="nav-link">Careers</a>
+                        <a href="artists.html" class="nav-link">Artists</a>
                         <a href="about.html" class="nav-link">About</a>
                     </nav>
 
                     <!-- Right side buttons -->
                     <div class="header-buttons">
-                        <a href="login" class="btn btn-outline btn-sm">Sign In</a>
+                        <a href="login.html" class="btn btn-outline btn-sm">Sign In</a>
                         <button class="btn btn-sm btn-gradient designer-btn">
-                             <a href="signup" class="logo-link-white">Create a <i class="text-italic-gold"> graphio  </i> account</a>
+                             <a href="signup.html" class="logo-link-white">Create a <i class="text-italic-gold"> graphio  </i> account</a>
                             </button>
                         
                         <!-- Mobile menu button -->
@@ -165,39 +98,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     <p class="form-subtitle">Join the graphio community!</p>
                                 </div>
 
-                                <form class="signup-form" method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-
+                                <form class="signup-form" id="signupForm">
                                     <div class="form-group">
-                                        <label for="firstName" class="form-label">First Name</label>
+                                        <label for="fullName" class="form-label">Full Name</label>
                                         <div class="input-container">
                                             <i data-lucide="user" class="input-icon"></i>
                                             <input 
                                                 type="text" 
-                                                id="firstName" 
-                                                name="User_FirstName" 
+                                                id="fullName" 
+                                                name="fullName" 
                                                 class="form-input" 
-                                                placeholder="Enter your first name"
-                                                value="<?php echo $User_FirstName; ?>"
+                                                placeholder="Enter your full name"
                                                 required
                                             >
-                                            <span class="error"><?php echo $User_FirstNameErr; ?></span>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="lastName" class="form-label">Last Name</label>
-                                        <div class="input-container">
-                                            <i data-lucide="user" class="input-icon"></i>
-                                            <input 
-                                                type="text" 
-                                                id="lastName" 
-                                                name="User_LastName" 
-                                                class="form-input" 
-                                                placeholder="Enter your last name"
-                                                value="<?php echo $User_LastName; ?>"
-                                                required
-                                            >
-                                            <span class="error"><?php echo $User_LastNameErr; ?></span>
                                         </div>
                                     </div>
 
@@ -208,13 +121,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                             <input 
                                                 type="email" 
                                                 id="email" 
-                                                name="User_Email" 
+                                                name="email" 
                                                 class="form-input" 
                                                 placeholder="Enter your email address"
-                                                value="<?php echo $User_Email; ?>"
                                                 required
                                             >
-                                            <span class="error"><?php echo $User_EmailErr; ?></span>
                                         </div>
                                     </div>
 
@@ -225,13 +136,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                             <input 
                                                 type="password" 
                                                 id="password" 
-                                                name="User_Password" 
+                                                name="password" 
                                                 class="form-input" 
                                                 placeholder="Create a strong password"
-                                                value="<?php echo $User_Password; ?>"
                                                 required
                                             >
-                                            <span class="error"><?php echo $User_PasswordErr; ?></span>
                                             <button type="button" class="password-toggle" id="passwordToggle">
                                                 <i data-lucide="eye" class="icon-sm"></i>
                                             </button>
@@ -251,13 +160,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                             <input 
                                                 type="password" 
                                                 id="confirmPassword" 
-                                                name="User_ConfirmPassword" 
+                                                name="confirmPassword" 
                                                 class="form-input" 
                                                 placeholder="Confirm your password"
-                                                value="<?php echo $User_ConfirmPassword; ?>"
                                                 required
                                             >
-                                            <span class="error"><?php echo $User_ConfirmPasswordErr; ?></span>
                                             <button type="button" class="password-toggle" id="confirmPasswordToggle">
                                                 <i data-lucide="eye" class="icon-sm"></i>
                                             </button>
@@ -283,11 +190,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                         Create Account
                                         <i data-lucide="arrow-right" class="icon-sm"></i>
                                     </button>
-                                <br>
+
+                                    <div class="divider">
+                                        <span class="divider-text">or</span>
+                                    </div>
+
+                                    <div class="social-login">
+                                        <button type="button" class="btn btn-social google-btn">
+                                            <svg class="social-icon" viewBox="0 0 24 24">
+                                                <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                                                <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                                                <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                                                <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                                            </svg>
+                                            Sign up with Google
+                                        </button>
+                                    </div>
                                 </form>
 
                                 <div class="login-prompt">
-                                    <p>Already have an account? <a href="login" class="login-link">Sign in here</a></p>
+                                    <p>Already have an account? <a href="login.html" class="login-link">Sign in here</a></p>
                                 </div>
                             </div>
                         </div>
@@ -435,11 +357,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 return;
             }
             
-            // // Here you would typically send the data to your backend
-            // console.log('Signup attempt:', { fullName, email, password, newsletter, terms });
+            // Here you would typically send the data to your backend
+            console.log('Signup attempt:', { fullName, email, password, newsletter, terms });
             
-            // // For demo purposes, show an alert
-            // alert('Account created successfully! Check console for form data.');
+            // For demo purposes, show an alert
+            alert('Account created successfully! Check console for form data.');
         });
     </script>
 </body>

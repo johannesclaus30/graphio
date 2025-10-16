@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Logo Pack - Graphio</title>
+    <link rel="stylesheet" href="view_design.css">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+</head>
+<body>
+    <div class="page-wrapper">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-container">
+                <div class="header-content">
+                    <div class="header-left">
+                        <a href="index.html" class="logo">
+                            <span class="logo-text">Graphio</span>
+                        </a>
+                    </div>
+                    <div class="header-right">
+                        <div class="user-avatar">
+                            <a href="profile.html" class="logo-link-white"><span class="avatar-text">SJ</span></a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </header>
+
+        <!-- Breadcrumb -->
+        <div class="breadcrumb-section">
+            <div class="container">
+                <nav class="breadcrumb">
+                    <a href="index.html" class="breadcrumb-link">
+                        <i data-lucide="home" class="icon-sm"></i>
+                        Home
+                    </a>
+                    <i data-lucide="chevron-right" class="breadcrumb-separator"></i>
+                    <a href="designs.html" class="breadcrumb-link">Designs</a>
+                    <i data-lucide="chevron-right" class="breadcrumb-separator"></i>
+                    <span class="breadcrumb-current">Modern Logo Pack</span>
+                </nav>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="container">
+                <div class="design-layout">
+                    <!-- Design Image -->
+                    <div class="design-image-section">
+                        <div class="main-image-container">
+                            <img 
+                                id="mainImage"
+                                src="https://images.unsplash.com/photo-1611224923853-80b023f02d71?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBsb2dvJTIwZGVzaWdufGVufDF8fHx8MTc1ODQxNTAwMHww&ixlib=rb-4.1.0&q=80&w=1080" 
+                                alt="Modern Logo Pack"
+                                class="main-image"
+                            >
+                            <div class="image-actions">
+                                <button class="image-action-btn" onclick="zoomImage()">
+                                    <i data-lucide="zoom-in" class="icon-sm"></i>
+                                    Zoom
+                                </button>
+                                <button class="image-action-btn" onclick="fullscreen()">
+                                    <i data-lucide="maximize" class="icon-sm"></i>
+                                    Fullscreen
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Thumbnail Gallery -->
+                        <div class="thumbnail-gallery">
+                            <div class="thumbnail active" onclick="changeImage(this, 'https://images.unsplash.com/photo-1611224923853-80b023f02d71?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBsb2dvJTIwZGVzaWdufGVufDF8fHx8MTc1ODQxNTAwMHww&ixlib=rb-4.1.0&q=80&w=1080')">
+                                <img src="https://images.unsplash.com/photo-1611224923853-80b023f02d71?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBsb2dvJTIwZGVzaWdufGVufDF8fHx8MTc1ODQxNTAwMHww&ixlib=rb-4.1.0&q=80&w=1080" alt="Main View" class="thumbnail-img">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Design Details -->
+                    <div class="design-details-section">
+                        <div class="design-header">
+                            <div class="design-category">
+                                <span class="category-tag">Logo Design</span>
+                                <span class="featured-badge">
+                                    <i data-lucide="star" class="icon-xs"></i>
+                                    Featured
+                                </span>
+                            </div>
+                            <h1 class="design-title">Modern Logo Pack</h1>
+                            <div class="design-meta">
+                                <div class="rating-section">
+                                    <div class="stars">
+                                        <i data-lucide="star" class="star filled"></i>
+                                        <i data-lucide="star" class="star filled"></i>
+                                        <i data-lucide="star" class="star filled"></i>
+                                        <i data-lucide="star" class="star filled"></i>
+                                        <i data-lucide="star" class="star filled"></i>
+                                    </div>
+                                    <span class="rating-text">4.9</span>
+                                    <span class="rating-count">(127 reviews)</span>
+                                </div>
+                                <div class="design-stats">
+                                    <span class="stat">
+                                        <i data-lucide="eye" class="icon-xs"></i>
+                                        2.3k views
+                                    </span>
+                                    <span class="stat">
+                                        <i data-lucide="heart" class="icon-xs"></i>
+                                        456 likes
+                                    </span>
+                                    <span class="stat">
+                                        <i data-lucide="download" class="icon-xs"></i>
+                                        89 downloads
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="price-section">
+                            <div class="price-container">
+                                <span class="current-price">$45.00</span>
+                            </div>
+                            <div class="price-info">
+                                <span class="license-info">
+                                    <i data-lucide="shield-check" class="icon-xs"></i>
+                                    Commercial License Included
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="purchase-section">
+                            <div class="purchase-actions">
+                                <button class="btn btn-gradient btn-large" onclick="purchaseDesign()">
+                                    <i data-lucide="shopping-cart" class="icon-sm"></i>
+                                    Purchase Design
+                                </button>
+                            </div>
+                            <div class="purchase-guarantee">
+                                <div class="guarantee-item">
+                                    <i data-lucide="shield" class="icon-sm guarantee-icon"></i>
+                                    <div class="guarantee-text">
+                                        <span class="guarantee-title">30-Day Money Back Guarantee</span>
+                                        <span class="guarantee-description">Full refund if not satisfied</span>
+                                    </div>
+                                </div>
+                                <div class="guarantee-item">
+                                    <i data-lucide="download" class="icon-sm guarantee-icon"></i>
+                                    <div class="guarantee-text">
+                                        <span class="guarantee-title">Instant Download</span>
+                                        <span class="guarantee-description">Access files immediately after purchase</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="designer-info">
+                            <div class="designer-header">
+                                <h3 class="section-title">About the Designer</h3>
+                            </div>
+                            <div class="designer-card">
+                                <div class="designer-avatar">
+                                    <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxidXNpbmVzcyUyMGxlYWRlcnxlbnwxfHx8fDE3NTg0MDA2OTN8MA&ixlib=rb-4.1.0&q=80&w=1080" alt="Alex Rivera" class="avatar-img">
+                                    <div class="online-indicator"></div>
+                                </div>
+                                <div class="designer-details">
+                                    <h4 class="designer-name">Alex Rivera</h4>
+                                    <p class="designer-title">Senior Brand Designer</p>
+                                    <div class="designer-stats">
+                                        <span class="designer-stat">4.9★ Rating</span>
+                                        <span class="designer-stat">340+ Designs</span>
+                                        <span class="designer-stat">5 Years Experience</span>
+                                    </div>
+                                </div>
+                                <div class="designer-actions">
+                                    <a href="profile.html" class="btn btn-outline btn-sm">View Profile</a>
+                                    <button class="btn btn-gradient btn-sm" onclick="contactDesigner()">Contact</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Design Description & Details -->
+                <div class="design-content">
+                    <div class="content-layout">
+                        <div class="main-content-area">
+                            <!-- Description -->
+                            <div class="content-section">
+                                <h2 class="section-title">Description</h2>
+                                <div class="description-content">
+                                    <p>
+                                        This comprehensive Modern Logo Pack includes everything you need to create a stunning brand identity. Perfect for startups, businesses, and personal brands looking for a contemporary and professional look.
+                                    </p>
+                                    <p>
+                                        The package contains multiple logo variations, color schemes, and formats to ensure your brand looks perfect across all platforms and applications. Each design is carefully crafted with attention to detail and modern design principles.
+                                    </p>
+                                    <h3>What's Included:</h3>
+                                    <ul class="feature-list">
+                                        <li>5 unique logo concepts</li>
+                                        <li>Multiple color variations (10+ color schemes)</li>
+                                        <li>Vector files (AI, EPS, SVG)</li>
+                                        <li>High-resolution PNG files (300 DPI)</li>
+                                        <li>Business card templates</li>
+                                        <li>Letterhead design</li>
+                                        <li>Social media kit</li>
+                                        <li>Brand guidelines PDF</li>
+                                        <li>Font recommendations</li>
+                                        <li>Commercial license</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <!-- Specifications -->
+                            <div class="content-section">
+                                <h2 class="section-title">Specifications</h2>
+                                <div class="specs-grid">
+                                    <div class="spec-item">
+                                        <span class="spec-label">File Formats</span>
+                                        <span class="spec-value">AI, EPS, SVG, PNG, PDF</span>
+                                    </div>
+                                    <div class="spec-item">
+                                        <span class="spec-label">Customization</span>
+                                        <span class="spec-value">Fully Customizable</span>
+                                    </div>
+                                    <div class="spec-item">
+                                        <span class="spec-label">License</span>
+                                        <span class="spec-value">Commercial Use Allowed</span>
+                                    </div>
+                                    <div class="spec-item">
+                                        <span class="spec-label">Support</span>
+                                        <span class="spec-value">Email Support Included</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Reviews -->
+                            <div class="content-section">
+                                <div class="reviews-header">
+                                    <h2 class="section-title">Customer Reviews</h2>
+                                    <div class="reviews-summary">
+                                        <div class="review-score">
+                                            <span class="score-number">4.9</span>
+                                            <div class="score-stars">
+                                                <i data-lucide="star" class="star filled"></i>
+                                                <i data-lucide="star" class="star filled"></i>
+                                                <i data-lucide="star" class="star filled"></i>
+                                                <i data-lucide="star" class="star filled"></i>
+                                                <i data-lucide="star" class="star filled"></i>
+                                            </div>
+                                            <span class="score-text">Based on 127 reviews</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Sidebar -->
+                        <div class="sidebar">
+                            <!-- Tags -->
+                            <div class="sidebar-section">
+                                <h3 class="sidebar-title">Categories</h3>
+                                <div class="tags-list">
+                                    <span class="tag">Logo Design</span>
+                                    <span class="tag">Brand Identity</span>
+                                    <span class="tag">Modern</span>
+                                    <span class="tag">Professional</span>
+                                    <span class="tag">Minimalist</span>
+                                    <span class="tag">Business</span>
+                                    <span class="tag">Corporate</span>
+                                    <span class="tag">Startup</span>
+                                </div>
+                            </div>
+
+                            <!-- Share -->
+                            <div class="sidebar-section">
+                                <h3 class="sidebar-title">Share This Design</h3>
+                                <div class="share-buttons">
+                                    <button class="share-btn facebook" onclick="shareOn('facebook')">
+                                        <i data-lucide="facebook" class="icon-sm"></i>
+                                        Facebook
+                                    </button>
+                                    <button class="share-btn twitter" onclick="shareOn('twitter')">
+                                        <i data-lucide="twitter" class="icon-sm"></i>
+                                        Twitter
+                                    </button>
+                                    <button class="share-btn linkedin" onclick="shareOn('linkedin')">
+                                        <i data-lucide="linkedin" class="icon-sm"></i>
+                                        LinkedIn
+                                    </button>
+                                    <button class="share-btn copy" onclick="copyLink()">
+                                        <i data-lucide="link" class="icon-sm"></i>
+                                        Copy Link
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-container">
+                <div class="footer-content">
+                    <div class="footer-copyright">
+                        © 2025 Graphio Studio. All rights reserved.
+                    </div>
+                    <div class="footer-legal">
+                        <a href="#" class="legal-link">Privacy Policy</a>
+                        <a href="#" class="legal-link">Terms of Service</a>
+                        <a href="#" class="legal-link">Cookie Policy</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Image Zoom Modal -->
+    <div class="modal-overlay" id="imageModal">
+        <div class="image-modal">
+            <button class="modal-close" onclick="closeImageModal()">
+                <i data-lucide="x" class="icon-lg"></i>
+            </button>
+            <img id="modalImage" src="" alt="" class="modal-image">
+        </div>
+    </div>
+
+    <script>
+        // Initialize Lucide icons
+        document.addEventListener('DOMContentLoaded', function() {
+            lucide.createIcons();
+        });
+
+        // Image gallery functionality
+        function changeImage(thumbnail, imageSrc) {
+            // Remove active class from all thumbnails
+            document.querySelectorAll('.thumbnail').forEach(thumb => {
+                thumb.classList.remove('active');
+            });
+            
+            // Add active class to clicked thumbnail
+            thumbnail.classList.add('active');
+            
+            // Change main image
+            document.getElementById('mainImage').src = imageSrc;
+        }
+
+        // Zoom image functionality
+        function zoomImage() {
+            const mainImage = document.getElementById('mainImage');
+            const modal = document.getElementById('imageModal');
+            const modalImage = document.getElementById('modalImage');
+            
+            modalImage.src = mainImage.src;
+            modal.classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeImageModal() {
+            const modal = document.getElementById('imageModal');
+            modal.classList.remove('show');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Fullscreen functionality
+        function fullscreen() {
+            const image = document.getElementById('mainImage');
+            if (image.requestFullscreen) {
+                image.requestFullscreen();
+            } else if (image.webkitRequestFullscreen) {
+                image.webkitRequestFullscreen();
+            } else if (image.msRequestFullscreen) {
+                image.msRequestFullscreen();
+            }
+        }
+
+        // Purchase functionality
+        function purchaseDesign() {
+            // In a real app, this would redirect to checkout
+            alert('Redirecting to secure checkout...');
+        }
+
+        function contactDesigner() {
+            alert('Opening message composer...');
+        }
+
+        // Share functionality
+        function shareOn(platform) {
+            const url = window.location.href;
+            const title = 'Modern Logo Pack - Graphio';
+            
+            let shareUrl = '';
+            
+            switch(platform) {
+                case 'facebook':
+                    shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
+                    break;
+                case 'twitter':
+                    shareUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(title)}`;
+                    break;
+                case 'linkedin':
+                    shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`;
+                    break;
+            }
+            
+            if (shareUrl) {
+                window.open(shareUrl, '_blank', 'width=600,height=400');
+            }
+        }
+
+        function copyLink() {
+            navigator.clipboard.writeText(window.location.href).then(() => {
+                alert('Link copied to clipboard!');
+            });
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('imageModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeImageModal();
+            }
+        });
+    </script>
+</body>
+</html>

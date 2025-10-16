@@ -1,0 +1,681 @@
+<?php
+
+
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Designs - Graphio</title>
+    <link rel="icon" type="image/jpg" sizes="30x30" href="logos/graphio.jpg">
+    <link rel="stylesheet" href="designs.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+</head>
+<body>
+    <div class="min-h-screen">
+        <!-- Header -->
+        <header class="header">
+            <div class="container">
+                <div class="header-content">
+                    <!-- Logo -->
+                    <div class="logo">
+                        <a href="index" class="logo-link">
+                             <img class="graphio-logo" src="logos/graphio_logo_blue.png" />
+                        </a>
+                    </div>
+
+                    <!-- Desktop Navigation -->
+                    <nav class="nav-desktop">
+                        <a href="designs" class="nav-link active">Designs</a>
+                        <a href="careers" class="nav-link">Careers</a>
+                        <a href="artists" class="nav-link">Artists</a>
+                        <a href="about.html" class="nav-link">About</a>
+                    </nav>
+
+                    <!-- Right side buttons -->
+                    <div class="header-buttons">
+                        <a href="login" class="btn btn-outline btn-sm">Sign In</a>
+                        <button class="btn btn-sm btn-gradient designer-btn">
+                             <a href="signup" class="logo-link-white">Create a <i class="text-italic-gold"> graphio  </i> account</a>
+                            </button>
+                        
+                        <!-- Mobile menu button -->
+                        <button class="btn btn-ghost btn-sm mobile-menu">
+                            <i data-lucide="menu" class="icon-sm"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <!-- Hero Section -->
+            <section class="hero-section" id="up">
+                <div class="container">
+                    <div class="hero-content">
+                        <h1 class="hero-title">Discover Amazing Designs</h1>
+                        <p class="hero-description">
+                            Browse thousands of high-quality designs from talented creators worldwide
+                        </p>
+                        
+                        <!-- Search Bar -->
+                        <div class="search-container">
+                            <div class="search-input-container">
+                                <i data-lucide="search" class="search-icon"></i>
+                                <input 
+                                    type="text" 
+                                    id="searchInput"
+                                    placeholder="Search designs, designers, or tags..." 
+                                    class="search-input"
+                                >
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Filters and Controls -->
+            <section class="filters-section">
+                <div class="container">
+                    <div class="filters-content">
+                        <div class="filters-left">
+                            <div class="category-filters">
+                                <i data-lucide="filter" class="filter-icon"></i>
+                                <div class="category-buttons" id="categoryButtons">
+                                    <button class="btn btn-category active" data-category="All">All</button>
+                                    <button class="btn btn-category" data-category="Logo Design">Logo Design</button>
+                                    <button class="btn btn-category" data-category="Branding">Branding</button>
+                                    <button class="btn btn-category" data-category="Print Design">Print Design</button>
+                                    <button class="btn btn-category" data-category="UI/UX">UI/UX</button>
+                                    <button class="btn btn-category" data-category="Social Media">Social Media</button>
+                                    <button class="btn btn-category" data-category="Web Design">Web Design</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="filters-right">
+                            <!-- Sort Dropdown -->
+                            <div class="sort-container">
+                                <select id="sortSelect" class="sort-select">
+                                    <option value="popular">Most Popular</option>
+                                    <option value="recent">Most Recent</option>
+                                    <option value="price-low">Price: Low to High</option>
+                                    <option value="price-high">Price: High to Low</option>
+                                    <option value="rating">Highest Rated</option>
+                                </select>
+                            </div>
+                            
+                            <!-- View Mode Toggle -->
+                            <div class="view-toggle">
+                                <button class="btn btn-view active" id="gridViewBtn" data-view="grid">
+                                    <i data-lucide="grid-3x3" class="icon-sm"></i>
+                                </button>
+                                <button class="btn btn-view" id="listViewBtn" data-view="list">
+                                    <i data-lucide="list" class="icon-sm"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Results count -->
+                    <div class="results-count" id="resultsCount">
+                        Showing 1-12 of 24 designs
+                    </div>
+                </div>
+            </section>
+
+            <!-- Designs Section -->
+            <section class="designs-section">
+                <div class="container">
+                    <!-- Grid View -->
+                    <div class="designs-grid" id="designsGrid">
+                        <!-- Design cards will be inserted here by JavaScript -->
+                    </div>
+                    
+                    <!-- List View -->
+                    <div class="designs-list hidden" id="designsList">
+                        <!-- Design list items will be inserted here by JavaScript -->
+                    </div>
+                    
+                    <!-- No Results State -->
+                    <div class="no-results hidden" id="noResults">
+                        <div class="no-results-content">
+                            <div class="no-results-icon">
+                                <i data-lucide="search" class="icon-lg"></i>
+                            </div>
+                            <h3 class="no-results-title">No designs found</h3>
+                            <p class="no-results-description">
+                                Try adjusting your search terms or filters to find more designs.
+                            </p>
+                            <button class="btn btn-outline" onclick="clearFilters()">
+                                Clear Filters
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Pagination -->
+                    <div class="pagination" id="pagination">
+                        <button class="btn btn-outline btn-sm pagination-btn" id="prevBtn">
+                            <i data-lucide="chevron-left" class="icon-sm"></i>
+                            Previous
+                        </button>
+                        
+                        <div class="pagination-pages" id="paginationPages">
+                            <!-- Page numbers will be inserted here -->
+                        </div>
+                        
+                        <button class="btn btn-outline btn-sm pagination-btn" id="nextBtn">
+                            Next
+                            <i data-lucide="chevron-right" class="icon-sm"></i>
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-section">
+                        <div class="footer-logo"><a href="#up" class="logo-link-white">
+                            <img class="graphio-logo-footer" src="logos/graphio_logo_white.png"/></a></div>
+                        <p class="footer-description">
+                            The leading marketplace for creative professionals. Connect, create, and grow your design business.
+                        </p>
+                        <div class="footer-social">
+                            <a href="#" class="social-link">
+                                <i data-lucide="twitter" class="icon-sm"></i>
+                            </a>
+                            <a href="#" class="social-link">
+                                <i data-lucide="facebook" class="icon-sm"></i>
+                            </a>
+                            <a href="#" class="social-link">
+                                <i data-lucide="instagram" class="icon-sm"></i>
+                            </a>
+                            <a href="#" class="social-link">
+                                <i data-lucide="linkedin" class="icon-sm"></i>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="footer-section">
+                        <h4 class="footer-subtitle">For Designers</h4>
+                        <ul class="footer-links">
+                            <li><a href="login" class="footer-link">Sell Your Work</a></li>
+                            <li><a href="artists" class="footer-link">Success Stories</a></li>
+                            <li><a href="#" class="footer-link">Design Guidelines</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="footer-section">
+                        <h4 class="footer-subtitle">For Clients</h4>
+                        <ul class="footer-links">
+                            <li><a href="designs" class="footer-link">Browse Designs</a></li>
+                            <li><a href="artist" class="footer-link">Find Artists</a></li>
+                            <li><a href="about.html" class="footer-link">How It Works</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="footer-section">
+                        <h4 class="footer-subtitle">Company</h4>
+                        <ul class="footer-links">
+                            <li><a href="about.html" class="footer-link">About Us</a></li>
+                            <li><a href="careers" class="footer-link">Careers</a></li>
+                            <li><a href="index#contact" class="footer-link">Contact</a></li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="footer-bottom">
+                    <div class="footer-copyright">
+                        © 2025 Graphio Studio. All rights reserved.
+                    </div>
+                    <div class="footer-legal">
+                        <a href="#" class="legal-link">Privacy Policy</a>
+                        <a href="#" class="legal-link">Terms of Service</a>
+                        <a href="#" class="legal-link">Cookie Policy</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Design data
+        const allDesigns = [
+            {
+                id: 1,
+                title: "Modern Logo Collection",
+                designer: "Sarah Chen",
+                price: 25,
+                likes: 1234,
+                views: 5678,
+                downloads: 890,
+                rating: 4.8,
+                image: "https://images.unsplash.com/photo-1686526473156-e8449f0c6765?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBsb2dvJTIwZGVzaWdufGVufDF8fHx8MTc1ODIyMzU5M3ww&ixlib=rb-4.1.0&q=80&w=1080",
+                category: "Logo Design",
+                tags: ["modern", "minimalist", "brand"],
+                featured: true,
+                dateAdded: "2024-01-15"
+            },
+            {
+                id: 2,
+                title: "Brand Identity Package",
+                designer: "Alex Rodriguez",
+                price: 89,
+                likes: 890,
+                views: 3456,
+                downloads: 567,
+                rating: 4.9,
+                image: "https://images.unsplash.com/photo-1710799885122-428e63eff691?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxkZXNpZ25lciUyMHBvcnRmb2xpbyUyMGNyZWF0aXZlfGVufDF8fHx8MTc1ODI5MDQ0OXww&ixlib=rb-4.1.0&q=80&w=1080",
+                category: "Branding",
+                tags: ["identity", "corporate", "complete"],
+                featured: false,
+                dateAdded: "2024-01-10"
+            },
+            {
+                id: 3,
+                title: "Creative Poster Set",
+                designer: "Maya Patel",
+                price: 35,
+                likes: 567,
+                views: 2345,
+                downloads: 234,
+                rating: 4.7,
+                image: "https://images.unsplash.com/photo-1532617392008-5399d3d8a599?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxncmFwaGljJTIwZGVzaWduJTIwY3JlYXRpdmUlMjB3b3Jrc3BhY2V8ZW58MXx8fHwxNzU4MTkyNzM3fDA&ixlib=rb-4.1.0&q=80&w=1080",
+                category: "Print Design",
+                tags: ["poster", "creative", "artistic"],
+                featured: true,
+                dateAdded: "2024-01-12"
+            },
+            {
+                id: 4,
+                title: "UI Kit Bundle",
+                designer: "James Wilson",
+                price: 45,
+                likes: 756,
+                views: 4567,
+                downloads: 678,
+                rating: 4.6,
+                image: "https://images.unsplash.com/photo-1753162660733-45bcad593b16?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjcmVhdGl2ZSUyMGRlc2lnbmVyJTIwcG9ydHJhaXR8ZW58MXx8fHwxNzU4MTk1NjQ2fDA&ixlib=rb-4.1.0&q=80&w=1080",
+                category: "UI/UX",
+                tags: ["interface", "components", "digital"],
+                featured: false,
+                dateAdded: "2024-01-08"
+            },
+            {
+                id: 5,
+                title: "Social Media Templates",
+                designer: "Emma Thompson",
+                price: 19,
+                likes: 892,
+                views: 3421,
+                downloads: 456,
+                rating: 4.5,
+                image: "https://images.unsplash.com/photo-1611224923853-80b023f02d71?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzb2NpYWwlMjBtZWRpYSUyMGRlc2lnbnxlbnwxfHx8fDE3NTgyOTA0NDl8MA&ixlib=rb-4.1.0&q=80&w=1080",
+                category: "Social Media",
+                tags: ["instagram", "facebook", "templates"],
+                featured: false,
+                dateAdded: "2024-01-05"
+            },
+            {
+                id: 6,
+                title: "Website Design Mockup",
+                designer: "David Kim",
+                price: 65,
+                likes: 1122,
+                views: 5432,
+                downloads: 789,
+                rating: 4.9,
+                image: "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3ZWJzaXRlJTIwZGVzaWdufGVufDF8fHx8MTc1ODI5MDQ0OXww&ixlib=rb-4.1.0&q=80&w=1080",
+                category: "Web Design",
+                tags: ["website", "mockup", "responsive"],
+                featured: true,
+                dateAdded: "2024-01-18"
+            },
+            {
+                id: 7,
+                title: "Business Card Collection",
+                designer: "Lisa Chen",
+                price: 22,
+                likes: 654,
+                views: 2987,
+                downloads: 345,
+                rating: 4.4,
+                image: "https://images.unsplash.com/photo-1586953208448-b95a79798f07?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxidXNpbmVzcyUyMGNhcmQlMjBkZXNpZ258ZW58MXx8fHwxNzU4MjkwNDQ5fDA&ixlib=rb-4.1.0&q=80&w=1080",
+                category: "Print Design",
+                tags: ["business card", "professional", "minimal"],
+                featured: false,
+                dateAdded: "2024-01-03"
+            },
+            {
+                id: 8,
+                title: "App Icon Set",
+                designer: "Michael Brown",
+                price: 38,
+                likes: 987,
+                views: 4123,
+                downloads: 567,
+                rating: 4.7,
+                image: "https://images.unsplash.com/photo-1512486130939-2c4f79935e4f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxhcHAlMjBpY29uJTIwZGVzaWdufGVufDF8fHx8MTc1ODI5MDQ0OXww&ixlib=rb-4.1.0&q=80&w=1080",
+                category: "UI/UX",
+                tags: ["icons", "mobile", "app"],
+                featured: false,
+                dateAdded: "2024-01-20"
+            }
+        ];
+
+        // State
+        let currentPage = 1;
+        let currentView = 'grid';
+        let currentCategory = 'All';
+        let currentSort = 'popular';
+        let currentSearch = '';
+        let likedDesigns = [];
+        const itemsPerPage = 12;
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            lucide.createIcons();
+            setupEventListeners();
+            renderDesigns();
+        });
+
+        function setupEventListeners() {
+            // Search input
+            document.getElementById('searchInput').addEventListener('input', function(e) {
+                currentSearch = e.target.value;
+                currentPage = 1;
+                renderDesigns();
+            });
+
+            // Category buttons
+            document.querySelectorAll('.btn-category').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.btn-category').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    currentCategory = this.dataset.category;
+                    currentPage = 1;
+                    renderDesigns();
+                });
+            });
+
+            // Sort select
+            document.getElementById('sortSelect').addEventListener('change', function(e) {
+                currentSort = e.target.value;
+                currentPage = 1;
+                renderDesigns();
+            });
+
+            // View toggle
+            document.querySelectorAll('.btn-view').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.btn-view').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    currentView = this.dataset.view;
+                    renderDesigns();
+                });
+            });
+
+            // Pagination
+            document.getElementById('prevBtn').addEventListener('click', function() {
+                if (currentPage > 1) {
+                    currentPage--;
+                    renderDesigns();
+                }
+            });
+
+            document.getElementById('nextBtn').addEventListener('click', function() {
+                const filteredDesigns = getFilteredDesigns();
+                const totalPages = Math.ceil(filteredDesigns.length / itemsPerPage);
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    renderDesigns();
+                }
+            });
+        }
+
+        function getFilteredDesigns() {
+            return allDesigns
+                .filter(design => {
+                    const matchesSearch = design.title.toLowerCase().includes(currentSearch.toLowerCase()) ||
+                                        design.designer.toLowerCase().includes(currentSearch.toLowerCase()) ||
+                                        design.tags.some(tag => tag.toLowerCase().includes(currentSearch.toLowerCase()));
+                    const matchesCategory = currentCategory === 'All' || design.category === currentCategory;
+                    return matchesSearch && matchesCategory;
+                })
+                .sort((a, b) => {
+                    switch (currentSort) {
+                        case 'popular':
+                            return b.likes - a.likes;
+                        case 'recent':
+                            return new Date(b.dateAdded) - new Date(a.dateAdded);
+                        case 'price-low':
+                            return a.price - b.price;
+                        case 'price-high':
+                            return b.price - a.price;
+                        case 'rating':
+                            return b.rating - a.rating;
+                        default:
+                            return 0;
+                    }
+                });
+        }
+
+        function toggleLike(designId) {
+            const index = likedDesigns.indexOf(designId);
+            if (index > -1) {
+                likedDesigns.splice(index, 1);
+            } else {
+                likedDesigns.push(designId);
+            }
+            renderDesigns();
+        }
+
+        function createDesignCard(design) {
+            const isLiked = likedDesigns.includes(design.id);
+            
+            return `
+                <div class="design-card" onclick="viewDesign(${design.id})">
+                    <div class="design-image-container">
+                        <img src="${design.image}" alt="${design.title}" class="design-image">
+                        <div class="design-overlay"></div>
+                        
+                        ${design.featured ? '<div class="featured-badge">Featured</div>' : ''}
+                        
+                        <button class="like-btn ${isLiked ? 'liked' : ''}" onclick="event.stopPropagation(); toggleLike(${design.id})">
+                            <i data-lucide="heart" class="icon-sm ${isLiked ? 'heart-filled' : ''}"></i>
+                        </button>
+                        
+                        <div class="design-actions">
+                            <button class="btn btn-sm btn-white">
+                                <i data-lucide="eye" class="icon-sm"></i>
+                                View Details
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="design-info">
+                        <div class="design-header">
+                            <span class="design-category">${design.category}</span>
+                            <span class="design-price">$${design.price}</span>
+                        </div>
+                        <h3 class="design-title">${design.title}</h3>
+                        <p class="design-designer">by ${design.designer}</p>
+                        
+                        <div class="design-stats">
+                            <div class="stat-group">
+                                <div class="stat-item">
+                                    <i data-lucide="heart" class="icon-xs"></i>
+                                    ${design.likes}
+                                </div>
+                                <div class="stat-item">
+                                    <i data-lucide="eye" class="icon-xs"></i>
+                                    ${design.views}
+                                </div>
+                                <div class="stat-item">
+                                    <i data-lucide="download" class="icon-xs"></i>
+                                    ${design.downloads}
+                                </div>
+                            </div>
+                            <div class="design-rating">
+                                <i data-lucide="star" class="icon-xs star-filled"></i>
+                                ${design.rating}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function createDesignListItem(design) {
+            const isLiked = likedDesigns.includes(design.id);
+            
+            return `
+                <div class="design-list-item" onclick="viewDesign(${design.id})">
+                    <div class="list-image-container">
+                        <img src="${design.image}" alt="${design.title}" class="list-image">
+                    </div>
+                    <div class="list-content">
+                        <div class="list-header">
+                            <div class="list-badges">
+                                <span class="design-category">${design.category}</span>
+                                ${design.featured ? '<span class="featured-badge">Featured</span>' : ''}
+                            </div>
+                            <div class="list-actions">
+                                <span class="design-price">$${design.price}</span>
+                                <button class="like-btn ${isLiked ? 'liked' : ''}" onclick="event.stopPropagation(); toggleLike(${design.id})">
+                                    <i data-lucide="heart" class="icon-sm ${isLiked ? 'heart-filled' : ''}"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <h3 class="design-title">${design.title}</h3>
+                        <p class="design-designer">by ${design.designer}</p>
+                        <div class="design-stats">
+                            <div class="stat-item">
+                                <i data-lucide="heart" class="icon-xs"></i>
+                                ${design.likes}
+                            </div>
+                            <div class="stat-item">
+                                <i data-lucide="eye" class="icon-xs"></i>
+                                ${design.views}
+                            </div>
+                            <div class="stat-item">
+                                <i data-lucide="download" class="icon-xs"></i>
+                                ${design.downloads}
+                            </div>
+                            <div class="design-rating">
+                                <i data-lucide="star" class="icon-xs star-filled"></i>
+                                ${design.rating}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderDesigns() {
+            const filteredDesigns = getFilteredDesigns();
+            const totalPages = Math.ceil(filteredDesigns.length / itemsPerPage);
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const paginatedDesigns = filteredDesigns.slice(startIndex, startIndex + itemsPerPage);
+
+            // Update results count
+            const resultsCount = document.getElementById('resultsCount');
+            if (filteredDesigns.length > 0) {
+                const endIndex = Math.min(startIndex + itemsPerPage, filteredDesigns.length);
+                resultsCount.textContent = `Showing ${startIndex + 1}-${endIndex} of ${filteredDesigns.length} designs`;
+            } else {
+                resultsCount.textContent = 'No designs found';
+            }
+
+            // Show/hide views
+            const gridContainer = document.getElementById('designsGrid');
+            const listContainer = document.getElementById('designsList');
+            const noResults = document.getElementById('noResults');
+
+            if (paginatedDesigns.length === 0) {
+                gridContainer.classList.add('hidden');
+                listContainer.classList.add('hidden');
+                noResults.classList.remove('hidden');
+            } else {
+                noResults.classList.add('hidden');
+                
+                if (currentView === 'grid') {
+                    gridContainer.classList.remove('hidden');
+                    listContainer.classList.add('hidden');
+                    gridContainer.innerHTML = paginatedDesigns.map(createDesignCard).join('');
+                } else {
+                    gridContainer.classList.add('hidden');
+                    listContainer.classList.remove('hidden');
+                    listContainer.innerHTML = paginatedDesigns.map(createDesignListItem).join('');
+                }
+            }
+
+            // Update pagination
+            renderPagination(totalPages);
+            
+            // Reinitialize icons
+            lucide.createIcons();
+        }
+
+        function renderPagination(totalPages) {
+            const pagination = document.getElementById('pagination');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const pagesContainer = document.getElementById('paginationPages');
+
+            if (totalPages <= 1) {
+                pagination.classList.add('hidden');
+                return;
+            }
+
+            pagination.classList.remove('hidden');
+            prevBtn.disabled = currentPage === 1;
+            nextBtn.disabled = currentPage === totalPages;
+
+            // Generate page numbers
+            let pagesHTML = '';
+            for (let i = 1; i <= totalPages; i++) {
+                pagesHTML += `
+                    <button class="btn btn-page ${currentPage === i ? 'active' : ''}" onclick="goToPage(${i})">
+                        ${i}
+                    </button>
+                `;
+            }
+            pagesContainer.innerHTML = pagesHTML;
+        }
+
+        function goToPage(page) {
+            currentPage = page;
+            renderDesigns();
+        }
+
+        function clearFilters() {
+            currentSearch = '';
+            currentCategory = 'All';
+            currentSort = 'popular';
+            currentPage = 1;
+            
+            document.getElementById('searchInput').value = '';
+            document.getElementById('sortSelect').value = 'popular';
+            document.querySelectorAll('.btn-category').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.category === 'All');
+            });
+            
+            renderDesigns();
+        }
+
+        function viewDesign(designId) {
+            console.log('Viewing design:', designId);
+            // Here you would navigate to the design detail page
+            alert(`Viewing design ${designId}`);
+        }
+    </script>
+</body>
+</html>

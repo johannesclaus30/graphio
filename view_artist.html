@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alexandra Chen - Graphio Artist</title>
+    <link rel="stylesheet" href="view_artist.css">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+</head>
+<body>
+    <div class="page-wrapper">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-container">
+                <div class="header-content">
+                    <div class="header-left">
+                        <a href="index.html" class="logo">
+                            <span class="logo-text">Graphio</span>
+                        </a>
+                    </div>
+                    
+                    <nav class="header-nav">
+                        <a href="designs.html" class="nav-link">Designs</a>
+                        <a href="careers.html" class="nav-link">Careers</a>
+                        <a href="artists.html" class="nav-link active">Artists</a>
+                        <a href="about.html" class="nav-link">About</a>
+                    </nav>
+                    
+                    <div class="header-right">
+                        <button class="btn btn-outline">
+                            <i data-lucide="search" class="icon-sm"></i>
+                            Search Artists
+                        </button>
+                        <a href="login.html" class="btn btn-outline">Log In</a>
+                        <a href="signup.html" class="btn btn-gradient">Sign Up</a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Breadcrumb -->
+        <div class="breadcrumb-section">
+            <div class="container">
+                <nav class="breadcrumb">
+                    <a href="index.html" class="breadcrumb-link">
+                        <i data-lucide="home" class="icon-sm"></i>
+                        Home
+                    </a>
+                    <i data-lucide="chevron-right" class="breadcrumb-separator"></i>
+                    <a href="artists.html" class="breadcrumb-link">Artists</a>
+                    <i data-lucide="chevron-right" class="breadcrumb-separator"></i>
+                    <span class="breadcrumb-current">Alexandra Chen</span>
+                </nav>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="container">
+                <div class="artist-content">
+                    <!-- Cover Photo -->
+                    <div class="cover-photo-section">
+                        <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxkZXNpZ24lMjBzdHVkaW98ZW58MXx8fHwxNzU4NDE1MDAwfDA&ixlib=rb-4.1.0&q=80&w=1080" alt="Alexandra Chen's Design Studio" class="cover-image">
+                    </div>
+
+                    <!-- Artist Profile Header -->
+                    <div class="artist-header">
+                        <div class="artist-profile-section">
+                            <div class="artist-avatar">
+                                <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3b21hbiUyMGRlc2lnbmVyfGVufDF8fHx8MTc1ODQxNTAwMHww&ixlib=rb-4.1.0&q=80&w=1080" alt="Alexandra Chen" class="artist-photo">
+                            </div>
+                            <div class="artist-info">
+                                <h1 class="artist-name">Alexandra Chen</h1>
+                                <p class="artist-title">UI/UX Designer & Brand Specialist</p>
+                                
+                                <div class="artist-meta">
+                                    <div class="artist-location">
+                                        <i data-lucide="map-pin" class="icon-sm"></i>
+                                        <span>San Francisco, CA</span>
+                                    </div>
+                                    <div class="artist-contact">
+                                        <i data-lucide="mail" class="icon-sm"></i>
+                                        <span>alexandra.chen@email.com</span>
+                                    </div>
+                                </div>
+
+                                <div class="social-links">
+                                    <a href="https://facebook.com/alexandra.chen" class="social-link" target="_blank">
+                                        <i data-lucide="facebook" class="icon-sm"></i>
+                                        <span>Facebook</span>
+                                    </a>
+                                    <a href="https://instagram.com/alexandra_designs" class="social-link" target="_blank">
+                                        <i data-lucide="instagram" class="icon-sm"></i>
+                                        <span>Instagram</span>
+                                    </a>
+                                    <a href="https://linkedin.com/in/alexandra-chen" class="social-link" target="_blank">
+                                        <i data-lucide="linkedin" class="icon-sm"></i>
+                                        <span>LinkedIn</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Contact Button -->
+                        <div class="contact-section">
+                            <button class="btn btn-contact" onclick="contactArtist()">
+                                <i data-lucide="message-circle" class="icon-sm"></i>
+                                Contact Artist
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Bio Section -->
+                    <div class="bio-section">
+                        <h2 class="section-title">About Alexandra</h2>
+                        <div class="bio-content">
+                            <p>
+                                Welcome to my creative space! I'm Alexandra, a passionate UI/UX designer and brand specialist with over 8 years of experience creating digital experiences that connect with users and drive business results.
+                            </p>
+                            <p>
+                                My design philosophy centers around the belief that great design should be both beautiful and functional. I specialize in creating intuitive user interfaces, compelling brand identities, and comprehensive design systems that help businesses tell their story effectively.
+                            </p>
+                            <p>
+                                When I'm not designing, you can find me exploring San Francisco's vibrant art scene, trying new coffee shops, or experimenting with photography. I believe inspiration comes from everywhere, and I love incorporating diverse influences into my work.
+                            </p>
+                            
+                            <div class="specialties">
+                                <h3>Specialties:</h3>
+                                <div class="specialty-tags">
+                                    <span class="specialty-tag">UI/UX Design</span>
+                                    <span class="specialty-tag">Brand Identity</span>
+                                    <span class="specialty-tag">Design Systems</span>
+                                    <span class="specialty-tag">Mobile Design</span>
+                                    <span class="specialty-tag">Web Design</span>
+                                    <span class="specialty-tag">Logo Design</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Designs Section -->
+                    <div class="designs-section">
+                        <div class="designs-header">
+                            <h2 class="section-title">My Designs</h2>
+                            <p class="designs-subtitle">Explore my creative work and design projects</p>
+                            <div class="designs-stats">
+                                <span class="total-designs">24 total designs</span>
+                                <span class="page-info">Page <span id="currentPage">1</span> of <span id="totalPages">6</span></span>
+                            </div>
+                        </div>
+                        
+                        <div class="designs-grid" id="designsGrid">
+                            <!-- Designs will be populated by JavaScript -->
+                        </div>
+
+                        <!-- Pagination -->
+                        <div class="pagination">
+                            <button class="pagination-btn" id="prevBtn" onclick="changePage(-1)" disabled>
+                                <i data-lucide="chevron-left" class="icon-sm"></i>
+                                Previous
+                            </button>
+                            
+                            <div class="pagination-numbers" id="paginationNumbers">
+                                <!-- Page numbers will be populated by JavaScript -->
+                            </div>
+                            
+                            <button class="pagination-btn" id="nextBtn" onclick="changePage(1)">
+                                Next
+                                <i data-lucide="chevron-right" class="icon-sm"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-container">
+                <div class="footer-content">
+                    <div class="footer-copyright">
+                        © 2024 Graphio. All rights reserved.
+                    </div>
+                    <div class="footer-legal">
+                        <a href="#" class="legal-link">Privacy Policy</a>
+                        <a href="#" class="legal-link">Terms of Service</a>
+                        <a href="#" class="legal-link">Cookie Policy</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // All designs data
+        const allDesigns = [
+            {
+                title: "EcoTech Mobile App",
+                category: "Mobile App Design",
+                price: 150,
+                rating: 4.9,
+                image: "https://images.unsplash.com/photo-1611224923853-80b023f02d71?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxhcHAlMjBkZXNpZ258ZW58MXx8fHwxNzU4NDE1MDAwfDA&ixlib=rb-4.1.0&q=80&w=1080"
+            },
+            {
+                title: "Minimal Brand Identity",
+                category: "Brand Design",
+                price: 200,
+                rating: 5.0,
+                image: "https://images.unsplash.com/photo-1586717791821-3f44a563fa4c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxicmFuZCUyMGRlc2lnbnxlbnwxfHx8fDE3NTg0MTUwMDB8MA&ixlib=rb-4.1.0&q=80&w=1080"
+            },
+            {
+                title: "Dashboard UI Kit",
+                category: "UI Design",
+                price: 120,
+                rating: 4.8,
+                image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3ZWIlMjBkZXNpZ258ZW58MXx8fHwxNzU4NDE1MDAwfDA&ixlib=rb-4.1.0&q=80&w=1080"
+            },
+            {
+                title: "Coffee Shop Logo",
+                category: "Logo Design",
+                price: 85,
+                rating: 4.7,
+                image: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsb2dvJTIwZGVzaWdufGVufDF8fHx8MTc1ODQxNTAwMHww&ixlib=rb-4.1.0&q=80&w=1080"
+            },
+            {
+                title: "E-commerce Website",
+                category: "Web Design",
+                price: 300,
+                rating: 4.9,
+                image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxlY29tbWVyY2UlMjBkZXNpZ258ZW58MXx8fHwxNzU4NDE1MDAwfDA&ixlib=rb-4.1.0&q=80&w=1080"
+            },
+            {
+                title: "Fitness App UI",
+                category: "Mobile App Design",
+                price: 180,
+                rating: 5.0,
+                image: "https://images.unsplash.com/photo-1555421689-491a97ff2040?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2JpbGUlMjBhcHB8ZW58MXx8fHwxNzU4NDE1MDAwfDA&ixlib=rb-4.1.0&q=80&w=1080"
+            },
+            {
+                title: "Restaurant Menu Design",
+                category: "Print Design",
+                price: 95,
+                rating: 4.6,
+                image: "https://images.unsplash.com/photo-1551218808-94e220e084d2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxyZXN0YXVyYW50JTIwbWVudXxlbnwxfHx8fDE3NTg0MTUwMDB8MA&ixlib=rb-4.1.0&q=80&w=1080"
+            },
+            {
+                title: "Social Media Kit",
+                category: "Social Media Design",
+                price: 110,
+                rating: 4.8,
+                image: "https://images.unsplash.com/photo-1611224923853-80b023f02d71?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzb2NpYWwlMjBtZWRpYXxlbnwxfHx8fDE3NTg0MTUwMDB8MA&ixlib=rb-4.1.0&q=80&w=1080"
+            },
+            {
+                title: "Travel App Interface",
+                category: "Mobile App Design",
+                price: 220,
+                rating: 4.9,
+                image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0cmF2ZWwlMjBhcHB8ZW58MXx8fHwxNzU4NDE1MDAwfDA&ixlib=rb-4.1.0&q=80&w=1080"
+            },
+            {
+                title: "Corporate Presentation",
+                category: "Presentation Design",
+                price: 140,
+                rating: 4.7,
+                image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwcmVzZW50YXRpb258ZW58MXx8fHwxNzU4NDE1MDAwfDA&ixlib=rb-4.1.0&q=80&w=1080"
+            },
+            {
+                title: "Book Cover Design",
+                category: "Book Design",
+                price: 75,
+                rating: 4.8,
+                image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxib29rJTIwY292ZXJ8ZW58MXx8fHwxNzU4NDE1MDAwfDA&ixlib=rb-4.1.0&q=80&w=1080"
+            },
+            {
+                title: "Banking App UI",
+                category: "Mobile App Design",
+                price: 250,
+                rating: 4.9,
+                image: "https://images.unsplash.com/photo-1555421689-491a97ff2040?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxiYW5raW5nJTIwYXBwfGVufDF8fHx8MTc1ODQxNTAwMHww&ixlib=rb-4.1.0&q=80&w=1080"
+            },
+            {
+                title: "Event Poster Design",
+                category: "Poster Design",
+                price: 90,
+                rating: 4.6,
+                image: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxldmVudCUyMHBvc3RlcnxlbnwxfHx8fDE3NTg0MTUwMDB8MA&ixlib=rb-4.1.0&q=80&w=1080"
+            },
+            {
+                title: "SaaS Dashboard",
+                category: "Web Design",
+                price: 280,
+                rating: 5.0,
+                image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzYWFzJTIwZGFzaGJvYXJkfGVufDF8fHx8MTc1ODQxNTAwMHww&ixlib=rb-4.1.0&q=80&w=1080"
+            },
+            {
+                title: "Podcast Cover Art",
+                category: "Cover Design",
+                price: 65,
+                rating: 4.7,
+                image: "https://images.unsplash.com/photo-1586717791821-3f44a563fa4c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwb2RjYXN0JTIwY292ZXJ8ZW58MXx8fHwxNzU4NDE1MDAwfDA&ixlib=rb-4.1.0&q=80&w=1080"
+            },
+            {
+                title: "Real Estate Brochure",
+                category: "Brochure Design",
+                price: 120,
+                rating: 4.8,
+                image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxyZWFsJTIwZXN0YXRlfGVufDF8fHx8MTc1ODQxNTAwMHww&ixlib=rb-4.1.0&q=80&w=1080"
+            },
+            {
+                title: "Music Streaming App",
+                category: "Mobile App Design",
+                price: 190,
+                rating: 4.9,
+                image: "https://images.unsplash.com/photo-1611224923853-80b023f02d71?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtdXNpYyUyMGFwcHxlbnwxfHx8fDE3NTg0MTUwMDB8MA&ixlib=rb-4.1.0&q=80&w=1080"
+            },
+            {
+                title: "Fashion Brand Identity",
+                category: "Brand Design",
+                price: 350,
+                rating: 5.0,
+                image: "https://images.unsplash.com/photo-1586717791821-3f44a563fa4c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxmYXNoaW9uJTIwYnJhbmR8ZW58MXx8fHwxNzU4NDE1MDAwfDA&ixlib=rb-4.1.0&q=80&w=1080"
+            },
+            {
+                title: "Newsletter Template",
+                category: "Email Design",
+                price: 80,
+                rating: 4.6,
+                image: "https://images.unsplash.com/photo-1555421689-491a97ff2040?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxuZXdzbGV0dGVyfGVufDF8fHx8MTc1ODQxNTAwMHww&ixlib=rb-4.1.0&q=80&w=1080"
+            },
+            {
+                title: "Gaming Website",
+                category: "Web Design",
+                price: 320,
+                rating: 4.8,
+                image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxnYW1pbmclMjB3ZWJzaXRlfGVufDF8fHx8MTc1ODQxNTAwMHww&ixlib=rb-4.1.0&q=80&w=1080"
+            },
+            {
+                title: "Business Card Set",
+                category: "Print Design",
+                price: 70,
+                rating: 4.7,
+                image: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxidXNpbmVzcyUyMGNhcmR8ZW58MXx8fHwxNzU4NDE1MDAwfDA&ixlib=rb-4.1.0&q=80&w=1080"
+            },
+            {
+                title: "Healthcare App UI",
+                category: "Mobile App Design",
+                price: 200,
+                rating: 4.9,
+                image: "https://images.unsplash.com/photo-1611224923853-80b023f02d71?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxoZWFsdGhjYXJlJTIwYXBwfGVufDF8fHx8MTc1ODQxNTAwMHww&ixlib=rb-4.1.0&q=80&w=1080"
+            },
+            {
+                title: "Startup Pitch Deck",
+                category: "Presentation Design",
+                price: 180,
+                rating: 4.8,
+                image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwaXRjaCUyMGRlY2t8ZW58MXx8fHwxNzU4NDE1MDAwfDA&ixlib=rb-4.1.0&q=80&w=1080"
+            },
+            {
+                title: "Annual Report Design",
+                category: "Print Design",
+                price: 260,
+                rating: 4.9,
+                image: "https://images.unsplash.com/photo-1586717791821-3f44a563fa4c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxhbm51YWwlMjByZXBvcnR8ZW58MXx8fHwxNzU4NDE1MDAwfDA&ixlib=rb-4.1.0&q=80&w=1080"
+            }
+        ];
+
+        // Pagination variables
+        let currentPage = 1;
+        const designsPerPage = 4;
+        const totalPages = Math.ceil(allDesigns.length / designsPerPage);
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            lucide.createIcons();
+            renderDesigns();
+            renderPagination();
+            updatePageInfo();
+        });
+
+        // Render designs for current page
+        function renderDesigns() {
+            const startIndex = (currentPage - 1) * designsPerPage;
+            const endIndex = startIndex + designsPerPage;
+            const currentDesigns = allDesigns.slice(startIndex, endIndex);
+            
+            const designsGrid = document.getElementById('designsGrid');
+            designsGrid.innerHTML = '';
+            
+            currentDesigns.forEach(design => {
+                const designCard = createDesignCard(design);
+                designsGrid.appendChild(designCard);
+            });
+            
+            // Reinitialize Lucide icons for new content
+            lucide.createIcons();
+        }
+
+        // Create design card element
+        function createDesignCard(design) {
+            const card = document.createElement('div');
+            card.className = 'design-card';
+            card.innerHTML = `
+                <div class="design-image">
+                    <img src="${design.image}" alt="${design.title}" class="design-img">
+                </div>
+                <div class="design-info">
+                    <h3 class="design-title">${design.title}</h3>
+                    <p class="design-category">${design.category}</p>
+                    <div class="design-meta">
+                        <span class="design-price">${design.price}</span>
+                        <div class="design-rating">
+                            <i data-lucide="star" class="icon-xs star-filled"></i>
+                            <span>${design.rating}</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            card.addEventListener('click', function() {
+                alert(`Opening design: ${design.title}`);
+            });
+            
+            return card;
+        }
+
+        // Render pagination numbers
+        function renderPagination() {
+            const paginationNumbers = document.getElementById('paginationNumbers');
+            paginationNumbers.innerHTML = '';
+            
+            // Calculate visible page range
+            const maxVisiblePages = 5;
+            let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+            let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+            
+            // Adjust start page if we're near the end
+            if (endPage - startPage < maxVisiblePages - 1) {
+                startPage = Math.max(1, endPage - maxVisiblePages + 1);
+            }
+            
+            // Add first page and ellipsis if needed
+            if (startPage > 1) {
+                paginationNumbers.appendChild(createPageButton(1));
+                if (startPage > 2) {
+                    const ellipsis = document.createElement('span');
+                    ellipsis.className = 'pagination-ellipsis';
+                    ellipsis.textContent = '...';
+                    paginationNumbers.appendChild(ellipsis);
+                }
+            }
+            
+            // Add visible page numbers
+            for (let i = startPage; i <= endPage; i++) {
+                paginationNumbers.appendChild(createPageButton(i));
+            }
+            
+            // Add last page and ellipsis if needed
+            if (endPage < totalPages) {
+                if (endPage < totalPages - 1) {
+                    const ellipsis = document.createElement('span');
+                    ellipsis.className = 'pagination-ellipsis';
+                    ellipsis.textContent = '...';
+                    paginationNumbers.appendChild(ellipsis);
+                }
+                paginationNumbers.appendChild(createPageButton(totalPages));
+            }
+        }
+
+        // Create page button
+        function createPageButton(page) {
+            const button = document.createElement('button');
+            button.className = `pagination-number ${page === currentPage ? 'active' : ''}`;
+            button.textContent = page;
+            button.onclick = () => goToPage(page);
+            return button;
+        }
+
+        // Change page by offset
+        function changePage(offset) {
+            const newPage = currentPage + offset;
+            if (newPage >= 1 && newPage <= totalPages) {
+                goToPage(newPage);
+            }
+        }
+
+        // Go to specific page
+        function goToPage(page) {
+            if (page >= 1 && page <= totalPages && page !== currentPage) {
+                currentPage = page;
+                renderDesigns();
+                renderPagination();
+                updatePageInfo();
+                updateNavigationButtons();
+                
+                // Scroll to designs section
+                document.querySelector('.designs-section').scrollIntoView({ 
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        }
+
+        // Update page info
+        function updatePageInfo() {
+            document.getElementById('currentPage').textContent = currentPage;
+            document.getElementById('totalPages').textContent = totalPages;
+        }
+
+        // Update navigation buttons
+        function updateNavigationButtons() {
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            
+            prevBtn.disabled = currentPage === 1;
+            nextBtn.disabled = currentPage === totalPages;
+        }
+
+        // Contact artist functionality
+        function contactArtist() {
+            alert('Opening contact form for Alexandra Chen...');
+        }
+    </script>
+</body>
+</html>

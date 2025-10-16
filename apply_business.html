@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Business Account - Graphio</title>
+    <link rel="stylesheet" href="apply_business.css">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+</head>
+<body>
+    <div class="page-container">
+        <!-- Header -->
+        <header class="business-header">
+            <div class="header-content">
+                <a href="index.html" class="logo">
+                    <span class="logo-text">Graphio</span>
+                    <span class="business-badge">Business</span>
+                </a>
+                
+                <nav class="header-nav">
+                    <a href="login_business.html" class="nav-link">Already have an account?</a>
+                    <a href="index.html" class="nav-link">Back to Main Site</a>
+                </nav>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="apply-container">
+                <!-- Left Side - Form -->
+                <div class="application-section">
+                    <div class="application-form-container">
+                        <div class="application-header">
+                            <div class="application-icon">
+                                <i data-lucide="building" class="icon-lg"></i>
+                            </div>
+                            <h1 class="application-title">Create Business Account</h1>
+                            <p class="application-subtitle">Join thousands of businesses using Graphio to find exceptional design talent and grow their brands.</p>
+                        </div>
+
+                        <form class="application-form" id="businessApplicationForm" enctype="multipart/form-data">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="companyName" class="form-label">
+                                        <i data-lucide="building-2" class="icon-sm"></i>
+                                        Company Name *
+                                    </label>
+                                    <input 
+                                        type="text" 
+                                        id="companyName" 
+                                        name="companyName" 
+                                        class="form-input" 
+                                        placeholder="Enter your company name"
+                                        required
+                                    >
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="companyEmail" class="form-label">
+                                        <i data-lucide="mail" class="icon-sm"></i>
+                                        Company Email *
+                                    </label>
+                                    <input 
+                                        type="email" 
+                                        id="companyEmail" 
+                                        name="companyEmail" 
+                                        class="form-input" 
+                                        placeholder="company@example.com"
+                                        required
+                                    >
+                                    <div class="input-hint">We'll use this email for account verification and important updates</div>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="companyPin" class="form-label">
+                                        <i data-lucide="lock" class="icon-sm"></i>
+                                        Create Company PIN *
+                                    </label>
+                                    <input 
+                                        type="password" 
+                                        id="companyPin" 
+                                        name="companyPin" 
+                                        class="form-input" 
+                                        placeholder="Create a 6-digit PIN"
+                                        maxlength="6"
+                                        pattern="[0-9]{6}"
+                                        required
+                                    >
+                                    <div class="input-hint">Choose a secure 6-digit PIN for account access</div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="confirmPin" class="form-label">
+                                        <i data-lucide="lock" class="icon-sm"></i>
+                                        Confirm PIN *
+                                    </label>
+                                    <input 
+                                        type="password" 
+                                        id="confirmPin" 
+                                        name="confirmPin" 
+                                        class="form-input" 
+                                        placeholder="Confirm your 6-digit PIN"
+                                        maxlength="6"
+                                        pattern="[0-9]{6}"
+                                        required
+                                    >
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="companyLogo" class="form-label">
+                                        <i data-lucide="image" class="icon-sm"></i>
+                                        Company Logo *
+                                    </label>
+                                    <div class="file-upload-container">
+                                        <input 
+                                            type="file" 
+                                            id="companyLogo" 
+                                            name="companyLogo" 
+                                            class="file-input" 
+                                            accept="image/*"
+                                            required
+                                        >
+                                        <div class="file-upload-area" id="fileUploadArea">
+                                            <div class="upload-content">
+                                                <i data-lucide="upload-cloud" class="upload-icon"></i>
+                                                <div class="upload-text">
+                                                    <span class="upload-primary">Click to upload company logo</span>
+                                                    <span class="upload-secondary">or drag and drop</span>
+                                                </div>
+                                                <div class="upload-formats">PNG, JPG, GIF up to 10MB</div>
+                                            </div>
+                                        </div>
+                                        <div class="file-preview" id="filePreview" style="display: none;">
+                                            <img id="logoPreview" src="" alt="Company Logo Preview" class="logo-preview">
+                                            <div class="file-info">
+                                                <div class="file-name" id="fileName"></div>
+                                                <button type="button" class="remove-file" id="removeFile">
+                                                    <i data-lucide="x" class="icon-sm"></i>
+                                                    Remove
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="terms-section">
+                                <label class="checkbox-container">
+                                    <input type="checkbox" id="agreeTerms" name="agreeTerms" required>
+                                    <span class="checkmark"></span>
+                                    <span class="terms-text">
+                                        I agree to the <a href="#" class="terms-link">Terms of Service</a> and 
+                                        <a href="#" class="terms-link">Privacy Policy</a>
+                                    </span>
+                                </label>
+                            </div>
+
+                            <div class="marketing-section">
+                                <label class="checkbox-container">
+                                    <input type="checkbox" id="marketingEmails" name="marketingEmails">
+                                    <span class="checkmark"></span>
+                                    <span class="marketing-text">
+                                        Send me updates about new designers, features, and business insights
+                                    </span>
+                                </label>
+                            </div>
+
+                            <button type="submit" class="submit-btn">
+                                <i data-lucide="rocket" class="icon-sm"></i>
+                                Create Business Account
+                            </button>
+                        </form>
+
+                        <div class="login-link">
+                            <span>Already have a business account?</span>
+                            <a href="login_business.html" class="signin-link">Sign In</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Side - Success Stories -->
+                <div class="success-section">
+                    <div class="success-container">
+                        <div class="success-header">
+                            <h2 class="success-title">Join Successful Businesses</h2>
+                            <p class="success-subtitle">See how companies like yours are achieving remarkable results with Graphio</p>
+                        </div>
+
+                        <div class="testimonials">
+                            <div class="testimonial-card">
+                                <div class="testimonial-content">
+                                    <div class="quote-icon">
+                                        <i data-lucide="quote" class="icon-md"></i>
+                                    </div>
+                                    <p class="testimonial-text">
+                                        "Graphio helped us find the perfect designer for our rebrand. The quality of work and communication was exceptional."
+                                    </p>
+                                    <div class="testimonial-author">
+                                        <div class="author-info">
+                                            <div class="author-name">Sarah Chen</div>
+                                            <div class="author-title">Marketing Director, TechCorp</div>
+                                        </div>
+                                        <div class="company-logo">
+                                            <i data-lucide="building" class="icon-md"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="testimonial-card">
+                                <div class="testimonial-content">
+                                    <div class="quote-icon">
+                                        <i data-lucide="quote" class="icon-md"></i>
+                                    </div>
+                                    <p class="testimonial-text">
+                                        "We've hired 5 designers through Graphio this year. Each project was delivered on time and exceeded our expectations."
+                                    </p>
+                                    <div class="testimonial-author">
+                                        <div class="author-info">
+                                            <div class="author-name">Michael Rodriguez</div>
+                                            <div class="author-title">Creative Director, StartupXYZ</div>
+                                        </div>
+                                        <div class="company-logo">
+                                            <i data-lucide="zap" class="icon-md"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="process-steps">
+                            <h3 class="process-title">Getting Started is Easy</h3>
+                            <div class="steps-container">
+                                <div class="step">
+                                    <div class="step-number">1</div>
+                                    <div class="step-content">
+                                        <h4 class="step-title">Create Account</h4>
+                                        <p class="step-description">Sign up with your company details</p>
+                                    </div>
+                                </div>
+                                <div class="step">
+                                    <div class="step-number">2</div>
+                                    <div class="step-content">
+                                        <h4 class="step-title">Post Projects</h4>
+                                        <p class="step-description">Describe your design needs</p>
+                                    </div>
+                                </div>
+                                <div class="step">
+                                    <div class="step-number">3</div>
+                                    <div class="step-content">
+                                        <h4 class="step-title">Find Designers</h4>
+                                        <p class="step-description">Review portfolios and hire talent</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="business-footer">
+            <div class="footer-content">
+                <div class="footer-left">
+                    <span class="footer-text">© 2024 Graphio Business. All rights reserved.</span>
+                </div>
+                <div class="footer-right">
+                    <a href="#" class="footer-link">Privacy Policy</a>
+                    <a href="#" class="footer-link">Terms of Service</a>
+                    <a href="#" class="footer-link">Business Support</a>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Initialize Lucide icons
+        document.addEventListener('DOMContentLoaded', function() {
+            lucide.createIcons();
+            setupFileUpload();
+        });
+
+        // File upload functionality
+        function setupFileUpload() {
+            const fileInput = document.getElementById('companyLogo');
+            const fileUploadArea = document.getElementById('fileUploadArea');
+            const filePreview = document.getElementById('filePreview');
+            const logoPreview = document.getElementById('logoPreview');
+            const fileName = document.getElementById('fileName');
+            const removeFile = document.getElementById('removeFile');
+
+            // Click to upload
+            fileUploadArea.addEventListener('click', () => {
+                fileInput.click();
+            });
+
+            // Drag and drop
+            fileUploadArea.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                fileUploadArea.classList.add('dragover');
+            });
+
+            fileUploadArea.addEventListener('dragleave', () => {
+                fileUploadArea.classList.remove('dragover');
+            });
+
+            fileUploadArea.addEventListener('drop', (e) => {
+                e.preventDefault();
+                fileUploadArea.classList.remove('dragover');
+                const files = e.dataTransfer.files;
+                if (files.length > 0) {
+                    handleFileSelect(files[0]);
+                }
+            });
+
+            // File input change
+            fileInput.addEventListener('change', (e) => {
+                if (e.target.files.length > 0) {
+                    handleFileSelect(e.target.files[0]);
+                }
+            });
+
+            // Remove file
+            removeFile.addEventListener('click', () => {
+                fileInput.value = '';
+                filePreview.style.display = 'none';
+                fileUploadArea.style.display = 'flex';
+            });
+
+            function handleFileSelect(file) {
+                if (file && file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        logoPreview.src = e.target.result;
+                        fileName.textContent = file.name;
+                        fileUploadArea.style.display = 'none';
+                        filePreview.style.display = 'flex';
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    alert('Please select a valid image file.');
+                }
+            }
+        }
+
+        // PIN input formatting
+        function setupPinInputs() {
+            const pinInputs = document.querySelectorAll('#companyPin, #confirmPin');
+            pinInputs.forEach(input => {
+                input.addEventListener('input', function(e) {
+                    // Only allow numbers
+                    this.value = this.value.replace(/[^0-9]/g, '');
+                });
+            });
+        }
+
+        setupPinInputs();
+
+        // Form validation
+        function validateForm() {
+            const companyName = document.getElementById('companyName').value.trim();
+            const companyEmail = document.getElementById('companyEmail').value.trim();
+            const companyPin = document.getElementById('companyPin').value;
+            const confirmPin = document.getElementById('confirmPin').value;
+            const companyLogo = document.getElementById('companyLogo').files[0];
+            const agreeTerms = document.getElementById('agreeTerms').checked;
+
+            if (!companyName) {
+                alert('Please enter your company name.');
+                return false;
+            }
+
+            if (!companyEmail) {
+                alert('Please enter your company email.');
+                return false;
+            }
+
+            if (companyPin.length !== 6) {
+                alert('Company PIN must be exactly 6 digits.');
+                return false;
+            }
+
+            if (companyPin !== confirmPin) {
+                alert('PINs do not match. Please check and try again.');
+                return false;
+            }
+
+            if (!companyLogo) {
+                alert('Please upload your company logo.');
+                return false;
+            }
+
+            if (!agreeTerms) {
+                alert('Please agree to the Terms of Service and Privacy Policy.');
+                return false;
+            }
+
+            return true;
+        }
+
+        // Handle form submission
+        document.getElementById('businessApplicationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            if (!validateForm()) {
+                return;
+            }
+
+            // Simulate application process
+            const submitBtn = document.querySelector('.submit-btn');
+            const originalText = submitBtn.innerHTML;
+            
+            submitBtn.innerHTML = '<i data-lucide="loader-2" class="icon-sm animate-spin"></i> Creating Account...';
+            submitBtn.disabled = true;
+            
+            setTimeout(() => {
+                alert('Business account created successfully! Please check your email for verification instructions.');
+                // Here you would typically redirect to a success page or dashboard
+                // window.location.href = 'business_success.html';
+                
+                // Reset button for demo
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+                lucide.createIcons();
+            }, 3000);
+        });
+    </script>
+</body>
+</html>

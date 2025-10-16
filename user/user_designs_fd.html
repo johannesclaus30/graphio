@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Designs - Graphio</title>
+    <link rel="stylesheet" href="user_designs.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+</head>
+<body>
+    <div class="min-h-screen">
+        <!-- Header -->
+        <header class="header">
+            <div class="container">
+                <div class="header-content">
+                    <!-- Logo -->
+                    <div class="logo">
+                        <a href="index.html" class="logo-link">
+                            <div class="logo-text">Graphio</div>
+                        </a>
+                    </div>
+
+                    <!-- Right side buttons -->
+                    <div class="header-buttons">
+                        <button class="btn btn-ghost btn-sm search-btn">
+                            <i data-lucide="search" class="icon-sm"></i>
+                            Search
+                        </button>
+                        <a href="dashboard.html" class="btn btn-outline btn-sm">Dashboard</a>
+                        <div class="profile-menu">
+                            <button class="profile-avatar">
+                                <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxidXNpbmVzcyUyMGxlYWRlcnxlbnwxfHx8fDE3NTg0MDA2OTN8MA&ixlib=rb-4.1.0&q=80&w=1080" alt="Profile" class="avatar-img">
+                                <div class="online-indicator"></div>
+                            </button>
+                        </div>
+                        
+                        <!-- Mobile menu button -->
+                        <button class="btn btn-ghost btn-sm mobile-menu">
+                            <i data-lucide="menu" class="icon-sm"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <!-- Page Header -->
+            <section class="page-header">
+                <div class="container">
+                    <div class="header-content-wrapper">
+                        <div class="breadcrumb">
+                            <a href="profile.html" class="breadcrumb-link">Profile</a>
+                            <i data-lucide="chevron-right" class="breadcrumb-separator"></i>
+                            <span class="breadcrumb-current">My Designs</span>
+                        </div>
+                        
+                        <div class="page-title-section">
+                            <div class="page-info">
+                                <h1 class="page-title">My Designs</h1>
+                                <p class="page-subtitle">Showcase your creative work and portfolio</p>
+                            </div>
+                            <div class="page-actions">
+                                <button class="btn btn-outline" onclick="openFilterModal()">
+                                    <i data-lucide="filter" class="icon-sm"></i>
+                                    Filter
+                                </button>
+                                <button class="btn btn-gradient" onclick="openUploadModal()">
+                                    <i data-lucide="plus" class="icon-sm"></i>
+                                    Upload Design
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Stats Overview -->
+                        <div class="stats-overview">
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i data-lucide="image" class="icon-lg"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <div class="stat-number">24</div>
+                                    <div class="stat-label">Total Designs</div>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i data-lucide="heart" class="icon-lg"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <div class="stat-number">1.2K</div>
+                                    <div class="stat-label">Total Likes</div>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i data-lucide="eye" class="icon-lg"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <div class="stat-number">8.5K</div>
+                                    <div class="stat-label">Total Views</div>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i data-lucide="download" class="icon-lg"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <div class="stat-number">456</div>
+                                    <div class="stat-label">Downloads</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Filters & Sort -->
+            <section class="filters-section">
+                <div class="container">
+                    <div class="filters-wrapper">
+                        <div class="filter-tabs">
+                            <button class="filter-tab active" data-filter="all">All Designs</button>
+                            <button class="filter-tab" data-filter="logo">Logo Design</button>
+                            <button class="filter-tab" data-filter="branding">Branding</button>
+                            <button class="filter-tab" data-filter="print">Print Design</button>
+                            <button class="filter-tab" data-filter="digital">Digital Design</button>
+                            <button class="filter-tab" data-filter="ui-ux">UI/UX</button>
+                        </div>
+                        
+                        <div class="sort-options">
+                            <select class="sort-select">
+                                <option value="newest">Newest First</option>
+                                <option value="oldest">Oldest First</option>
+                                <option value="popular">Most Popular</option>
+                                <option value="views">Most Viewed</option>
+                                <option value="downloads">Most Downloaded</option>
+                            </select>
+                            
+                            <div class="view-options">
+                                <button class="view-btn active" data-view="grid">
+                                    <i data-lucide="grid-3x3" class="icon-sm"></i>
+                                </button>
+                                <button class="view-btn" data-view="list">
+                                    <i data-lucide="list" class="icon-sm"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Designs Grid -->
+            <section class="designs-section">
+                <div class="container">
+                    <div class="designs-grid" id="designs-container">
+                        <!-- Design Card 1 -->
+                        <div class="design-card" data-category="logo">
+                            <div class="design-image">
+                                <img src="https://images.unsplash.com/photo-1686526473156-e8449f0c6765?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHxtb2Rlcm4lMjBsb2dvJTIwZGVzaWdufGVufDF8fHx8MTc1ODIyMzU5M3ww&ixlib=rb-4.1.0&q=80&w=1080" alt="TechStart Brand Identity" class="design-img">
+                                <div class="design-overlay">
+                                    <div class="design-actions">
+                                        <button class="action-btn" title="Preview">
+                                            <i data-lucide="eye" class="icon-sm"></i>
+                                        </button>
+                                        <button class="action-btn" title="Edit">
+                                            <i data-lucide="edit-2" class="icon-sm"></i>
+                                        </button>
+                                        <button class="action-btn" title="Share">
+                                            <i data-lucide="share-2" class="icon-sm"></i>
+                                        </button>
+                                        <button class="action-btn danger" title="Delete">
+                                            <i data-lucide="trash-2" class="icon-sm"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="design-status featured">Featured</div>
+                            </div>
+                            <div class="design-info">
+                                <h3 class="design-title">TechStart Brand Identity</h3>
+                                <p class="design-category">Logo Design</p>
+                                <div class="design-meta">
+                                    <span class="design-date">2 days ago</span>
+                                    <span class="design-price">$25</span>
+                                </div>
+                                <div class="design-stats">
+                                    <span class="stat">
+                                        <i data-lucide="heart" class="icon-xs"></i>
+                                        124
+                                    </span>
+                                    <span class="stat">
+                                        <i data-lucide="eye" class="icon-xs"></i>
+                                        856
+                                    </span>
+                                    <span class="stat">
+                                        <i data-lucide="download" class="icon-xs"></i>
+                                        43
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Design Card 2 -->
+                        <div class="design-card" data-category="branding">
+                            <div class="design-image">
+                                <img src="https://images.unsplash.com/photo-1710799885122-428e63eff691?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxkZXNpZ25lciUyMHBvcnRmb2xpbyUyMGNyZWF0aXZlfGVufDF8fHx8MTc1ODI5MDQ0OXww&ixlib=rb-4.1.0&q=80&w=1080" alt="Restaurant Branding" class="design-img">
+                                <div class="design-overlay">
+                                    <div class="design-actions">
+                                        <button class="action-btn" title="Preview">
+                                            <i data-lucide="eye" class="icon-sm"></i>
+                                        </button>
+                                        <button class="action-btn" title="Edit">
+                                            <i data-lucide="edit-2" class="icon-sm"></i>
+                                        </button>
+                                        <button class="action-btn" title="Share">
+                                            <i data-lucide="share-2" class="icon-sm"></i>
+                                        </button>
+                                        <button class="action-btn danger" title="Delete">
+                                            <i data-lucide="trash-2" class="icon-sm"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="design-info">
+                                <h3 class="design-title">Restaurant Branding Package</h3>
+                                <p class="design-category">Brand Identity</p>
+                                <div class="design-meta">
+                                    <span class="design-date">1 week ago</span>
+                                    <span class="design-price">$89</span>
+                                </div>
+                                <div class="design-stats">
+                                    <span class="stat">
+                                        <i data-lucide="heart" class="icon-xs"></i>
+                                        89
+                                    </span>
+                                    <span class="stat">
+                                        <i data-lucide="eye" class="icon-xs"></i>
+                                        432
+                                    </span>
+                                    <span class="stat">
+                                        <i data-lucide="download" class="icon-xs"></i>
+                                        28
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Design Card 3 -->
+                        <div class="design-card" data-category="print">
+                            <div class="design-image">
+                                <img src="https://images.unsplash.com/photo-1586953208448-b95a79798f07?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxidXNpbmVzcyUyMGNhcmQlMjBkZXNpZ258ZW58MXx8fHwxNzU4MjkwNDQ5fDA&ixlib=rb-4.1.0&q=80&w=1080" alt="Corporate Package" class="design-img">
+                                <div class="design-overlay">
+                                    <div class="design-actions">
+                                        <button class="action-btn" title="Preview">
+                                            <i data-lucide="eye" class="icon-sm"></i>
+                                        </button>
+                                        <button class="action-btn" title="Edit">
+                                            <i data-lucide="edit-2" class="icon-sm"></i>
+                                        </button>
+                                        <button class="action-btn" title="Share">
+                                            <i data-lucide="share-2" class="icon-sm"></i>
+                                        </button>
+                                        <button class="action-btn danger" title="Delete">
+                                            <i data-lucide="trash-2" class="icon-sm"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="design-info">
+                                <h3 class="design-title">Corporate Print Package</h3>
+                                <p class="design-category">Print Design</p>
+                                <div class="design-meta">
+                                    <span class="design-date">2 weeks ago</span>
+                                    <span class="design-price">$35</span>
+                                </div>
+                                <div class="design-stats">
+                                    <span class="stat">
+                                        <i data-lucide="heart" class="icon-xs"></i>
+                                        67
+                                    </span>
+                                    <span class="stat">
+                                        <i data-lucide="eye" class="icon-xs"></i>
+                                        298
+                                    </span>
+                                    <span class="stat">
+                                        <i data-lucide="download" class="icon-xs"></i>
+                                        19
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Design Card 4 -->
+                        <div class="design-card" data-category="ui-ux">
+                            <div class="design-image">
+                                <img src="https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3ZWJzaXRlJTIwZGVzaWdufGVufDF8fHx8MTc1ODI5MDQ0OXww&ixlib=rb-4.1.0&q=80&w=1080" alt="Web App Design" class="design-img">
+                                <div class="design-overlay">
+                                    <div class="design-actions">
+                                        <button class="action-btn" title="Preview">
+                                            <i data-lucide="eye" class="icon-sm"></i>
+                                        </button>
+                                        <button class="action-btn" title="Edit">
+                                            <i data-lucide="edit-2" class="icon-sm"></i>
+                                        </button>
+                                        <button class="action-btn" title="Share">
+                                            <i data-lucide="share-2" class="icon-sm"></i>
+                                        </button>
+                                        <button class="action-btn danger" title="Delete">
+                                            <i data-lucide="trash-2" class="icon-sm"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="design-status trending">Trending</div>
+                            </div>
+                            <div class="design-info">
+                                <h3 class="design-title">Mobile App UI Kit</h3>
+                                <p class="design-category">UI/UX Design</p>
+                                <div class="design-meta">
+                                    <span class="design-date">3 weeks ago</span>
+                                    <span class="design-price">$65</span>
+                                </div>
+                                <div class="design-stats">
+                                    <span class="stat">
+                                        <i data-lucide="heart" class="icon-xs"></i>
+                                        156
+                                    </span>
+                                    <span class="stat">
+                                        <i data-lucide="eye" class="icon-xs"></i>
+                                        1.2K
+                                    </span>
+                                    <span class="stat">
+                                        <i data-lucide="download" class="icon-xs"></i>
+                                        78
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Design Card 5 -->
+                        <div class="design-card" data-category="digital">
+                            <div class="design-image">
+                                <img src="https://images.unsplash.com/photo-1634987902283-62cbcb4ee8d0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwYWNrYWdpbmclMjBkZXNpZ258ZW58MXx8fHwxNzU4NDE1MDAwfDA&ixlib=rb-4.1.0&q=80&w=1080" alt="Product Packaging" class="design-img">
+                                <div class="design-overlay">
+                                    <div class="design-actions">
+                                        <button class="action-btn" title="Preview">
+                                            <i data-lucide="eye" class="icon-sm"></i>
+                                        </button>
+                                        <button class="action-btn" title="Edit">
+                                            <i data-lucide="edit-2" class="icon-sm"></i>
+                                        </button>
+                                        <button class="action-btn" title="Share">
+                                            <i data-lucide="share-2" class="icon-sm"></i>
+                                        </button>
+                                        <button class="action-btn danger" title="Delete">
+                                            <i data-lucide="trash-2" class="icon-sm"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="design-info">
+                                <h3 class="design-title">Product Packaging Design</h3>
+                                <p class="design-category">Digital Design</p>
+                                <div class="design-meta">
+                                    <span class="design-date">1 month ago</span>
+                                    <span class="design-price">$45</span>
+                                </div>
+                                <div class="design-stats">
+                                    <span class="stat">
+                                        <i data-lucide="heart" class="icon-xs"></i>
+                                        92
+                                    </span>
+                                    <span class="stat">
+                                        <i data-lucide="eye" class="icon-xs"></i>
+                                        567
+                                    </span>
+                                    <span class="stat">
+                                        <i data-lucide="download" class="icon-xs"></i>
+                                        34
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Design Card 6 -->
+                        <div class="design-card" data-category="digital">
+                            <div class="design-image">
+                                <img src="https://images.unsplash.com/photo-1611224923853-80b023f02d71?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzb2NpYWwlMjBtZWRpYSUyMGRlc2lnbnxlbnwxfHx8fDE3NTg0MTUwMDB8MA&ixlib=rb-4.1.0&q=80&w=1080" alt="Social Media Graphics" class="design-img">
+                                <div class="design-overlay">
+                                    <div class="design-actions">
+                                        <button class="action-btn" title="Preview">
+                                            <i data-lucide="eye" class="icon-sm"></i>
+                                        </button>
+                                        <button class="action-btn" title="Edit">
+                                            <i data-lucide="edit-2" class="icon-sm"></i>
+                                        </button>
+                                        <button class="action-btn" title="Share">
+                                            <i data-lucide="share-2" class="icon-sm"></i>
+                                        </button>
+                                        <button class="action-btn danger" title="Delete">
+                                            <i data-lucide="trash-2" class="icon-sm"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="design-info">
+                                <h3 class="design-title">Social Media Template Pack</h3>
+                                <p class="design-category">Digital Design</p>
+                                <div class="design-meta">
+                                    <span class="design-date">1 month ago</span>
+                                    <span class="design-price">$29</span>
+                                </div>
+                                <div class="design-stats">
+                                    <span class="stat">
+                                        <i data-lucide="heart" class="icon-xs"></i>
+                                        78
+                                    </span>
+                                    <span class="stat">
+                                        <i data-lucide="eye" class="icon-xs"></i>
+                                        423
+                                    </span>
+                                    <span class="stat">
+                                        <i data-lucide="download" class="icon-xs"></i>
+                                        56
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Load More -->
+                    <div class="load-more-section">
+                        <button class="btn btn-outline btn-lg load-more-btn">
+                            Load More Designs
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-section">
+                        <h3 class="footer-title">Graphio</h3>
+                        <p class="footer-description">
+                            The leading marketplace for creative professionals. Connect, create, and grow your design business.
+                        </p>
+                        <div class="footer-social">
+                            <a href="#" class="social-link">
+                                <i data-lucide="twitter" class="icon-sm"></i>
+                            </a>
+                            <a href="#" class="social-link">
+                                <i data-lucide="facebook" class="icon-sm"></i>
+                            </a>
+                            <a href="#" class="social-link">
+                                <i data-lucide="instagram" class="icon-sm"></i>
+                            </a>
+                            <a href="#" class="social-link">
+                                <i data-lucide="linkedin" class="icon-sm"></i>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="footer-section">
+                        <h4 class="footer-subtitle">For Designers</h4>
+                        <ul class="footer-links">
+                            <li><a href="#" class="footer-link">Join as Designer</a></li>
+                            <li><a href="#" class="footer-link">Designer Resources</a></li>
+                            <li><a href="#" class="footer-link">Success Stories</a></li>
+                            <li><a href="#" class="footer-link">Portfolio Tips</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="footer-section">
+                        <h4 class="footer-subtitle">For Clients</h4>
+                        <ul class="footer-links">
+                            <li><a href="#" class="footer-link">Find Designers</a></li>
+                            <li><a href="#" class="footer-link">Post Project</a></li>
+                            <li><a href="#" class="footer-link">How It Works</a></li>
+                            <li><a href="#" class="footer-link">Client Guide</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="footer-section">
+                        <h4 class="footer-subtitle">Company</h4>
+                        <ul class="footer-links">
+                            <li><a href="about.html" class="footer-link">About Us</a></li>
+                            <li><a href="careers.html" class="footer-link">Careers</a></li>
+                            <li><a href="#" class="footer-link">Press</a></li>
+                            <li><a href="#" class="footer-link">Contact</a></li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="footer-bottom">
+                    <div class="footer-copyright">
+                        © 2025 Graphio Studio. All rights reserved.
+                    </div>
+                    <div class="footer-legal">
+                        <a href="#" class="legal-link">Privacy Policy</a>
+                        <a href="#" class="legal-link">Terms of Service</a>
+                        <a href="#" class="legal-link">Cookie Policy</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Initialize Lucide icons
+        document.addEventListener('DOMContentLoaded', function() {
+            lucide.createIcons();
+        });
+
+        // Filter functionality
+        document.querySelectorAll('.filter-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                // Remove active class from all tabs
+                document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+                // Add active class to clicked tab
+                this.classList.add('active');
+                
+                const filter = this.getAttribute('data-filter');
+                const designs = document.querySelectorAll('.design-card');
+                
+                designs.forEach(design => {
+                    if (filter === 'all' || design.getAttribute('data-category') === filter) {
+                        design.style.display = 'block';
+                    } else {
+                        design.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // View toggle functionality
+        document.querySelectorAll('.view-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                
+                const view = this.getAttribute('data-view');
+                const container = document.getElementById('designs-container');
+                
+                if (view === 'list') {
+                    container.classList.add('list-view');
+                } else {
+                    container.classList.remove('list-view');
+                }
+            });
+        });
+
+        // Modal functions (placeholders)
+        function openFilterModal() {
+            alert('Filter modal would open here');
+        }
+
+        function openUploadModal() {
+            alert('Upload design modal would open here');
+        }
+
+        // Load more functionality
+        document.querySelector('.load-more-btn').addEventListener('click', function() {
+            this.innerHTML = '<i data-lucide="loader-2" class="icon-sm animate-spin"></i> Loading...';
+            
+            // Simulate loading
+            setTimeout(() => {
+                this.innerHTML = 'Load More Designs';
+                alert('More designs would be loaded here');
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

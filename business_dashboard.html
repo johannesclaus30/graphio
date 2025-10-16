@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Business Dashboard - Graphio</title>
+    <link rel="stylesheet" href="business_dashboard.css">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Header -->
+        <header class="dashboard-header">
+            <div class="header-content">
+                <div class="header-left">
+                    <a href="index.html" class="logo">
+                        <span class="logo-text">Graphio</span>
+                        <span class="business-badge">Business</span>
+                    </a>
+                </div>
+                
+                <div class="header-right">
+                    <div class="company-menu" id="companyMenu">
+                        <button class="company-logo-btn" id="companyLogoBtn">
+                            <img src="https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=100&h=100&fit=crop&crop=center" 
+                                 alt="Company Logo" class="company-logo">
+                            <i data-lucide="chevron-down" class="menu-arrow"></i>
+                        </button>
+                        <div class="company-dropdown" id="companyDropdown">
+                            <div class="dropdown-header">
+                                <img src="https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=60&h=60&fit=crop&crop=center" 
+                                     alt="Company Logo" class="dropdown-logo">
+                                <div class="company-info">
+                                    <div class="company-name">TechCorp Inc.</div>
+                                    <div class="company-email">admin@techcorp.com</div>
+                                </div>
+                            </div>
+                            <div class="dropdown-separator"></div>
+                            <a href="#" class="dropdown-item" onclick="showAccountSettings()">
+                                <i data-lucide="settings" class="dropdown-icon"></i>
+                                Account Settings
+                            </a>
+                            <a href="#" class="dropdown-item">
+                                <i data-lucide="user" class="dropdown-icon"></i>
+                                Company Profile
+                            </a>
+                            <a href="#" class="dropdown-item">
+                                <i data-lucide="help-circle" class="dropdown-icon"></i>
+                                Help & Support
+                            </a>
+                            <div class="dropdown-separator"></div>
+                            <a href="login_business.html" class="dropdown-item sign-out">
+                                <i data-lucide="log-out" class="dropdown-icon"></i>
+                                Sign Out
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="dashboard-main">
+            <!-- Sidebar Navigation -->
+            <aside class="dashboard-sidebar">
+                <nav class="sidebar-nav">
+                    <button class="nav-item active" data-section="overview">
+                        <i data-lucide="layout-dashboard" class="nav-icon"></i>
+                        <span class="nav-label">Overview</span>
+                    </button>
+                    <button class="nav-item" data-section="positions">
+                        <i data-lucide="briefcase" class="nav-icon"></i>
+                        <span class="nav-label">Job Positions</span>
+                    </button>
+                    <button class="nav-item" data-section="applications">
+                        <i data-lucide="users" class="nav-icon"></i>
+                        <span class="nav-label">Applications</span>
+                        <span class="notification-badge">12</span>
+                    </button>
+
+                    <button class="nav-item" data-section="settings">
+                        <i data-lucide="settings" class="nav-icon"></i>
+                        <span class="nav-label">Settings</span>
+                    </button>
+                </nav>
+            </aside>
+
+            <!-- Content Area -->
+            <div class="dashboard-content">
+                <!-- Overview Section -->
+                <section class="content-section active" id="overview">
+                    <div class="section-header">
+                        <h1 class="section-title">Dashboard Overview</h1>
+                        <p class="section-subtitle">Welcome back! Here's what's happening with your hiring.</p>
+                    </div>
+
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i data-lucide="briefcase" class="icon"></i>
+                            </div>
+                            <div class="stat-content">
+                                <div class="stat-number">8</div>
+                                <div class="stat-label">Active Positions</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i data-lucide="users" class="icon"></i>
+                            </div>
+                            <div class="stat-content">
+                                <div class="stat-number">47</div>
+                                <div class="stat-label">Total Applications</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i data-lucide="user-check" class="icon"></i>
+                            </div>
+                            <div class="stat-content">
+                                <div class="stat-number">12</div>
+                                <div class="stat-label">New Applications</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i data-lucide="star" class="icon"></i>
+                            </div>
+                            <div class="stat-content">
+                                <div class="stat-number">5</div>
+                                <div class="stat-label">Shortlisted</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="overview-grid">
+                        <div class="overview-card">
+                            <div class="card-header">
+                                <h3 class="card-title">Recent Applications</h3>
+                                <a href="#" class="view-all-link" onclick="showSection('applications')">View All</a>
+                            </div>
+                            <div class="application-list">
+                                <div class="application-item">
+                                    <div class="applicant-avatar">
+                                        <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=40&h=40&fit=crop&crop=face" alt="Sarah Chen">
+                                    </div>
+                                    <div class="applicant-info">
+                                        <div class="applicant-name">Sarah Chen</div>
+                                        <div class="application-position">Senior UI/UX Designer</div>
+                                    </div>
+                                </div>
+                                <div class="application-item">
+                                    <div class="applicant-avatar">
+                                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=40&h=40&fit=crop&crop=face" alt="Michael Rodriguez">
+                                    </div>
+                                    <div class="applicant-info">
+                                        <div class="applicant-name">Michael Rodriguez</div>
+                                        <div class="application-position">Brand Designer</div>
+                                    </div>
+                                </div>
+                                <div class="application-item">
+                                    <div class="applicant-avatar">
+                                        <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=40&h=40&fit=crop&crop=face" alt="Emily Johnson">
+                                    </div>
+                                    <div class="applicant-info">
+                                        <div class="applicant-name">Emily Johnson</div>
+                                        <div class="application-position">Graphic Designer</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="overview-card">
+                            <div class="card-header">
+                                <h3 class="card-title">Active Job Positions</h3>
+                                <a href="#" class="view-all-link" onclick="showSection('positions')">Manage</a>
+                            </div>
+                            <div class="position-list">
+                                <div class="position-item">
+                                    <div class="position-info">
+                                        <div class="position-title">Senior UI/UX Designer</div>
+                                        <div class="position-meta">
+                                            <span class="position-location">Remote</span>
+                                            <span class="position-applications">15 applications</span>
+                                        </div>
+                                    </div>
+                                    <div class="position-status active">Active</div>
+                                </div>
+                                <div class="position-item">
+                                    <div class="position-info">
+                                        <div class="position-title">Brand Designer</div>
+                                        <div class="position-meta">
+                                            <span class="position-location">New York, NY</span>
+                                            <span class="position-applications">8 applications</span>
+                                        </div>
+                                    </div>
+                                    <div class="position-status active">Active</div>
+                                </div>
+                                <div class="position-item">
+                                    <div class="position-info">
+                                        <div class="position-title">Graphic Designer</div>
+                                        <div class="position-meta">
+                                            <span class="position-location">San Francisco, CA</span>
+                                            <span class="position-applications">12 applications</span>
+                                        </div>
+                                    </div>
+                                    <div class="position-status active">Active</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Job Positions Section -->
+                <section class="content-section" id="positions">
+                    <div class="section-header">
+                        <h1 class="section-title">Job Positions</h1>
+                        <button class="primary-btn" onclick="showCreatePositionModal()">
+                            <i data-lucide="plus" class="btn-icon"></i>
+                            Post New Position
+                        </button>
+                    </div>
+
+                    <div class="positions-grid">
+                        <div class="position-card">
+                            <div class="position-card-header">
+                                <div class="position-title">Senior UI/UX Designer</div>
+                                <div class="position-actions">
+                                    <button class="action-btn" onclick="showCreatePositionModal()">
+                                        <i data-lucide="edit" class="action-icon"></i>
+                                    </button>
+                                    <button class="action-btn" onclick="deletePosition(1)">
+                                        <i data-lucide="trash" class="action-icon"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="position-details">
+                                <div class="detail-item">
+                                    <i data-lucide="map-pin" class="detail-icon"></i>
+                                    <span>Remote</span>
+                                </div>
+                                <div class="detail-item">
+                                    <i data-lucide="calendar" class="detail-icon"></i>
+                                    <span>Posted 3 days ago</span>
+                                </div>
+                                <div class="detail-item">
+                                    <i data-lucide="users" class="detail-icon"></i>
+                                    <span>15 applications</span>
+                                </div>
+                            </div>
+                            <div class="position-footer">
+                                <div class="position-status active">Active</div>
+                                <button class="secondary-btn" onclick="viewApplications(1)">View Applications</button>
+                            </div>
+                        </div>
+
+                        <div class="position-card">
+                            <div class="position-card-header">
+                                <div class="position-title">Brand Designer</div>
+                                <div class="position-actions">
+                                    <button class="action-btn" onclick="editPosition(2)">
+                                        <i data-lucide="edit" class="action-icon"></i>
+                                    </button>
+                                    <button class="action-btn" onclick="deletePosition(2)">
+                                        <i data-lucide="trash" class="action-icon"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="position-details">
+                                <div class="detail-item">
+                                    <i data-lucide="map-pin" class="detail-icon"></i>
+                                    <span>New York, NY</span>
+                                </div>
+                                <div class="detail-item">
+                                    <i data-lucide="calendar" class="detail-icon"></i>
+                                    <span>Posted 1 week ago</span>
+                                </div>
+                                <div class="detail-item">
+                                    <i data-lucide="users" class="detail-icon"></i>
+                                    <span>8 applications</span>
+                                </div>
+                            </div>
+                            <div class="position-footer">
+                                <div class="position-status active">Active</div>
+                                <button class="secondary-btn" onclick="viewApplications(2)">View Applications</button>
+                            </div>
+                        </div>
+
+                        <div class="position-card">
+                            <div class="position-card-header">
+                                <div class="position-title">Graphic Designer</div>
+                                <div class="position-actions">
+                                    <button class="action-btn" onclick="editPosition(3)">
+                                        <i data-lucide="edit" class="action-icon"></i>
+                                    </button>
+                                    <button class="action-btn" onclick="deletePosition(3)">
+                                        <i data-lucide="trash" class="action-icon"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="position-details">
+                                <div class="detail-item">
+                                    <i data-lucide="map-pin" class="detail-icon"></i>
+                                    <span>San Francisco, CA</span>
+                                </div>
+                                <div class="detail-item">
+                                    <i data-lucide="calendar" class="detail-icon"></i>
+                                    <span>Posted 2 weeks ago</span>
+                                </div>
+                                <div class="detail-item">
+                                    <i data-lucide="users" class="detail-icon"></i>
+                                    <span>12 applications</span>
+                                </div>
+                            </div>
+                            <div class="position-footer">
+                                <div class="position-status active">Active</div>
+                                <button class="secondary-btn" onclick="viewApplications(3)">View Applications</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Pagination for Job Positions -->
+                    <div class="pagination-container">
+                        <div class="pagination-info">
+                            <span>Showing <span id="positionsStart">1</span>-<span id="positionsEnd">3</span> of <span id="positionsTotal">3</span> positions</span>
+                        </div>
+                        <div class="pagination-controls">
+                            <button class="pagination-btn" id="positionsPrevBtn" onclick="changePage('positions', -1)" disabled>
+                                <i data-lucide="chevron-left" class="pagination-icon"></i>
+                                Previous
+                            </button>
+                            <div class="pagination-numbers" id="positionsPagination">
+                                <button class="pagination-number active" onclick="goToPage('positions', 1)">1</button>
+                            </div>
+                            <button class="pagination-btn" id="positionsNextBtn" onclick="changePage('positions', 1)" disabled>
+                                Next
+                                <i data-lucide="chevron-right" class="pagination-icon"></i>
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Applications Section -->
+                <section class="content-section" id="applications">
+                    <div class="section-header">
+                        <h1 class="section-title">Applications</h1>
+                        <div class="filter-controls">
+                            <select class="filter-select" id="positionFilter">
+                                <option value="">All Positions</option>
+                                <option value="senior-ui-ux">Senior UI/UX Designer</option>
+                                <option value="brand-designer">Brand Designer</option>
+                                <option value="graphic-designer">Graphic Designer</option>
+                            </select>
+
+                        </div>
+                    </div>
+
+                    <div class="applications-table">
+                        <div class="table-header">
+                            <div class="header-cell">Applicant</div>
+                            <div class="header-cell">Position</div>
+                            <div class="header-cell">Applied Date</div>
+                            <div class="header-cell">Actions</div>
+                        </div>
+                        <div class="table-body">
+                            <div class="table-row">
+                                <div class="table-cell">
+                                    <div class="applicant-info">
+                                        <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=40&h=40&fit=crop&crop=face" alt="Sarah Chen" class="applicant-avatar">
+                                        <div class="applicant-details">
+                                            <div class="applicant-name">Sarah Chen</div>
+                                            <div class="applicant-email">sarah.chen@email.com</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="table-cell">Senior UI/UX Designer</div>
+                                <div class="table-cell">Dec 15, 2024</div>
+                                <div class="table-cell">
+                                    <div class="action-buttons">
+                                        <button class="action-btn" onclick="viewApplication(1)">
+                                            <i data-lucide="eye" class="action-icon"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="table-row">
+                                <div class="table-cell">
+                                    <div class="applicant-info">
+                                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=40&h=40&fit=crop&crop=face" alt="Michael Rodriguez" class="applicant-avatar">
+                                        <div class="applicant-details">
+                                            <div class="applicant-name">Michael Rodriguez</div>
+                                            <div class="applicant-email">m.rodriguez@email.com</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="table-cell">Brand Designer</div>
+                                <div class="table-cell">Dec 14, 2024</div>
+                                <div class="table-cell">
+                                    <div class="action-buttons">
+                                        <button class="action-btn" onclick="viewApplication(2)">
+                                            <i data-lucide="eye" class="action-icon"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="table-row">
+                                <div class="table-cell">
+                                    <div class="applicant-info">
+                                        <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=40&h=40&fit=crop&crop=face" alt="Emily Johnson" class="applicant-avatar">
+                                        <div class="applicant-details">
+                                            <div class="applicant-name">Emily Johnson</div>
+                                            <div class="applicant-email">emily.j@email.com</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="table-cell">Graphic Designer</div>
+                                <div class="table-cell">Dec 13, 2024</div>
+                                <div class="table-cell">
+                                    <div class="action-buttons">
+                                        <button class="action-btn" onclick="viewApplication(3)">
+                                            <i data-lucide="eye" class="action-icon"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Pagination for Applications -->
+                    <div class="pagination-container">
+                        <div class="pagination-info">
+                            <span>Showing <span id="applicationsStart">1</span>-<span id="applicationsEnd">3</span> of <span id="applicationsTotal">3</span> applications</span>
+                        </div>
+                        <div class="pagination-controls">
+                            <button class="pagination-btn" id="applicationsPrevBtn" onclick="changePage('applications', -1)" disabled>
+                                <i data-lucide="chevron-left" class="pagination-icon"></i>
+                                Previous
+                            </button>
+                            <div class="pagination-numbers" id="applicationsPagination">
+                                <button class="pagination-number active" onclick="goToPage('applications', 1)">1</button>
+                            </div>
+                            <button class="pagination-btn" id="applicationsNextBtn" onclick="changePage('applications', 1)" disabled>
+                                Next
+                                <i data-lucide="chevron-right" class="pagination-icon"></i>
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Settings Section -->
+                <section class="content-section" id="settings">
+                    <div class="section-header">
+                        <h1 class="section-title">Account Settings</h1>
+                        <p class="section-subtitle">Manage your company account and preferences</p>
+                    </div>
+
+                    <div class="settings-grid">
+                        <div class="settings-card">
+                            <div class="settings-header">
+                                <h3 class="settings-title">Company Information</h3>
+                                <button class="edit-btn" onclick="editCompanyInfo()">
+                                    <i data-lucide="edit" class="btn-icon"></i>
+                                    Edit
+                                </button>
+                            </div>
+                            <div class="settings-content">
+                                <div class="info-item">
+                                    <label class="info-label">Company Name</label>
+                                    <div class="info-value">TechCorp Inc.</div>
+                                </div>
+                                <div class="info-item">
+                                    <label class="info-label">Email Address</label>
+                                    <div class="info-value">admin@techcorp.com</div>
+                                </div>
+                                <div class="info-item">
+                                    <label class="info-label">Company Website</label>
+                                    <div class="info-value">www.techcorp.com</div>
+                                </div>
+                                <div class="info-item">
+                                    <label class="info-label">Industry</label>
+                                    <div class="info-value">Technology</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="settings-card">
+                            <div class="settings-header">
+                                <h3 class="settings-title">Notification Preferences</h3>
+                            </div>
+                            <div class="settings-content">
+                                <div class="notification-item">
+                                    <div class="notification-info">
+                                        <div class="notification-title">New Applications</div>
+                                        <div class="notification-desc">Get notified when someone applies to your positions</div>
+                                    </div>
+                                    <label class="switch">
+                                        <input type="checkbox" checked>
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                                <div class="notification-item">
+                                    <div class="notification-info">
+                                        <div class="notification-title">Messages</div>
+                                        <div class="notification-desc">Get notified when you receive new messages</div>
+                                    </div>
+                                    <label class="switch">
+                                        <input type="checkbox" checked>
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                                <div class="notification-item">
+                                    <div class="notification-info">
+                                        <div class="notification-title">Weekly Reports</div>
+                                        <div class="notification-desc">Receive weekly hiring activity reports</div>
+                                    </div>
+                                    <label class="switch">
+                                        <input type="checkbox">
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="settings-card">
+                            <div class="settings-header">
+                                <h3 class="settings-title">Security</h3>
+                            </div>
+                            <div class="settings-content">
+                                <button class="security-btn">
+                                    <i data-lucide="key" class="btn-icon"></i>
+                                    Change PIN
+                                </button>
+                                <button class="security-btn">
+                                    <i data-lucide="shield" class="btn-icon"></i>
+                                    Two-Factor Authentication
+                                </button>
+                                <button class="security-btn">
+                                    <i data-lucide="download" class="btn-icon"></i>
+                                    Download Account Data
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Create Position Modal -->
+    <div class="modal-overlay" id="createPositionModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Post New Position</h2>
+                <button class="modal-close" onclick="closeCreatePositionModal()">
+                    <i data-lucide="x" class="close-icon"></i>
+                </button>
+            </div>
+            <form class="modal-form" id="createPositionForm">
+                <div class="form-group">
+                    <label class="form-label">Position Title *</label>
+                    <input type="text" class="form-input" placeholder="e.g. Senior UI/UX Designer" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Location *</label>
+                    <input type="text" class="form-input" placeholder="e.g. Remote, New York, NY" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Employment Type *</label>
+                    <select class="form-select" required>
+                        <option value="">Select type</option>
+                        <option value="full-time">Full-time</option>
+                        <option value="part-time">Part-time</option>
+                        <option value="contract">Contract</option>
+                        <option value="freelance">Freelance</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Salary Range</label>
+                    <div class="salary-inputs">
+                        <input type="number" class="form-input" placeholder="Min">
+                        <span class="salary-separator">to</span>
+                        <input type="number" class="form-input" placeholder="Max">
+                        <select class="form-select">
+                            <option value="annual">Annual</option>
+                            <option value="monthly">Monthly</option>
+                            <option value="hourly">Hourly</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Job Description *</label>
+                    <textarea class="form-textarea" rows="6" placeholder="Describe the role, responsibilities, and requirements..." required></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Required Skills</label>
+                    <input type="text" class="form-input" placeholder="e.g. Figma, Adobe Creative Suite, Prototyping">
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="secondary-btn" onclick="closeCreatePositionModal()">Cancel</button>
+                    <button type="submit" class="primary-btn">
+                        <i data-lucide="check" class="btn-icon"></i>
+                        Post Position
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Lucide icons
+        document.addEventListener('DOMContentLoaded', function() {
+            lucide.createIcons();
+            setupEventListeners();
+        });
+
+        function setupEventListeners() {
+            // Company menu toggle
+            const companyLogoBtn = document.getElementById('companyLogoBtn');
+            const companyDropdown = document.getElementById('companyDropdown');
+
+            companyLogoBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                companyDropdown.classList.toggle('show');
+            });
+
+            // Close dropdown when clicking outside
+            document.addEventListener('click', () => {
+                companyDropdown.classList.remove('show');
+            });
+
+            // Prevent dropdown from closing when clicking inside
+            companyDropdown.addEventListener('click', (e) => {
+                e.stopPropagation();
+            });
+
+            // Navigation
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    const section = item.dataset.section;
+                    showSection(section);
+                    
+                    // Update active state
+                    navItems.forEach(nav => nav.classList.remove('active'));
+                    item.classList.add('active');
+                });
+            });
+
+            // Create position form
+            const createPositionForm = document.getElementById('createPositionForm');
+            createPositionForm.addEventListener('submit', handleCreatePosition);
+        }
+
+        function showSection(sectionId) {
+            // Hide all sections
+            const sections = document.querySelectorAll('.content-section');
+            sections.forEach(section => section.classList.remove('active'));
+
+            // Show target section
+            const targetSection = document.getElementById(sectionId);
+            if (targetSection) {
+                targetSection.classList.add('active');
+            }
+        }
+
+        function showAccountSettings() {
+            showSection('settings');
+            
+            // Update active nav
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(nav => nav.classList.remove('active'));
+            document.querySelector('[data-section="settings"]').classList.add('active');
+            
+            // Close dropdown
+            document.getElementById('companyDropdown').classList.remove('show');
+        }
+
+        function showCreatePositionModal() {
+            document.getElementById('createPositionModal').classList.add('show');
+        }
+
+        function closeCreatePositionModal() {
+            document.getElementById('createPositionModal').classList.remove('show');
+        }
+
+        function handleCreatePosition(e) {
+            e.preventDefault();
+            
+            // Simulate position creation
+            alert('Position posted successfully!');
+            closeCreatePositionModal();
+            
+            // Reset form
+            e.target.reset();
+        }
+
+        function editPosition(id) {
+            alert(`Edit position ${id}`);
+        }
+
+        function deletePosition(id) {
+            if (confirm('Are you sure you want to delete this position?')) {
+                alert(`Position ${id} deleted`);
+            }
+        }
+
+        function viewApplications(positionId) {
+            showSection('applications');
+            
+            // Update active nav
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(nav => nav.classList.remove('active'));
+            document.querySelector('[data-section="applications"]').classList.add('active');
+        }
+
+        function viewApplication(id) {
+            alert(`View application ${id}`);
+        }
+
+
+
+        function editCompanyInfo() {
+            alert('Edit company information');
+        }
+
+        // Pagination functionality
+        const paginationData = {
+            positions: {
+                currentPage: 1,
+                itemsPerPage: 6,
+                totalItems: 15, // Simulated total
+                data: [] // Would be populated with actual data
+            },
+            applications: {
+                currentPage: 1,
+                itemsPerPage: 10,
+                totalItems: 47, // Simulated total
+                data: [] // Would be populated with actual data
+            }
+        };
+
+        function changePage(section, direction) {
+            const data = paginationData[section];
+            const newPage = data.currentPage + direction;
+            const maxPage = Math.ceil(data.totalItems / data.itemsPerPage);
+
+            if (newPage >= 1 && newPage <= maxPage) {
+                data.currentPage = newPage;
+                updatePaginationDisplay(section);
+                loadPageData(section, newPage);
+            }
+        }
+
+        function goToPage(section, page) {
+            const data = paginationData[section];
+            const maxPage = Math.ceil(data.totalItems / data.itemsPerPage);
+
+            if (page >= 1 && page <= maxPage) {
+                data.currentPage = page;
+                updatePaginationDisplay(section);
+                loadPageData(section, page);
+            }
+        }
+
+        function updatePaginationDisplay(section) {
+            const data = paginationData[section];
+            const maxPage = Math.ceil(data.totalItems / data.itemsPerPage);
+            
+            // Update info display
+            const start = (data.currentPage - 1) * data.itemsPerPage + 1;
+            const end = Math.min(data.currentPage * data.itemsPerPage, data.totalItems);
+            
+            document.getElementById(`${section}Start`).textContent = start;
+            document.getElementById(`${section}End`).textContent = end;
+            document.getElementById(`${section}Total`).textContent = data.totalItems;
+
+            // Update navigation buttons
+            const prevBtn = document.getElementById(`${section}PrevBtn`);
+            const nextBtn = document.getElementById(`${section}NextBtn`);
+            
+            prevBtn.disabled = data.currentPage === 1;
+            nextBtn.disabled = data.currentPage === maxPage;
+
+            // Update page numbers
+            updatePageNumbers(section, data.currentPage, maxPage);
+        }
+
+        function updatePageNumbers(section, currentPage, maxPage) {
+            const container = document.getElementById(`${section}Pagination`);
+            container.innerHTML = '';
+
+            // Show first page
+            if (currentPage > 3) {
+                addPageButton(container, section, 1);
+                if (currentPage > 4) {
+                    addEllipsis(container);
+                }
+            }
+
+            // Show pages around current page
+            const start = Math.max(1, currentPage - 2);
+            const end = Math.min(maxPage, currentPage + 2);
+
+            for (let i = start; i <= end; i++) {
+                addPageButton(container, section, i, i === currentPage);
+            }
+
+            // Show last page
+            if (currentPage < maxPage - 2) {
+                if (currentPage < maxPage - 3) {
+                    addEllipsis(container);
+                }
+                addPageButton(container, section, maxPage);
+            }
+        }
+
+        function addPageButton(container, section, page, isActive = false) {
+            const button = document.createElement('button');
+            button.className = `pagination-number ${isActive ? 'active' : ''}`;
+            button.textContent = page;
+            button.onclick = () => goToPage(section, page);
+            container.appendChild(button);
+        }
+
+        function addEllipsis(container) {
+            const span = document.createElement('span');
+            span.className = 'pagination-ellipsis';
+            span.textContent = '...';
+            container.appendChild(span);
+        }
+
+        function loadPageData(section, page) {
+            // Simulate loading data for the specific page
+            console.log(`Loading ${section} page ${page}`);
+            
+            // In a real application, you would make an API call here
+            // and update the display with the new data
+            
+            // Show loading state
+            showLoadingState(section);
+            
+            // Simulate network delay
+            setTimeout(() => {
+                hideLoadingState(section);
+                // Update the actual content here
+            }, 500);
+        }
+
+        function showLoadingState(section) {
+            const contentArea = section === 'positions' 
+                ? document.querySelector('.positions-grid')
+                : document.querySelector('.applications-table');
+            
+            contentArea.style.opacity = '0.5';
+            contentArea.style.pointerEvents = 'none';
+        }
+
+        function hideLoadingState(section) {
+            const contentArea = section === 'positions' 
+                ? document.querySelector('.positions-grid')
+                : document.querySelector('.applications-table');
+            
+            contentArea.style.opacity = '1';
+            contentArea.style.pointerEvents = 'auto';
+        }
+
+        // Initialize pagination on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            updatePaginationDisplay('positions');
+            updatePaginationDisplay('applications');
+        });
+    </script>
+</body>
+</html>
