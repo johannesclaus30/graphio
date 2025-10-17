@@ -26,6 +26,13 @@ body {
     padding: 0 1rem;
 }
 
+.form-note {
+    display: block;
+    font-size: 0.85rem;
+    color: #555;
+    margin-top: 4px;
+}
+
 
 .graphio-logo {
   align-self: stretch;

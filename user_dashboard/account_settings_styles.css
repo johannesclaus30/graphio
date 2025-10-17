@@ -952,8 +952,7 @@ input:checked + .toggle-slider:before {
     .danger-actions {
         flex-direction: column;
     }
-    
-    
+
     .privacy-item,
     .feature-toggle {
         flex-direction: column;

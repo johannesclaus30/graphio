@@ -1,34 +1,101 @@
 <?php
-
 session_start();
+include("../connections.php");
 
-    $User_Email = $User_ContactNo = $User_Photo = $User_CoverPhoto = $User_Bio = $User_Introduction = $User_Skills = "";
-    $User_EmailErr = $User_ContactNoErr = $User_PhotoErr = $User_CoverPhotoErr = $User_BioErr = $User_IntroductionErr = $User_SkillsErr = "";
-
-
-if(isset($_SESSION["User_ID"])) {
-    $User_ID = $_SESSION["User_ID"];
-    include("../connections.php");
-
-    $get_record = mysqli_query($connections, "SELECT * FROM user WHERE User_ID='$User_ID'");
-    while($row_edit = mysqli_fetch_assoc($get_record)) {
-        $User_FirstName = $row_edit["User_FirstName"];
-        $User_LastName = $row_edit["User_LastName"];
-        $User_Email = $row_edit["User_Email"];
-        $User_ContactNo = $row_edit["User_ContactNo"];
-        $User_Photo = $row_edit["User_Photo"];
-        $User_CoverPhoto = $row_edit["User_CoverPhoto"];
-        $User_Bio = $row_edit["User_Bio"];
-        $User_Introduction = $row_edit["User_Introduction"];
-        $User_Skills = $row_edit["User_Skills"];
-    }
+if (!isset($_SESSION["User_ID"])) {
+    exit("User not logged in");
 }
 
-// Prepare phone number display value
-$Phone_Display = empty($User_ContactNo) ? "Set Phone Number" : htmlspecialchars($User_ContactNo);
+$User_ID = $_SESSION["User_ID"];
 
+// Fetch user record
+$get_record = mysqli_query($connections, "SELECT * FROM user WHERE User_ID='$User_ID'");
+$row_edit = mysqli_fetch_assoc($get_record);
+$User_FirstName = $row_edit["User_FirstName"];
+$User_LastName = $row_edit["User_LastName"];
+$User_Email = $row_edit["User_Email"];
+$User_ContactNo = $row_edit["User_ContactNo"];
+$User_Photo = $row_edit["User_Photo"];
+$User_CoverPhoto = $row_edit["User_CoverPhoto"];
+$User_Bio = $row_edit["User_Bio"];
+$User_Introduction = $row_edit["User_Introduction"];
+$User_Skills = $row_edit["User_Skills"];
+$User_Title = $row_edit["User_Title"];
+$User_Facebook = $row_edit["User_Facebook"];
+$User_Instagram = $row_edit["User_Instagram"];
+$User_LinkedIn = $row_edit["User_LinkedIn"];
 
+// Handle AJAX updates safely
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $fieldsToUpdate = [];
+    $types = "";
+    $values = [];
+
+    if (isset($_POST['bio'])) {
+        $fieldsToUpdate[] = "User_Bio = ?";
+        $types .= "s";
+        $values[] = $_POST['bio'];
+    }
+    if (isset($_POST['introduction'])) {
+        $fieldsToUpdate[] = "User_Introduction = ?";
+        $types .= "s";
+        $values[] = $_POST['introduction'];
+    }
+    if (isset($_POST['title'])) {
+        $fieldsToUpdate[] = "User_Title = ?";
+        $types .= "s";
+        $values[] = $_POST['title'];
+    }
+    if (isset($_POST['skills'])) {
+        $fieldsToUpdate[] = "User_Skills = ?";
+        $types .= "s";
+        $values[] = $_POST['skills'];
+    }
+    if (isset($_POST['phone'])) {
+        $fieldsToUpdate[] = "User_ContactNo = ?";
+        $types .= "s";
+        $values[] = $_POST['phone'];
+    }
+    if (isset($_POST['email'])) {
+        $fieldsToUpdate[] = "User_Email = ?";
+        $types .= "s";
+        $values[] = $_POST['email'];
+    }
+    if (isset($_POST['facebook'])) {
+        $fieldsToUpdate[] = "User_Facebook = ?";
+        $types .= "s";
+        $values[] = $_POST['facebook'];
+    }
+    if (isset($_POST['instagram'])) {
+        $fieldsToUpdate[] = "User_Instagram = ?";
+        $types .= "s";
+        $values[] = $_POST['instagram'];
+    }
+    if (isset($_POST['linkedin'])) {
+        $fieldsToUpdate[] = "User_LinkedIn = ?";
+        $types .= "s";
+        $values[] = $_POST['linkedin'];
+    }
+
+    if (!empty($fieldsToUpdate)) {
+        $sql = "UPDATE user SET " . implode(", ", $fieldsToUpdate) . " WHERE User_ID = ?";
+        $types .= "i";
+        $values[] = $User_ID;
+
+        $stmt = $connections->prepare($sql);
+        $stmt->bind_param($types, ...$values);
+
+        if ($stmt->execute()) {
+            echo json_encode(["status" => "success", "message" => "Profile updated successfully"]);
+        } else {
+            echo json_encode(["status" => "error", "message" => "Failed to update profile"]);
+        }
+        $stmt->close();
+    }
+    exit;
+}
 ?>
+
 
 
 <!DOCTYPE html>
@@ -57,17 +124,17 @@ $Phone_Display = empty($User_ContactNo) ? "Set Phone Number" : htmlspecialchars(
 
                     <!-- Right side buttons -->
                     <div class="header-buttons">
-                        <a href="dashboard.html" class="btn btn-outline btn-sm">Dashboard</a>
+                        <a href="../user/dashboard" class="btn btn-outline btn-sm">Dashboard</a>
                         <div class="profile-menu">
                             <button class="profile-avatar active" onclick="toggleDropdown()">
                                 <img src="../media/default_user_photo.jpg" alt="Profile" class="avatar-img">
                             </button>
                             <div class="dropdown-menu" id="profileDropdown">
-                                <a href="account_settings.html" class="dropdown-item">
+                                <a href="../user_dashboard/account_settings" class="dropdown-item">
                                     <i data-lucide="settings" class="dropdown-icon"></i>
                                     Account Settings
                                 </a>
-                                <a href="login.html" class="dropdown-item">
+                                <a href="../login" class="dropdown-item">
                                     <i data-lucide="log-out" class="dropdown-icon"></i>
                                     Logout
                                 </a>
@@ -108,11 +175,11 @@ $Phone_Display = empty($User_ContactNo) ? "Set Phone Number" : htmlspecialchars(
                         
                         <div class="profile-info">
                             <h1 class="profile-name"><?php echo htmlspecialchars($User_FirstName . " " . $User_LastName); ?></h1>
-                            <p class="profile-title">Senior Brand Designer</p>
+                            <p class="profile-title"><?php echo htmlspecialchars($User_Title); ?></p>
                             <div class="profile-contact">
                                 <div class="contact-item">
                                     <i data-lucide="phone" class="icon-sm"></i>
-                                    <span><?php echo $Phone_Display; ?></span>
+                                    <span><?php echo htmlspecialchars($User_ContactNo); ?></span>
                                 </div>
                                 <div class="contact-item">
                                     <i data-lucide="mail" class="icon-sm"></i>
@@ -125,7 +192,7 @@ $Phone_Display = empty($User_ContactNo) ? "Set Phone Number" : htmlspecialchars(
                             
                             <button class="btn btn-gradient">
                                 <i data-lucide="settings-2" class="icon-sm"></i>
-                                Account Settings
+                                <a href="../user_dashboard/account_settings" class="logo-link-white">Account Settings</a>
                             </button>
                         </div>
                     </div>
@@ -150,8 +217,26 @@ $Phone_Display = empty($User_ContactNo) ? "Set Phone Number" : htmlspecialchars(
                                     </button>
                                 </div>
                                 <div class="editable-content" id="bio-content">
-                                    <p class="bio-text">
-                                        Passionate brand designer with 8+ years of experience creating memorable visual identities for startups and Fortune 500 companies. I specialize in logo design, brand strategy, and comprehensive brand guidelines that help businesses stand out in competitive markets.
+                                    <p class="bio-text" maxlength="1000">
+                                        <?php echo htmlspecialchars($User_Bio); ?>
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- Title Section -->
+                            <div class="section-card">
+                                <div class="section-header">
+                                    <h2 class="section-title">
+                                        <i data-lucide="user" class="section-icon"></i>
+                                        Title
+                                    </h2>
+                                    <button class="edit-btn hidden" onclick="editSection('title')">
+                                        <i data-lucide="edit-2" class="icon-xs"></i>
+                                    </button>
+                                </div>
+                                <div class="editable-content" id="title-content">
+                                    <p class="title-text" maxlength="1000">
+                                        <?php echo htmlspecialchars($User_Title); ?>
                                     </p>
                                 </div>
                             </div>
@@ -169,16 +254,20 @@ $Phone_Display = empty($User_ContactNo) ? "Set Phone Number" : htmlspecialchars(
                                 </div>
                                 <div class="skills-content" id="skills-content">
                                     <div class="skills-grid">
-                                        <span class="skill-tag">Brand Identity</span>
-                                        <span class="skill-tag">Logo Design</span>
-                                        <span class="skill-tag">Adobe Illustrator</span>
-                                        <span class="skill-tag">Typography</span>
-                                        <span class="skill-tag">Brand Strategy</span>
-                                        <span class="skill-tag">Figma</span>
-                                        <span class="skill-tag">Photoshop</span>
-                                        <span class="skill-tag">InDesign</span>
-                                        <span class="skill-tag">UI/UX Design</span>
-                                        <span class="skill-tag">Print Design</span>
+                                            <div class="skills-grid">
+                                                <?php
+                                                // Split the skills string by commas
+                                                $skills = explode(',', $User_Skills);
+
+                                                // Loop through each skill and output as a separate <span>
+                                                foreach ($skills as $skill) {
+                                                    $skill = trim($skill); // remove extra spaces
+                                                    if (!empty($skill)) {
+                                                        echo '<span class="skill-tag">' . htmlspecialchars($skill) . '</span>';
+                                                    }
+                                                }
+                                                ?>
+                                            </div>
                                     </div>
                                 </div>
                             </div>
@@ -190,41 +279,31 @@ $Phone_Display = empty($User_ContactNo) ? "Set Phone Number" : htmlspecialchars(
                                         <i data-lucide="briefcase" class="section-icon"></i>
                                         Recent Designs
                                     </h2>
-                                    <a href="user_designs.html" class="btn btn-outline btn-sm">
+                                    <a href="../user/user_designs" class="btn btn-outline btn-sm">
                                         <i data-lucide="external-link" class="icon-sm"></i>
                                         View All
                                     </a>
                                 </div>
                                 <div class="designs-preview">
-                                    <div class="design-card-small">
-                                        <div class="design-image">
-                                            <img src="https://images.unsplash.com/photo-1686526473156-e8449f0c6765?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHxtb2Rlcm4lMjBsb2dvJTIwZGVzaWdufGVufDF8fHx8MTc1ODIyMzU5M3ww&ixlib=rb-4.1.0&q=80&w=1080" alt="TechStart Brand Identity" class="design-img">
+                                <?php if (!empty($recentDesigns)): ?>
+                                    <?php foreach ($recentDesigns as $design): ?>
+                                        <div class="design-card-small">
+                                            <div class="design-image">
+                                                <img src="<?php echo htmlspecialchars($design['Design_Photo']); ?>" 
+                                                    alt="<?php echo htmlspecialchars($design['Design_Name']); ?>" 
+                                                    class="design-img">
+                                            </div>
+                                            <div class="design-info">
+                                                <h3 class="design-title"><?php echo htmlspecialchars($design['Design_Name']); ?></h3>
+                                                <p class="design-category"><?php echo htmlspecialchars($design['Design_Category']); ?></p>
+                                            </div>
                                         </div>
-                                        <div class="design-info">
-                                            <h3 class="design-title">TechStart Brand Identity</h3>
-                                            <p class="design-category">Logo Design</p>
-                                        </div>
-                                    </div>
-
-                                    <div class="design-card-small">
-                                        <div class="design-image">
-                                            <img src="https://images.unsplash.com/photo-1710799885122-428e63eff691?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxkZXNpZ25lciUyMHBvcnRmb2xpbyUyMGNyZWF0aXZlfGVufDF8fHx8MTc1ODI5MDQ0OXww&ixlib=rb-4.1.0&q=80&w=1080" alt="Restaurant Branding" class="design-img">
-                                        </div>
-                                        <div class="design-info">
-                                            <h3 class="design-title">Restaurant Branding</h3>
-                                            <p class="design-category">Brand Identity</p>
-                                        </div>
-                                    </div>
-
-                                    <div class="design-card-small">
-                                        <div class="design-image">
-                                            <img src="https://images.unsplash.com/photo-1586953208448-b95a79798f07?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxidXNpbmVzcyUyMGNhcmQlMjBkZXNpZ258ZW58MXx8fHwxNzU4MjkwNDQ5fDA&ixlib=rb-4.1.0&q=80&w=1080" alt="Corporate Package" class="design-img">
-                                        </div>
-                                        <div class="design-info">
-                                            <h3 class="design-title">Corporate Package</h3>
-                                            <p class="design-category">Print Design</p>
-                                        </div>
-                                    </div>
+                                    <?php endforeach; ?>
+                                <?php else: ?>
+                                    <!-- Placeholder if user has no designs -->
+                                    <p class="no-designs-message">You haven't uploaded any designs yet.</p>
+                                <?php endif; ?>
+                                
                                 </div>
                             </div>
 
@@ -241,7 +320,7 @@ $Phone_Display = empty($User_ContactNo) ? "Set Phone Number" : htmlspecialchars(
                                 </div>
                                 <div class="editable-content" id="introduction-content">
                                     <p class="introduction-text">
-                                        Hello! I'm Alex, a creative professional who loves bringing ideas to life through thoughtful design. When I'm not working on client projects, you'll find me exploring new design trends, sketching in coffee shops, or collaborating with other creatives on passion projects. I believe great design should tell a story and create meaningful connections between brands and their audiences.
+                                        <?php echo htmlspecialchars($User_Introduction); ?>
                                     </p>
                                 </div>
                             </div>
@@ -261,7 +340,7 @@ $Phone_Display = empty($User_ContactNo) ? "Set Phone Number" : htmlspecialchars(
                                     <div class="contact-form-view">
                                         <div class="form-group">
                                             <label class="form-label">Phone Number</label>
-                                            <div class="form-display"><?php echo $Phone_Display; ?></div>
+                                            <div class="form-display"><?php echo htmlspecialchars($User_ContactNo); ?></div>
                                         </div>
                                         <div class="form-group">
                                             <label class="form-label">Email Address</label>
@@ -286,17 +365,17 @@ $Phone_Display = empty($User_ContactNo) ? "Set Phone Number" : htmlspecialchars(
                                     </button>
                                 </div>
                                 <div class="social-links" id="social-content">
-                                    <a href="https://facebook.com/" class="social-link facebook" target="_blank">
+                                    <a href="<?php echo htmlspecialchars($User_Facebook); ?>" class="social-link facebook" target="_blank">
                                         <i data-lucide="facebook" class="icon-sm"></i>
                                         <span>Facebook</span>
                                         <i data-lucide="external-link" class="icon-xs external-icon"></i>
                                     </a>
-                                    <a href="https://instagram.com/" class="social-link instagram" target="_blank">
+                                    <a href="<?php echo htmlspecialchars($User_Instagram); ?>" class="social-link instagram" target="_blank">
                                         <i data-lucide="instagram" class="icon-sm"></i>
                                         <span>Instagram</span>
                                         <i data-lucide="external-link" class="icon-xs external-icon"></i>
                                     </a>
-                                    <a href="https://linkedin.com/in/" class="social-link linkedin" target="_blank">
+                                    <a href="<?php echo htmlspecialchars($User_LinkedIn); ?>" class="social-link linkedin" target="_blank">
                                         <i data-lucide="linkedin" class="icon-sm"></i>
                                         <span>LinkedIn</span>
                                         <i data-lucide="external-link" class="icon-xs external-icon"></i>
@@ -383,8 +462,8 @@ $Phone_Display = empty($User_ContactNo) ? "Set Phone Number" : htmlspecialchars(
                     <div class="footer-section">
                         <h4 class="footer-subtitle">Company</h4>
                         <ul class="footer-links">
-                            <li><a href="about.html" class="footer-link">About Us</a></li>
-                            <li><a href="careers" class="footer-link">Careers</a></li>
+                            <li><a href="../about.html" class="footer-link">About Us</a></li>
+                            <li><a href="../careers" class="footer-link">Careers</a></li>
                             <li><a href="#" class="footer-link">Press</a></li>
                             <li><a href="#" class="footer-link">Contact</a></li>
                         </ul>
@@ -455,6 +534,8 @@ $Phone_Display = empty($User_ContactNo) ? "Set Phone Number" : htmlspecialchars(
             
             if (sectionType === 'bio') {
                 editTextSection(content, 'bio-text', 'Bio');
+            } else if (sectionType === 'title') {
+                editTextSection(content, 'title-text', 'Title');
             } else if (sectionType === 'introduction') {
                 editTextSection(content, 'introduction-text', 'Introduction');
             } else if (sectionType === 'contact') {
@@ -499,53 +580,82 @@ $Phone_Display = empty($User_ContactNo) ? "Set Phone Number" : htmlspecialchars(
         }
 
         function editContactSection(container) {
-            container.innerHTML = `
-                <div class="edit-form">
-                    <div class="form-group">
-                        <label class="form-label">Phone Number</label>
-                        <input type="tel" class="form-input" id="edit-phone" value="<?php echo $User_ContactNo; ?>">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Email Address</label>
-                        <input type="email" class="form-input" id="edit-email" value="<?php echo $User_Email; ?>">
-                    </div>
-                    <div class="form-actions">
-                        <button class="btn btn-gradient btn-sm" onclick="saveContactSection()">Save</button>
-                        <button class="btn btn-outline btn-sm" onclick="cancelContactEdit()">Cancel</button>
-                    </div>
-                </div>
-            `;
-        }
+        const phoneSpan = document.querySelector('.profile-contact .contact-item:first-child span');
+        const emailSpan = document.querySelector('.profile-contact .contact-item:last-child span');
 
-        function editSocialSection(container) {
-            container.innerHTML = `
-                <div class="edit-form">
-                    <div class="form-group">
-                        <label class="form-label">Facebook URL</label>
-                        <input type="url" class="form-input" id="edit-facebook" value="https://facebook.com/alexrivera">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Instagram URL</label>
-                        <input type="url" class="form-input" id="edit-instagram" value="https://instagram.com/alexrivera">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">LinkedIn URL</label>
-                        <input type="url" class="form-input" id="edit-linkedin" value="https://linkedin.com/in/alexrivera">
-                    </div>
-                    <div class="form-actions">
-                        <button class="btn btn-gradient btn-sm" onclick="saveSocialSection()">Save</button>
-                        <button class="btn btn-outline btn-sm" onclick="cancelSocialEdit()">Cancel</button>
-                    </div>
+        const currentPhone = phoneSpan.textContent.trim();
+        const currentEmail = emailSpan.textContent.trim();
+
+        container.innerHTML = `
+            <div class="edit-form">
+                <div class="form-group">
+                    <label class="form-label">Phone Number</label>
+                    <input type="tel" class="form-input" id="edit-phone" value="${currentPhone}">
                 </div>
-            `;
-        }
+                <div class="form-group">
+                    <label class="form-label">Email Address</label>
+                    <input type="email" class="form-input" id="edit-email" value="${currentEmail}">
+                    <small class="form-note">Changing your email will also update your login email.</small>
+                </div>
+                <div class="form-actions">
+                    <button class="btn btn-gradient btn-sm" onclick="saveContactSection()">Save</button>
+                    <button class="btn btn-outline btn-sm" onclick="cancelContactEdit()">Cancel</button>
+                </div>
+            </div>
+        `;
+    }
+
+let originalSocialLinks = {};
+
+function editSocialSection(container) {
+    // Grab current links from the DOM
+    const facebookEl = container.querySelector('.facebook');
+    const instagramEl = container.querySelector('.instagram');
+    const linkedinEl = container.querySelector('.linkedin');
+
+    originalSocialLinks.facebook = facebookEl ? facebookEl.href : 'https://facebook.com/';
+    originalSocialLinks.instagram = instagramEl ? instagramEl.href : 'https://instagram.com/';
+    originalSocialLinks.linkedin = linkedinEl ? linkedinEl.href : 'https://linkedin.com/in/';
+
+    container.innerHTML = `
+        <div class="edit-form">
+            <div class="form-group">
+                <label class="form-label">Facebook URL</label>
+                <input type="url" class="form-input" id="edit-facebook" value="${originalSocialLinks.facebook}">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Instagram URL</label>
+                <input type="url" class="form-input" id="edit-instagram" value="${originalSocialLinks.instagram}">
+            </div>
+            <div class="form-group">
+                <label class="form-label">LinkedIn URL</label>
+                <input type="url" class="form-input" id="edit-linkedin" value="${originalSocialLinks.linkedin}">
+            </div>
+            <div class="form-actions">
+                <button class="btn btn-gradient btn-sm" onclick="saveSocialSection()">Save</button>
+                <button class="btn btn-outline btn-sm" onclick="cancelSocialEdit()">Cancel</button>
+            </div>
+        </div>
+    `;
+}
+
+
 
         function saveTextSection(textClass, label) {
             const textarea = document.querySelector('.form-textarea');
             const newText = textarea.value;
             const container = textarea.closest('.editable-content');
-            
-            container.innerHTML = `<p class="${textClass}">${newText}</p>`;
+
+            fetch('profile.php', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                body: `${label.toLowerCase()}=${encodeURIComponent(newText)}`
+            })
+            .then(response => response.text())
+            .then(data => {
+                container.innerHTML = `<p class="${textClass}">${newText}</p>`;
+            })
+            .catch(error => console.error(error));
         }
 
         function saveSkillsSection() {
@@ -554,62 +664,111 @@ $Phone_Display = empty($User_ContactNo) ? "Set Phone Number" : htmlspecialchars(
             const skills = skillsText.split(',').map(skill => skill.trim()).filter(skill => skill);
             const container = document.getElementById('skills-content');
             
-            const skillsHTML = skills.map(skill => `<span class="skill-tag">${skill}</span>`).join('');
-            
-            container.innerHTML = `<div class="skills-grid">${skillsHTML}</div>`;
+            fetch('profile.php', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                body: `skills=${encodeURIComponent(skills.join(', '))}`
+            })
+            .then(response => response.text())
+            .then(data => {
+                const skillsHTML = skills.map(skill => `<span class="skill-tag">${skill}</span>`).join('');
+                container.innerHTML = `<div class="skills-grid">${skillsHTML}</div>`;
+            })
+            .catch(error => console.error(error));
+
         }
 
         function saveContactSection() {
-            const name = document.getElementById('edit-name').value;
-            const phone = document.getElementById('edit-phone').value;
-            const email = document.getElementById('edit-email').value;
-            const container = document.getElementById('contact-content');
-            
-            // Update header contact info
-            document.querySelector('.profile-name').textContent = name;
-            document.querySelector('.contact-item:first-child span').textContent = phone;
-            document.querySelector('.contact-item:last-child span').textContent = email;
-            
-            container.innerHTML = `
-                <div class="contact-form-view">
-                    <div class="form-group">
-                        <label class="form-label">Phone Number</label>
-                        <div class="form-display">${phone}</div>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Email Address</label>
-                        <div class="form-display">${email}</div>
-                    </div>
-                </div>
-            `;
-        }
+    const phone = document.getElementById('edit-phone').value;
+    const email = document.getElementById('edit-email').value;
 
-        function saveSocialSection() {
-            const facebook = document.getElementById('edit-facebook').value;
-            const instagram = document.getElementById('edit-instagram').value;
-            const linkedin = document.getElementById('edit-linkedin').value;
-            const container = document.getElementById('social-content');
-            
-            container.innerHTML = `
-                <a href="${facebook}" class="social-link facebook" target="_blank">
-                    <i data-lucide="facebook" class="icon-sm"></i>
-                    <span>Facebook</span>
-                    <i data-lucide="external-link" class="icon-xs external-icon"></i>
-                </a>
-                <a href="${instagram}" class="social-link instagram" target="_blank">
-                    <i data-lucide="instagram" class="icon-sm"></i>
-                    <span>Instagram</span>
-                    <i data-lucide="external-link" class="icon-xs external-icon"></i>
-                </a>
-                <a href="${linkedin}" class="social-link linkedin" target="_blank">
-                    <i data-lucide="linkedin" class="icon-sm"></i>
-                    <span>LinkedIn</span>
-                    <i data-lucide="external-link" class="icon-xs external-icon"></i>
-                </a>
-            `;
-            
-            lucide.createIcons();
+    const container = document.getElementById('contact-content');
+    const phoneSpan = document.querySelector('.profile-contact .contact-item:first-child span');
+    const emailSpan = document.querySelector('.profile-contact .contact-item:last-child span');
+
+    // Update the displayed spans only
+    phoneSpan.textContent = phone;
+    emailSpan.textContent = email;
+
+    // Remove the edit form
+    container.innerHTML = `
+        <div class="contact-form-view">
+            <div class="form-group">
+                <label class="form-label">Phone Number</label>
+                <div class="form-display">${phone}</div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Email Address</label>
+                <div class="form-display">${email}</div>
+            </div>
+        </div>
+    `;
+
+    // Send AJAX request
+    fetch('profile.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: `phone=${encodeURIComponent(phone)}&email=${encodeURIComponent(email)}`
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.status === 'success') {
+            console.log(data.message);
+        } else {
+            console.error(data.message);
         }
+    })
+    .catch(err => console.error('Fetch error:', err));
+}
+
+
+function saveSocialSection() {
+    const facebook = document.getElementById('edit-facebook').value.trim();
+    const instagram = document.getElementById('edit-instagram').value.trim();
+    const linkedin = document.getElementById('edit-linkedin').value.trim();
+    const container = document.getElementById('social-content');
+
+    // Update DOM
+    container.innerHTML = `
+        <a href="${facebook}" class="social-link facebook" target="_blank">
+            <i data-lucide="facebook" class="icon-sm"></i>
+            <span>Facebook</span>
+            <i data-lucide="external-link" class="icon-xs external-icon"></i>
+        </a>
+        <a href="${instagram}" class="social-link instagram" target="_blank">
+            <i data-lucide="instagram" class="icon-sm"></i>
+            <span>Instagram</span>
+            <i data-lucide="external-link" class="icon-xs external-icon"></i>
+        </a>
+        <a href="${linkedin}" class="social-link linkedin" target="_blank">
+            <i data-lucide="linkedin" class="icon-sm"></i>
+            <span>LinkedIn</span>
+            <i data-lucide="external-link" class="icon-xs external-icon"></i>
+        </a>
+    `;
+
+    lucide.createIcons();
+
+    // Update original values so cancel restores the latest saved values
+    originalSocialLinks.facebook = facebook;
+    originalSocialLinks.instagram = instagram;
+    originalSocialLinks.linkedin = linkedin;
+
+    // AJAX request
+    fetch('profile.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: `facebook=${encodeURIComponent(facebook)}&instagram=${encodeURIComponent(instagram)}&linkedin=${encodeURIComponent(linkedin)}`
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.status === 'success') console.log(data.message);
+        else console.error(data.message);
+    })
+    .catch(err => console.error('Fetch error:', err));
+}
+
+
 
         function cancelEdit(textClass, originalText) {
             const container = document.querySelector('.edit-form').closest('.editable-content');
@@ -635,43 +794,50 @@ $Phone_Display = empty($User_ContactNo) ? "Set Phone Number" : htmlspecialchars(
         }
 
         function cancelContactEdit() {
-            const container = document.getElementById('contact-content');
-            container.innerHTML = `
-                <div class="contact-form-view">
-                    <div class="form-group">
-                        <label class="form-label">Phone Number</label>
-                        <div class="form-display"></div>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Email Address</label>
-                        <div class="form-display"><?php echo $User_Email; ?></div>
-                    </div>
-                </div>
-            `;
-        }
+    const container = document.getElementById('contact-content');
+    const phone = document.querySelector('.profile-contact .contact-item:first-child span').textContent;
+    const email = document.querySelector('.profile-contact .contact-item:last-child span').textContent;
+
+    container.innerHTML = `
+        <div class="contact-form-view">
+            <div class="form-group">
+                <label class="form-label">Phone Number</label>
+                <div class="form-display">${phone}</div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Email Address</label>
+                <div class="form-display">${email}</div>
+            </div>
+        </div>
+    `;
+}
+
 
         function cancelSocialEdit() {
-            const container = document.getElementById('social-content');
-            container.innerHTML = `
-                <a href="https://facebook.com/alexrivera" class="social-link facebook" target="_blank">
-                    <i data-lucide="facebook" class="icon-sm"></i>
-                    <span>Facebook</span>
-                    <i data-lucide="external-link" class="icon-xs external-icon"></i>
-                </a>
-                <a href="https://instagram.com/alexrivera" class="social-link instagram" target="_blank">
-                    <i data-lucide="instagram" class="icon-sm"></i>
-                    <span>Instagram</span>
-                    <i data-lucide="external-link" class="icon-xs external-icon"></i>
-                </a>
-                <a href="https://linkedin.com/in/alexrivera" class="social-link linkedin" target="_blank">
-                    <i data-lucide="linkedin" class="icon-sm"></i>
-                    <span>LinkedIn</span>
-                    <i data-lucide="external-link" class="icon-xs external-icon"></i>
-                </a>
-            `;
-            
-            lucide.createIcons();
-        }
+    const container = document.getElementById('social-content');
+
+    container.innerHTML = `
+        <a href="${originalSocialLinks.facebook}" class="social-link facebook" target="_blank">
+            <i data-lucide="facebook" class="icon-sm"></i>
+            <span>Facebook</span>
+            <i data-lucide="external-link" class="icon-xs external-icon"></i>
+        </a>
+        <a href="${originalSocialLinks.instagram}" class="social-link instagram" target="_blank">
+            <i data-lucide="instagram" class="icon-sm"></i>
+            <span>Instagram</span>
+            <i data-lucide="external-link" class="icon-xs external-icon"></i>
+        </a>
+        <a href="${originalSocialLinks.linkedin}" class="social-link linkedin" target="_blank">
+            <i data-lucide="linkedin" class="icon-sm"></i>
+            <span>LinkedIn</span>
+            <i data-lucide="external-link" class="icon-xs external-icon"></i>
+        </a>
+    `;
+
+    lucide.createIcons();
+}
+
+
 
         function openImageUpload() {
             alert('Profile image upload functionality would be implemented here');

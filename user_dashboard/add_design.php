@@ -1,6 +1,5 @@
 <?php
 
-
 ?>
 
 
@@ -45,8 +44,7 @@
                         <a href="../user/dashboard" class="btn btn-outline btn-sm">Dashboard</a>
                         <div class="profile-menu">
                             <button class="profile-avatar">
-                                <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxidXNpbmVzcyUyMGxlYWRlcnxlbnwxfHx8fDE3NTg0MDA2OTN8MA&ixlib=rb-4.1.0&q=80&w=1080" alt="Profile" class="avatar-img">
-                                <div class="online-indicator"></div>
+                                <img src="../media/default_user_photo.jpg" alt="Profile" class="avatar-img">
                             </button>
                         </div>
                         
@@ -91,7 +89,12 @@
             <!-- Upload Form -->
             <section class="upload-section">
                 <div class="container">
-                    <form class="upload-form" id="design-upload-form" onsubmit="handleSubmit(event)">
+                   <form 
+                    class="upload-form" 
+                    id="design-upload-form" 
+                    method="POST" 
+                    enctype="multipart/form-data" 
+                    onsubmit="handleSubmit(event)">
                         <div class="form-layout">
                             <!-- Left Column - Main Form -->
                             <div class="form-main">
@@ -106,7 +109,7 @@
                                     </div>
                                     <div class="form-card-content">
                                         <div class="file-upload-area" id="image-upload-area">
-                                            <input type="file" id="design-image" name="design-image" accept="image/*" class="file-input" required>
+                                            <input type="file" id="design-image" name="Design_Photo" accept="image/*" class="file-input" required>
                                             <div class="upload-placeholder" id="upload-placeholder">
                                                 <div class="upload-icon">
                                                     <i data-lucide="cloud-upload" class="icon-xl"></i>
@@ -120,11 +123,11 @@
                                             <div class="image-preview hidden" id="image-preview">
                                                 <img id="preview-img" src="" alt="Design preview" class="preview-image">
                                                 <div class="preview-overlay">
-                                                    <button type="button" class="btn btn-outline btn-sm" onclick="changeImage()">
+                                                    <button type="button" class="btn btn-outline btn-sm" onclick="changeImage(event)">
                                                         <i data-lucide="edit-2" class="icon-sm"></i>
                                                         Change Image
                                                     </button>
-                                                    <button type="button" class="btn btn-outline btn-sm" onclick="removeImage()">
+                                                    <button type="button" class="btn btn-outline btn-sm" onclick="removeImage(event)">
                                                         <i data-lucide="trash-2" class="icon-sm"></i>
                                                         Remove
                                                     </button>
@@ -152,7 +155,7 @@
                                                 <input 
                                                     type="text" 
                                                     id="design-name" 
-                                                    name="design-name" 
+                                                    name="Design_Name" 
                                                     class="form-input" 
                                                     placeholder="Enter your design name"
                                                     required
@@ -171,7 +174,7 @@
                                                 </label>
                                                 <textarea 
                                                     id="design-description" 
-                                                    name="design-description" 
+                                                    name="Design_Description" 
                                                     class="form-textarea" 
                                                     rows="5"
                                                     placeholder="Describe your design, its features, and what makes it unique..."
@@ -184,13 +187,15 @@
                                             </div>
                                         </div>
 
+                                        <input type="hidden" name="Design_Category_Name" id="Design_Category_Name">
+
                                         <div class="form-row">
                                             <div class="form-group">
                                                 <label for="design-category" class="form-label">
                                                     Category *
                                                 </label>
                                                 <div class="select-wrapper">
-                                                    <select id="design-category" name="design-category" class="form-select" required>
+                                                    <select id="design-category" name="Design_Category" class="form-select" required>
                                                         <option value="">Select a category</option>
                                                         <option value="logo-design">Logo Design</option>
                                                         <option value="brand-identity">Brand Identity</option>
@@ -222,7 +227,7 @@
                                                     <input 
                                                         type="number" 
                                                         id="design-price" 
-                                                        name="design-price" 
+                                                        name="Design_Price" 
                                                         class="form-input price-input" 
                                                         placeholder="0.00"
                                                         min="1"
@@ -243,7 +248,7 @@
                                                 <input 
                                                     type="url" 
                                                     id="design-url" 
-                                                    name="design-url" 
+                                                    name="Design_Url" 
                                                     class="form-input" 
                                                     placeholder="https://example.com/your-template-link"
                                                     required
@@ -253,8 +258,6 @@
                                         </div>
                                     </div>
                                 </div>
-
-
                             </div>
 
                             <!-- Right Column - Sidebar -->
@@ -443,153 +446,141 @@
     </div>
 
     <script>
-        // Initialize Lucide icons
-        document.addEventListener('DOMContentLoaded', function() {
-            lucide.createIcons();
-            initializeForm();
-        });
+document.addEventListener('DOMContentLoaded', function() {
+    lucide.createIcons();
+    initializeForm();
+});
 
-        function initializeForm() {
-            // Character counters
-            const nameInput = document.getElementById('design-name');
-            const descriptionInput = document.getElementById('design-description');
+function initializeForm() {
+    const nameInput = document.getElementById('design-name');
+    const descriptionInput = document.getElementById('design-description');
+    nameInput.addEventListener('input', () => updateCharacterCount('design-name', 'name-count', 100));
+    descriptionInput.addEventListener('input', () => updateCharacterCount('design-description', 'description-count', 1000));
 
-            nameInput.addEventListener('input', () => updateCharacterCount('design-name', 'name-count', 100));
-            descriptionInput.addEventListener('input', () => updateCharacterCount('design-description', 'description-count', 1000));
-            
-            // Image file upload handling
-            const fileInput = document.getElementById('design-image');
-            const uploadArea = document.getElementById('image-upload-area');
-            
-            fileInput.addEventListener('change', handleFileSelect);
-            
-            // Drag and drop for image
-            uploadArea.addEventListener('dragover', handleDragOver);
-            uploadArea.addEventListener('drop', handleDrop);
-            uploadArea.addEventListener('click', () => fileInput.click());
-        }
+    const fileInput = document.getElementById('design-image');
+    const uploadArea = document.getElementById('image-upload-area');
+    fileInput.addEventListener('change', handleFileSelect);
+    uploadArea.addEventListener('dragover', handleDragOver);
+    uploadArea.addEventListener('dragleave', handleDragLeave);
+    uploadArea.addEventListener('drop', handleDrop);
 
-        function updateCharacterCount(inputId, countId, maxLength) {
-            const input = document.getElementById(inputId);
-            const counter = document.getElementById(countId);
-            const currentLength = input.value.length;
-            
-            counter.textContent = currentLength;
-            
-            if (currentLength > maxLength * 0.9) {
-                counter.style.color = '#ef4444';
-            } else {
-                counter.style.color = '#6b7280';
-            }
-        }
-
-        function handleFileSelect(event) {
-            const file = event.target.files[0];
-            if (file) {
-                validateAndPreviewImage(file);
-            }
-        }
-
-        function handleDragOver(event) {
-            event.preventDefault();
-            event.currentTarget.classList.add('drag-over');
-        }
-
-        function handleDrop(event) {
-            event.preventDefault();
-            event.currentTarget.classList.remove('drag-over');
-            
-            const files = event.dataTransfer.files;
-            if (files.length > 0) {
-                const file = files[0];
-                document.getElementById('design-image').files = files;
-                validateAndPreviewImage(file);
-            }
-        }
-
-        function validateAndPreviewImage(file) {
-            // Validate file type
-            if (!file.type.startsWith('image/')) {
-                alert('Please select an image file (PNG, JPG, JPEG)');
-                return;
-            }
-
-            // Validate file size (10MB)
-            if (file.size > 10 * 1024 * 1024) {
-                alert('File size must be less than 10MB');
-                return;
-            }
-
-            // Preview image
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const placeholder = document.getElementById('upload-placeholder');
-                const preview = document.getElementById('image-preview');
-                const previewImg = document.getElementById('preview-img');
-                
-                previewImg.src = e.target.result;
-                placeholder.classList.add('hidden');
-                preview.classList.remove('hidden');
-            };
-            reader.readAsDataURL(file);
-        }
-
-        function changeImage() {
-            document.getElementById('design-image').click();
-        }
-
-        function removeImage() {
-            const fileInput = document.getElementById('design-image');
-            const placeholder = document.getElementById('upload-placeholder');
-            const preview = document.getElementById('image-preview');
-            
+    uploadArea.addEventListener('click', (event) => {
+        if (event.target.id === 'image-upload-area' || event.target.id === 'upload-placeholder') {
             fileInput.value = '';
-            placeholder.classList.remove('hidden');
-            preview.classList.add('hidden');
+            fileInput.click();
         }
+    });
+    window.addEventListener('dragover', e => e.preventDefault());
+    window.addEventListener('drop', e => e.preventDefault());
+}
 
+function updateCharacterCount(inputId, countId, maxLength) {
+    const input = document.getElementById(inputId);
+    const counter = document.getElementById(countId);
+    const currentLength = input.value.length;
+    counter.textContent = currentLength;
+    counter.style.color = currentLength > maxLength * 0.9 ? '#ef4444' : '#6b7280';
+}
 
+function handleFileSelect(event) {
+    const file = event.target.files[0];
+    if (file) validateAndPreviewImage(file);
+}
+function handleDragOver(e) { e.preventDefault(); e.currentTarget.classList.add('drag-over'); }
+function handleDragLeave(e) { e.preventDefault(); e.currentTarget.classList.remove('drag-over'); }
+function handleDrop(e) {
+    e.preventDefault();
+    e.currentTarget.classList.remove('drag-over');
+    const files = e.dataTransfer.files;
+    if (files.length > 0) {
+        document.getElementById('design-image').files = files;
+        validateAndPreviewImage(files[0]);
+    }
+}
 
-        function handleSubmit(event) {
-            event.preventDefault();
-            
-            // Basic validation
-            const form = event.target;
-            const formData = new FormData(form);
-            
-            // Check required fields
-            const requiredFields = ['design-image', 'design-name', 'design-description', 'design-category', 'design-price', 'design-url'];
-            let isValid = true;
-            
-            requiredFields.forEach(field => {
-                const input = form.querySelector(`[name="${field}"]`);
-                if (!input.value) {
-                    isValid = false;
-                    input.classList.add('error');
-                } else {
-                    input.classList.remove('error');
-                }
-            });
-            
-            if (!isValid) {
-                alert('Please fill in all required fields');
-                return;
-            }
-            
-            // Simulate upload
-            const submitBtn = form.querySelector('button[type="submit"]');
-            const originalText = submitBtn.innerHTML;
-            
-            submitBtn.innerHTML = '<i data-lucide="loader-2" class="icon-sm animate-spin"></i> Uploading...';
-            submitBtn.disabled = true;
-            
-            setTimeout(() => {
-                alert('Design uploaded successfully! Redirecting to your designs page...');
-                window.location.href = 'user_designs.html';
-            }, 2000);
+function validateAndPreviewImage(file) {
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+    if (!allowedTypes.includes(file.type)) {
+        alert('Please upload a valid image (PNG or JPG).');
+        return;
+    }
+    if (file.size > 10 * 1024 * 1024) {
+        alert('File size must be less than 10MB.');
+        return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        const placeholder = document.getElementById('upload-placeholder');
+        const preview = document.getElementById('image-preview');
+        const previewImg = document.getElementById('preview-img');
+        previewImg.src = e.target.result;
+        placeholder.classList.add('hidden');
+        preview.classList.remove('hidden');
+    };
+    reader.readAsDataURL(file);
+}
+
+function changeImage(e) {
+    e.stopPropagation();
+    const fileInput = document.getElementById('design-image');
+    fileInput.value = '';
+    fileInput.click();
+}
+
+function removeImage(e) {
+    e.stopPropagation();
+    const fileInput = document.getElementById('design-image');
+    const placeholder = document.getElementById('upload-placeholder');
+    const preview = document.getElementById('image-preview');
+    fileInput.value = '';
+    placeholder.classList.remove('hidden');
+    preview.classList.add('hidden');
+}
+
+// ✅ FINAL FIXED UPLOAD FUNCTION
+async function handleSubmit(event) {
+    event.preventDefault();
+    const form = document.getElementById("design-upload-form");
+    const formData = new FormData(form);
+
+    const submitBtn = form.querySelector('button[type="submit"]');
+    submitBtn.innerHTML = '<i data-lucide="loader-2" class="icon-sm animate-spin"></i> Uploading...';
+    submitBtn.disabled = true;
+
+    try {
+        const response = await fetch("upload_design.php", { method: "POST", body: formData });
+        const data = await response.json();
+
+        if (data.status === "success") {
+            alert("✅ " + data.message);
+            window.location.href = "../user/user_designs.php";
+        } else {
+            alert("⚠️ " + data.message);
         }
+    } catch (error) {
+        alert("🚨 Upload failed: " + error);
+    } finally {
+        submitBtn.innerHTML = '<i data-lucide="upload" class="icon-sm"></i> Upload Design';
+        submitBtn.disabled = false;
+    }
+}
+</script>
 
-
+<script>
+    function setText(nameSel, hiddenId){
+        const opt = document.querySelector(nameSel + " option:checked");
+        document.getElementById(hiddenId).value = opt ? opt.text : "";
+    }
+    ["#design-category"].forEach((sel, i) => {
+        const ids = ["Design_Category_Name"];
+        document.querySelector(sel)?.addEventListener("change", () => setText(sel, ids[i]));
+        // initialize on load too
+        setText(sel, ids[i]);
+    });
     </script>
+
+
+
 </body>
 </html>

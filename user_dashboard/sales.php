@@ -18,16 +18,18 @@
             <div class="header-container">
                 <div class="header-content">
                     <div class="header-left">
-                        <a href="index.html" class="logo">
-                            <span class="logo-text">Graphio</span>
-                        </a>
+                        <div class="logo">
+                            <a href="../index" class="logo-link">
+                                <img class="graphio-logo" src="../logos/graphio_logo_blue.png" />
+                            </a>
+                        </div>
                     </div>
                     
                     <nav class="header-nav">
-                        <a href="designs.html" class="nav-link">Designs</a>
-                        <a href="careers.html" class="nav-link">Careers</a>
-                        <a href="artists.html" class="nav-link">Artists</a>
-                        <a href="about.html" class="nav-link">About</a>
+                        <a href="../designs" class="nav-link">Designs</a>
+                        <a href="../careers" class="nav-link">Careers</a>
+                        <a href="../artists" class="nav-link">Artists</a>
+                        <a href="../about.html" class="nav-link">About</a>
                     </nav>
                     
                     <div class="header-right">
@@ -36,19 +38,19 @@
                                 <i data-lucide="user" class="avatar-icon"></i>
                             </div>
                             <div class="dropdown-menu">
-                                <a href="dashboard.html" class="dropdown-item">
+                                <a href="../user/dashboard" class="dropdown-item">
                                     <i data-lucide="layout-dashboard" class="dropdown-icon"></i>
                                     Dashboard
                                 </a>
-                                <a href="profile.html" class="dropdown-item">
+                                <a href="../user/profile" class="dropdown-item">
                                     <i data-lucide="user" class="dropdown-icon"></i>
                                     Profile
                                 </a>
-                                <a href="account_settings.html" class="dropdown-item">
+                                <a href="../user_dashboard/account_settings" class="dropdown-item">
                                     <i data-lucide="settings" class="dropdown-icon"></i>
                                     Settings
                                 </a>
-                                <a href="login.html" class="dropdown-item">
+                                <a href="../login" class="dropdown-item">
                                     <i data-lucide="log-out" class="dropdown-icon"></i>
                                     Logout
                                 </a>
@@ -70,14 +72,10 @@
                             <p class="page-subtitle">Track your design sales and earnings</p>
                         </div>
                         <div class="page-actions">
-                            <a href="dashboard.html" class="btn btn-outline">
+                            <a href="../user/dashboard" class="btn btn-outline">
                                 <i data-lucide="arrow-left" class="icon-sm"></i>
                                 Back to Dashboard
                             </a>
-                            <button class="btn btn-gradient" onclick="exportSalesData()">
-                                <i data-lucide="download" class="icon-sm"></i>
-                                Export Data
-                            </button>
                         </div>
                     </div>
                 </div>
@@ -326,88 +324,7 @@
                     </div>
                 </div>
 
-                <!-- Top Performing Designs -->
-                <div class="top-designs-section">
-                    <div class="section-card">
-                        <div class="section-header">
-                            <h2 class="section-title">Top Performing Designs</h2>
-                            <a href="user_designs.html" class="section-link">View All Designs</a>
-                        </div>
-                        <div class="designs-grid">
-                            <div class="design-performance-card">
-                                <div class="design-thumbnail">
-                                    <i data-lucide="image" class="thumbnail-icon"></i>
-                                </div>
-                                <div class="design-info">
-                                    <h3 class="design-name">Modern Logo Pack</h3>
-                                    <p class="design-category">Logo Design</p>
-                                    <div class="performance-stats">
-                                        <div class="stat">
-                                            <span class="stat-value">23</span>
-                                            <span class="stat-label">Sales</span>
-                                        </div>
-                                        <div class="stat">
-                                            <span class="stat-value">$1,035</span>
-                                            <span class="stat-label">Revenue</span>
-                                        </div>
-                                        <div class="stat">
-                                            <span class="stat-value">12.5%</span>
-                                            <span class="stat-label">Conversion</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="design-performance-card">
-                                <div class="design-thumbnail">
-                                    <i data-lucide="image" class="thumbnail-icon"></i>
-                                </div>
-                                <div class="design-info">
-                                    <h3 class="design-name">Business Card Template</h3>
-                                    <p class="design-category">Print Design</p>
-                                    <div class="performance-stats">
-                                        <div class="stat">
-                                            <span class="stat-value">18</span>
-                                            <span class="stat-label">Sales</span>
-                                        </div>
-                                        <div class="stat">
-                                            <span class="stat-value">$450</span>
-                                            <span class="stat-label">Revenue</span>
-                                        </div>
-                                        <div class="stat">
-                                            <span class="stat-value">8.2%</span>
-                                            <span class="stat-label">Conversion</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="design-performance-card">
-                                <div class="design-thumbnail">
-                                    <i data-lucide="image" class="thumbnail-icon"></i>
-                                </div>
-                                <div class="design-info">
-                                    <h3 class="design-name">Social Media Kit</h3>
-                                    <p class="design-category">Social Media</p>
-                                    <div class="performance-stats">
-                                        <div class="stat">
-                                            <span class="stat-value">15</span>
-                                            <span class="stat-label">Sales</span>
-                                        </div>
-                                        <div class="stat">
-                                            <span class="stat-value">$525</span>
-                                            <span class="stat-label">Revenue</span>
-                                        </div>
-                                        <div class="stat">
-                                            <span class="stat-label">7.8%</span>
-                                            <span class="stat-label">Conversion</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                
             </div>
         </main>
 
