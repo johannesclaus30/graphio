@@ -3,29 +3,35 @@ session_start();
 include("../connections.php");
 
 if (!isset($_SESSION["User_ID"])) {
+    header("Location: ../login.php");
     exit("User not logged in");
 }
 
 $User_ID = $_SESSION["User_ID"];
 
 // Fetch user record
-$get_record = mysqli_query($connections, "SELECT * FROM user WHERE User_ID='$User_ID'");
-$row_edit = mysqli_fetch_assoc($get_record);
-$User_FirstName = $row_edit["User_FirstName"];
-$User_LastName = $row_edit["User_LastName"];
-$User_Email = $row_edit["User_Email"];
-$User_ContactNo = $row_edit["User_ContactNo"];
-$User_Photo = $row_edit["User_Photo"];
-$User_CoverPhoto = $row_edit["User_CoverPhoto"];
-$User_Bio = $row_edit["User_Bio"];
-$User_Introduction = $row_edit["User_Introduction"];
-$User_Skills = $row_edit["User_Skills"];
-$User_Title = $row_edit["User_Title"];
-$User_Facebook = $row_edit["User_Facebook"];
-$User_Instagram = $row_edit["User_Instagram"];
-$User_LinkedIn = $row_edit["User_LinkedIn"];
+$stmt = $connections->prepare("SELECT User_FirstName, User_LastName, User_Email, User_ContactNo, User_Photo, User_CoverPhoto, User_Bio, User_Introduction, User_Skills, User_Title, User_Facebook, User_Instagram, User_LinkedIn FROM user WHERE User_ID = ?");
+$stmt->bind_param("i", $User_ID);
+$stmt->execute();
+$result = $stmt->get_result();
+$row_edit = $result->fetch_assoc();
+$stmt->close();
 
-// Handle AJAX updates safely
+$User_FirstName = $row_edit["User_FirstName"] ?? '';
+$User_LastName = $row_edit["User_LastName"] ?? '';
+$User_Email = $row_edit["User_Email"] ?? '';
+$User_ContactNo = $row_edit["User_ContactNo"] ?? '';
+$User_Photo = $row_edit["User_Photo"] ?? '../media/default_user_photo.jpg';
+$User_CoverPhoto = $row_edit["User_CoverPhoto"] ?? '../media/default_user_cover_photo.jpg';
+$User_Bio = $row_edit["User_Bio"] ?? '';
+$User_Introduction = $row_edit["User_Introduction"] ?? '';
+$User_Skills = $row_edit["User_Skills"] ?? '';
+$User_Title = $row_edit["User_Title"] ?? '';
+$User_Facebook = $row_edit["User_Facebook"] ?? '';
+$User_Instagram = $row_edit["User_Instagram"] ?? '';
+$User_LinkedIn = $row_edit["User_LinkedIn"] ?? '';
+
+// Handle AJAX updates for profile
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $fieldsToUpdate = [];
     $types = "";
@@ -94,6 +100,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     exit;
 }
+
+// Fetch recent designs (limit to 3 for preview)
+$recentDesigns = [];
+$stmt = $connections->prepare("SELECT Design_ID, Design_Name, Design_Description, Design_Category, Design_Price, Design_Photo, Design_Created_At FROM design WHERE User_ID = ? ORDER BY Design_Created_At DESC LIMIT 3");
+$stmt->bind_param("i", $User_ID);
+$stmt->execute();
+$result = $stmt->get_result();
+while ($row = $result->fetch_assoc()) {
+    $design_id = $row["Design_ID"];
+    // Fetch average rating
+    $rating_stmt = $connections->prepare("SELECT AVG(Design_Rate) as avg_rating FROM rating WHERE Design_ID = ?");
+    $rating_stmt->bind_param("i", $design_id);
+    $rating_stmt->execute();
+    $rating_result = $rating_stmt->get_result();
+    $rating_row = $rating_result->fetch_assoc();
+    $rating = $rating_row["avg_rating"] ? round($rating_row["avg_rating"], 1) : 0;
+    $rating_stmt->close();
+
+    $recentDesigns[] = [
+        'Design_ID' => $design_id,
+        'Design_Name' => $row["Design_Name"],
+        'Design_Description' => $row["Design_Description"],
+        'Design_Category' => $row["Design_Category"],
+        'Design_Price' => $row["Design_Price"],
+        'Design_Photo' => $row["Design_Photo"] ?: '../media/default_design_photo.jpg',
+        'Design_Rate' => $rating,
+        'Design_Created_At' => $row["Design_Created_At"]
+    ];
+}
+$stmt->close();
 ?>
 
 
