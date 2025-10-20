@@ -170,9 +170,9 @@ $stmt->close();
                                     <i data-lucide="settings" class="dropdown-icon"></i>
                                     Account Settings
                                 </a>
-                                <a href="../login" class="dropdown-item">
+                                <a href="../logout.php" class="dropdown-item">
                                     <i data-lucide="log-out" class="dropdown-icon"></i>
-                                    Logout
+                                    Sign Out
                                 </a>
                             </div>
                         </div>

@@ -1,10 +1,10 @@
 <?php
 
 session_start();
+include("../connections.php");
 
 if(isset($_SESSION["User_ID"])) {
     $User_ID = $_SESSION["User_ID"];
-    include("../connections.php");
 
     $get_record = mysqli_query($connections, "SELECT * FROM user WHERE User_ID='$User_ID'");
     while($row_edit = mysqli_fetch_assoc($get_record)) {
@@ -16,8 +16,10 @@ if(isset($_SESSION["User_ID"])) {
         $first_initial = !empty($User_FirstName) ? strtoupper(substr(trim($User_FirstName), 0, 1)) : "";
         $last_initial = !empty($User_LastName) ? strtoupper(substr(trim($User_LastName), 0, 1)) : "";
         $User_Initials = $first_initial . ($last_initial ? "" . $last_initial . "" : "");
-    }
-
+    } 
+} else {
+    header("Location: ../login.php");
+    exit();
 }
 
 

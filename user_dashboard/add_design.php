@@ -1,5 +1,14 @@
 <?php
 
+session_start();
+include("../connections.php");
+
+if (!isset($_SESSION["User_ID"])) {
+    header("Location: ../login.php");
+    exit("User not logged in");
+}
+
+
 ?>
 
 
@@ -44,7 +53,9 @@
                         <a href="../user/dashboard" class="btn btn-outline btn-sm">Dashboard</a>
                         <div class="profile-menu">
                             <button class="profile-avatar">
-                                <img src="../media/default_user_photo.jpg" alt="Profile" class="avatar-img">
+                                <a href="../user/profile">
+                                    <img src="../media/default_user_photo.jpg" alt="Profile" class="avatar-img">
+                                </a>
                             </button>
                         </div>
                         

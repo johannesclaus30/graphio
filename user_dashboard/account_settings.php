@@ -1,5 +1,13 @@
 <?php
 
+session_start();
+include("../connections.php");
+
+if (!isset($_SESSION["User_ID"])) {
+    header("Location: ../login.php");
+    exit("User not logged in");
+}
+
 ?>
 
 <!DOCTYPE html>
