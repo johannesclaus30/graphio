@@ -333,6 +333,16 @@ body {
     overflow: hidden;
 }
 
+/* New group for cover controls */
+.cover-controls {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  display: flex;
+  gap: 8px;
+  z-index: 2; /* above overlay */
+}
+
 @media (min-width: 768px) {
     .cover-image {
         height: 300px;

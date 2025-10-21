@@ -7,7 +7,35 @@ if (!isset($_SESSION["User_ID"])) {
     exit("User not logged in");
 }
 
-$User_ID = $_SESSION["User_ID"];
+$User_ID = (int) $_SESSION["User_ID"];
+
+// CSRF token (used for photo upload/remove)
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+$csrfToken = $_SESSION['csrf_token'];
+
+// Resolve upload directory for profile and cover photos
+$uploadBaseDir = __DIR__ . '/userProfilePhotos';
+if (!is_dir($uploadBaseDir)) {
+    @mkdir($uploadBaseDir, 0755, true);
+}
+
+// Defaults
+$defaultProfile = '../media/default_user_photo.jpg';
+$defaultCover   = '../media/default_user_cover_photo.jpg';
+
+// Helper: delete an old uploaded file if it's in our upload folder (avoid deleting defaults or external)
+function deleteOldIfLocal(string $pathFromDb): void {
+    if ($pathFromDb === '' || $pathFromDb === null) return;
+    // Normalize and ensure it's within userProfilePhotos dir relative to this profile.php
+    $base = realpath(__DIR__ . '/userProfilePhotos');
+    // Convert relative DB path to absolute FS path
+    $abs = realpath(__DIR__ . '/' . ltrim($pathFromDb, './'));
+    if ($abs && $base && str_starts_with($abs, $base) && is_file($abs)) {
+        @unlink($abs);
+    }
+}
 
 // Fetch user record
 $stmt = $connections->prepare("SELECT User_FirstName, User_LastName, User_Email, User_ContactNo, User_Photo, User_CoverPhoto, User_Bio, User_Introduction, User_Skills, User_Title, User_Facebook, User_Instagram, User_LinkedIn FROM user WHERE User_ID = ?");
@@ -17,22 +45,26 @@ $result = $stmt->get_result();
 $row_edit = $result->fetch_assoc();
 $stmt->close();
 
-$User_FirstName = $row_edit["User_FirstName"] ?? '';
-$User_LastName = $row_edit["User_LastName"] ?? '';
-$User_Email = $row_edit["User_Email"] ?? '';
-$User_ContactNo = $row_edit["User_ContactNo"] ?? '';
-$User_Photo = $row_edit["User_Photo"] ?? '../media/default_user_photo.jpg';
-$User_CoverPhoto = $row_edit["User_CoverPhoto"] ?? '../media/default_user_cover_photo.jpg';
-$User_Bio = $row_edit["User_Bio"] ?? '';
-$User_Introduction = $row_edit["User_Introduction"] ?? '';
-$User_Skills = $row_edit["User_Skills"] ?? '';
-$User_Title = $row_edit["User_Title"] ?? '';
-$User_Facebook = $row_edit["User_Facebook"] ?? '';
-$User_Instagram = $row_edit["User_Instagram"] ?? '';
-$User_LinkedIn = $row_edit["User_LinkedIn"] ?? '';
+$User_FirstName   = $row_edit["User_FirstName"] ?? '';
+$User_LastName    = $row_edit["User_LastName"] ?? '';
+$User_Email       = $row_edit["User_Email"] ?? '';
+$User_ContactNo   = $row_edit["User_ContactNo"] ?? '';
+$User_Photo_DB    = $row_edit["User_Photo"] ?? '';       // raw DB value
+$User_Cover_DB    = $row_edit["User_CoverPhoto"] ?? '';  // raw DB value
+$User_Bio         = $row_edit["User_Bio"] ?? '';
+$User_Introduction= $row_edit["User_Introduction"] ?? '';
+$User_Skills      = $row_edit["User_Skills"] ?? '';
+$User_Title       = $row_edit["User_Title"] ?? '';
+$User_Facebook    = $row_edit["User_Facebook"] ?? '';
+$User_Instagram   = $row_edit["User_Instagram"] ?? '';
+$User_LinkedIn    = $row_edit["User_LinkedIn"] ?? '';
 
-// Handle AJAX updates for profile
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+// Resolve display paths (fallback to defaults)
+$User_Photo      = $User_Photo_DB ?: $defaultProfile;
+$User_CoverPhoto = $User_Cover_DB ?: $defaultCover;
+
+// Handle AJAX updates for profile text fields (existing functionality)
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['photo_action'])) {
     $fieldsToUpdate = [];
     $types = "";
     $values = [];
@@ -51,6 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $fieldsToUpdate[] = "User_Title = ?";
         $types .= "s";
         $values[] = $_POST['title'];
+       
     }
     if (isset($_POST['skills'])) {
         $fieldsToUpdate[] = "User_Skills = ?";
@@ -101,21 +134,179 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     exit;
 }
 
-// Fetch recent designs (limit to 3 for preview)
+// Photo upload/remove actions (profile or cover)
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['photo_action'])) {
+    header('Content-Type: application/json');
+
+    // CSRF
+    if (empty($_POST['csrf_token']) || !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
+        echo json_encode(['status' => 'error', 'message' => 'Invalid request token.']);
+        exit;
+    }
+
+    $action = $_POST['photo_action']; // upload_profile | upload_cover | remove_profile | remove_cover
+
+    // Enforce not both uploads at once
+    if (($action === 'upload_profile' || $action === 'upload_cover')
+        && isset($_FILES['profile_photo']) && isset($_FILES['cover_photo'])
+        && $_FILES['profile_photo']['error'] !== UPLOAD_ERR_NO_FILE
+        && $_FILES['cover_photo']['error'] !== UPLOAD_ERR_NO_FILE) {
+        echo json_encode(['status' => 'error', 'message' => 'Please upload only one photo at a time.']);
+        exit;
+    }
+
+    // Helper: process a single upload
+    $processUpload = function(string $fieldName, string $typeLabel) use ($uploadBaseDir) {
+        if (!isset($_FILES[$fieldName]) || $_FILES[$fieldName]['error'] === UPLOAD_ERR_NO_FILE) {
+            return ['ok' => false, 'error' => "No $typeLabel photo uploaded."];
+        }
+        $file = $_FILES[$fieldName];
+        if ($file['error'] !== UPLOAD_ERR_OK) {
+            return ['ok' => false, 'error' => "Upload failed (code " . (int)$file['error'] . ")."];
+        }
+        // Validate type/size
+        $maxSize = 10 * 1024 * 1024; // 10MB
+        if ($file['size'] > $maxSize) {
+            return ['ok' => false, 'error' => "Image must be 10MB or smaller."];
+        }
+        $finfo = new finfo(FILEINFO_MIME_TYPE);
+        $mime = $finfo->file($file['tmp_name']);
+        $allowed = [
+            'image/jpeg' => 'jpg',
+            'image/png'  => 'png',
+            'image/webp' => 'webp',
+            'image/gif'  => 'gif',
+        ];
+        if (!isset($allowed[$mime])) {
+            return ['ok' => false, 'error' => "Unsupported image type. Allowed: JPG, PNG, WEBP, GIF."];
+        }
+        $ext = $allowed[$mime];
+        $baseName = uniqid('user_', true) . '.' . $ext;
+        $targetFs = rtrim($uploadBaseDir, '/\\') . DIRECTORY_SEPARATOR . $baseName;
+
+        if (!move_uploaded_file($file['tmp_name'], $targetFs)) {
+            return ['ok' => false, 'error' => "Failed to save uploaded image."];
+        }
+
+        // Return path relative to this profile.php for use in <img src="">
+        $relativePath = 'userProfilePhotos/' . $baseName;
+        return ['ok' => true, 'path' => $relativePath];
+    };
+
+    try {
+        if ($action === 'upload_profile') {
+            $res = $processUpload('profile_photo', 'profile');
+            if (!$res['ok']) {
+                echo json_encode(['status' => 'error', 'message' => $res['error']]);
+                exit;
+            }
+            // Remove old uploaded file if applicable
+            deleteOldIfLocal($User_Photo_DB);
+
+            // Update DB
+            $newPath = $res['path'];
+            $upd = $connections->prepare("UPDATE user SET User_Photo = ? WHERE User_ID = ?");
+            $upd->bind_param("si", $newPath, $User_ID);
+            $ok = $upd->execute();
+            $upd->close();
+
+            if (!$ok) {
+                echo json_encode(['status' => 'error', 'message' => 'Database update failed.']);
+                exit;
+            }
+
+            echo json_encode(['status' => 'success', 'message' => 'Profile photo updated.', 'path' => $newPath]);
+            exit;
+        }
+
+        if ($action === 'upload_cover') {
+            $res = $processUpload('cover_photo', 'cover');
+            if (!$res['ok']) {
+                echo json_encode(['status' => 'error', 'message' => $res['error']]);
+                exit;
+            }
+            // Remove old uploaded file if applicable
+            deleteOldIfLocal($User_Cover_DB);
+
+            // Update DB
+            $newPath = $res['path'];
+            $upd = $connections->prepare("UPDATE user SET User_CoverPhoto = ? WHERE User_ID = ?");
+            $upd->bind_param("si", $newPath, $User_ID);
+            $ok = $upd->execute();
+            $upd->close();
+
+            if (!$ok) {
+                echo json_encode(['status' => 'error', 'message' => 'Database update failed.']);
+                exit;
+            }
+
+            echo json_encode(['status' => 'success', 'message' => 'Cover photo updated.', 'path' => $newPath]);
+            exit;
+        }
+
+        if ($action === 'remove_profile') {
+            // Delete old uploaded file if applicable
+            deleteOldIfLocal($User_Photo_DB);
+
+            // Set to default path (so other pages get the default immediately)
+            $newPath = $defaultProfile;
+            $upd = $connections->prepare("UPDATE user SET User_Photo = ? WHERE User_ID = ?");
+            $upd->bind_param("si", $newPath, $User_ID);
+            $ok = $upd->execute();
+            $upd->close();
+
+            if (!$ok) {
+                echo json_encode(['status' => 'error', 'message' => 'Database update failed.']);
+                exit;
+            }
+
+            echo json_encode(['status' => 'success', 'message' => 'Profile photo removed.', 'path' => $newPath]);
+            exit;
+        }
+
+        if ($action === 'remove_cover') {
+            // Delete old uploaded file if applicable
+            deleteOldIfLocal($User_Cover_DB);
+
+            // Set to default
+            $newPath = $defaultCover;
+            $upd = $connections->prepare("UPDATE user SET User_CoverPhoto = ? WHERE User_ID = ?");
+            $upd->bind_param("si", $newPath, $User_ID);
+            $ok = $upd->execute();
+            $upd->close();
+
+            if (!$ok) {
+                echo json_encode(['status' => 'error', 'message' => 'Database update failed.']);
+                exit;
+            }
+
+            echo json_encode(['status' => 'success', 'message' => 'Cover photo removed.', 'path' => $newPath]);
+            exit;
+        }
+
+        echo json_encode(['status' => 'error', 'message' => 'Unknown action.']);
+        exit;
+    } catch (Throwable $e) {
+        echo json_encode(['status' => 'error', 'message' => 'Server error.']);
+        exit;
+    }
+}
+
+// Fetch recent designs (limit to 3 for preview) — exclude archived
 $recentDesigns = [];
-$stmt = $connections->prepare("SELECT Design_ID, Design_Name, Design_Description, Design_Category, Design_Price, Design_Photo, Design_Created_At FROM design WHERE User_ID = ? AND Design_Status <> 2 ORDER BY Design_Created_At DESC LIMIT 3");
+$stmt = $connections->prepare("SELECT Design_ID, Design_Name, Design_Description, Design_Category, Design_Price, Design_Photo, Design_Created_At FROM design WHERE User_ID = ? AND (Design_Status IS NULL OR Design_Status <> 2) ORDER BY Design_Created_At DESC LIMIT 3");
 $stmt->bind_param("i", $User_ID);
 $stmt->execute();
 $result = $stmt->get_result();
 while ($row = $result->fetch_assoc()) {
-    $design_id = $row["Design_ID"];
+    $design_id = (int)$row["Design_ID"];
     // Fetch average rating
     $rating_stmt = $connections->prepare("SELECT AVG(Design_Rate) as avg_rating FROM rating WHERE Design_ID = ?");
     $rating_stmt->bind_param("i", $design_id);
     $rating_stmt->execute();
     $rating_result = $rating_stmt->get_result();
     $rating_row = $rating_result->fetch_assoc();
-    $rating = $rating_row["avg_rating"] ? round($rating_row["avg_rating"], 1) : 0;
+    $rating = $rating_row["avg_rating"] ? round((float)$rating_row["avg_rating"], 1) : 0;
     $rating_stmt->close();
 
     $recentDesigns[] = [
@@ -133,7 +324,6 @@ $stmt->close();
 ?>
 
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -143,7 +333,15 @@ $stmt->close();
     <link rel="stylesheet" href="profile.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js" defer onload="window.lucide && lucide.createIcons()"></script>
+    <style>
+        .photo-actions { display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
+        .btn-danger { background:#ef4444; color:#fff; }
+        .btn-danger:hover { background:#dc2626; }
+        .hidden-input { display:none; }
+        .toast { position:fixed; top:16px; right:16px; background:#111827; color:#fff; padding:10px 14px; border-radius:8px; opacity:0.95; z-index:9999; }
+    </style>
+    <meta name="csrf-token" content="<?php echo htmlspecialchars($csrfToken); ?>">
 </head>
 <body>
     <div class="min-h-screen">
@@ -163,7 +361,7 @@ $stmt->close();
                         <a href="../user/dashboard" class="btn btn-outline btn-sm">Dashboard</a>
                         <div class="profile-menu">
                             <button class="profile-avatar active" onclick="toggleDropdown()">
-                                <img src="../media/default_user_photo.jpg" alt="Profile" class="avatar-img">
+                                <img src="<?php echo htmlspecialchars($User_Photo); ?>" alt="Profile" class="avatar-img">
                             </button>
                             <div class="dropdown-menu" id="profileDropdown">
                                 <a href="../user_dashboard/account_settings" class="dropdown-item">
@@ -189,24 +387,34 @@ $stmt->close();
         <main class="main-content">
             <!-- Profile Cover & Header -->
             <section class="profile-cover">
-                <div class="cover-image">
-                    <img src="../media/default_user_cover_photo.jpg" alt="Cover" class="cover-img">
-                    <div class="cover-overlay"></div>
-                    <button type="file" class="cover-edit-btn" onclick="openCoverUpload()">
+            <!-- Replace ONLY the cover action buttons block -->
+            <div class="cover-image">
+                <img id="cover-img" src="<?php echo htmlspecialchars($User_CoverPhoto); ?>" alt="Cover" class="cover-img">
+                <div class="cover-overlay"></div>
+
+                <!-- Inline style ensures row layout and above overlay -->
+                <div class="photo-actions" style="position:absolute; top:16px; right:16px; z-index:10; display:flex; gap:8px; flex-wrap:wrap; align-items:center;">
+                    <!-- Note: cover-edit-btn removed -->
+                    <button type="button" class="btn btn-outline btn-sm" onclick="openCoverUpload()">
                         <i data-lucide="camera" class="icon-sm"></i>
                         Edit Cover
                     </button>
+                    <button type="button" class="btn btn-danger btn-sm" onclick="removeCoverPhoto()">
+                        <i data-lucide="trash-2" class="icon-sm"></i>
+                        Remove Cover
+                    </button>
                 </div>
+            </div>
                 
                 <div class="container">
                     <div class="profile-header-content">
+                        <!-- inside the profile-header-content, in .profile-avatar-container -->
                         <div class="profile-avatar-container">
-                            <div class="profile-avatar-large">
-                                <img src="../media/default_user_photo.jpg" alt="User Photo" class="avatar-img">
-                            </div>
-                            <button class="avatar-edit-btn" onclick="openImageUpload()">
-                                    <i data-lucide="camera" class="icon-sm"></i>
-                                </button>
+                        <div class="profile-avatar-large">
+                            <img id="profile-img" src="<?php echo htmlspecialchars($User_Photo); ?>" alt="User Photo" class="avatar-img">
+                        </div>
+
+                        
                         </div>
                         
                         <div class="profile-info">
@@ -223,17 +431,32 @@ $stmt->close();
                                 </div>
                             </div>
                         </div>
+
+                        <!-- New: actions under the avatar -->
+                        <div class="avatar-actions">
+                            <button type="button" class="btn btn-outline btn-sm" onclick="openImageUpload()">
+                            <i data-lucide="camera" class="icon-sm"></i>
+                            Edit Profile Photo
+                            </button>
+                            <button type="button" class="btn btn-danger btn-sm" onclick="removeProfilePhoto()">
+                            <i data-lucide="trash-2" class="icon-sm"></i>
+                            Remove Profile Photo
+                            </button>
+                        </div>
                         
-                        <div class="profile-actions">
-                            
+                        <!-- <div class="profile-actions">
                             <button class="btn btn-gradient">
                                 <i data-lucide="settings-2" class="icon-sm"></i>
                                 <a href="../user_dashboard/account_settings" class="logo-link-white">Account Settings</a>
                             </button>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </section>
+
+            <!-- Hidden file inputs (one at a time rule enforced in JS) -->
+            <input id="profile-input" class="hidden-input" type="file" accept="image/png,image/jpeg,image/webp,image/gif">
+            <input id="cover-input" class="hidden-input" type="file" accept="image/png,image/jpeg,image/webp,image/gif">
 
             <!-- Profile Content -->
             <section class="profile-content">
@@ -290,20 +513,12 @@ $stmt->close();
                                 </div>
                                 <div class="skills-content" id="skills-content">
                                     <div class="skills-grid">
-                                            <div class="skills-grid">
-                                                <?php
-                                                // Split the skills string by commas
-                                                $skills = explode(',', $User_Skills);
-
-                                                // Loop through each skill and output as a separate <span>
-                                                foreach ($skills as $skill) {
-                                                    $skill = trim($skill); // remove extra spaces
-                                                    if (!empty($skill)) {
-                                                        echo '<span class="skill-tag">' . htmlspecialchars($skill) . '</span>';
-                                                    }
-                                                }
-                                                ?>
-                                            </div>
+                                        <?php
+                                        $skills = array_filter(array_map('trim', explode(',', $User_Skills ?? '')));
+                                        foreach ($skills as $skill) {
+                                            echo '<span class="skill-tag">' . htmlspecialchars($skill) . '</span>';
+                                        }
+                                        ?>
                                     </div>
                                 </div>
                             </div>
@@ -336,10 +551,8 @@ $stmt->close();
                                         </div>
                                     <?php endforeach; ?>
                                 <?php else: ?>
-                                    <!-- Placeholder if user has no designs -->
                                     <p class="no-designs-message">You haven't uploaded any designs yet.</p>
                                 <?php endif; ?>
-                                
                                 </div>
                             </div>
 
@@ -521,26 +734,166 @@ $stmt->close();
     </div>
 
     <script>
-        // Initialize Lucide icons
+        // Initialize Lucide icons (again after DOM load)
         document.addEventListener('DOMContentLoaded', function() {
-            lucide.createIcons();
+            if (window.lucide) lucide.createIcons();
             
             // Close dropdown when clicking outside
             document.addEventListener('click', function(e) {
                 const dropdown = document.getElementById('profileDropdown');
                 const profileAvatar = document.querySelector('.profile-avatar');
                 
-                if (!profileAvatar.contains(e.target)) {
+                if (dropdown && profileAvatar && !profileAvatar.contains(e.target)) {
                     dropdown.classList.remove('show');
                 }
             });
         });
+
+        // Utility: show toast
+        function toast(msg) {
+            const t = document.createElement('div');
+            t.className = 'toast';
+            t.textContent = msg;
+            document.body.appendChild(t);
+            setTimeout(() => { t.remove(); }, 2500);
+        }
 
         // Toggle dropdown menu
         function toggleDropdown() {
             const dropdown = document.getElementById('profileDropdown');
             dropdown.classList.toggle('show');
         }
+
+        // Enforce one-at-a-time upload
+        let uploadInProgress = false;
+
+        function openImageUpload() {
+            if (uploadInProgress) return;
+            document.getElementById('profile-input').click();
+        }
+
+        function openCoverUpload() {
+            if (uploadInProgress) return;
+            document.getElementById('cover-input').click();
+        }
+
+        async function uploadFile(type, file) {
+            if (!file) return;
+            if (uploadInProgress) return;
+            uploadInProgress = true;
+
+            const allowed = ['image/jpeg','image/png','image/webp','image/gif'];
+            if (!allowed.includes(file.type)) {
+                toast('Unsupported image type.');
+                uploadInProgress = false;
+                return;
+            }
+            if (file.size > 10 * 1024 * 1024) {
+                toast('Image must be 10MB or smaller.');
+                uploadInProgress = false;
+                return;
+            }
+
+            const fd = new FormData();
+            fd.append('photo_action', type === 'profile' ? 'upload_profile' : 'upload_cover');
+            fd.append('csrf_token', document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
+            if (type === 'profile') {
+                fd.append('profile_photo', file);
+            } else {
+                fd.append('cover_photo', file);
+            }
+
+            try {
+                const res = await fetch('profile.php', { method: 'POST', body: fd });
+                const data = await res.json();
+                if (data.status === 'success') {
+                    const cacheBust = data.path + (data.path.includes('?') ? '&' : '?') + 'v=' + Date.now();
+                    if (type === 'profile') {
+                        document.getElementById('profile-img').src = cacheBust;
+                        // header avatar
+                        const headerAvatar = document.querySelector('.profile-avatar img.avatar-img');
+                        if (headerAvatar) headerAvatar.src = cacheBust;
+                    } else {
+                        document.getElementById('cover-img').src = cacheBust;
+                    }
+                    toast(data.message);
+                } else {
+                    toast(data.message || 'Upload failed.');
+                }
+            } catch (e) {
+                toast('Upload error.');
+            } finally {
+                uploadInProgress = false;
+            }
+        }
+
+        document.getElementById('profile-input')?.addEventListener('change', function() {
+            if (this.files && this.files[0]) {
+                // Clear cover input to ensure not both at once
+                const coverInput = document.getElementById('cover-input');
+                if (coverInput) coverInput.value = '';
+                uploadFile('profile', this.files[0]);
+            }
+        });
+
+        document.getElementById('cover-input')?.addEventListener('change', function() {
+            if (this.files && this.files[0]) {
+                // Clear profile input to ensure not both at once
+                const profileInput = document.getElementById('profile-input');
+                if (profileInput) profileInput.value = '';
+                uploadFile('cover', this.files[0]);
+            }
+        });
+
+        async function removeProfilePhoto() {
+            if (uploadInProgress) return;
+            uploadInProgress = true;
+            const fd = new FormData();
+            fd.append('photo_action', 'remove_profile');
+            fd.append('csrf_token', document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
+            try {
+                const res = await fetch('profile.php', { method: 'POST', body: fd });
+                const data = await res.json();
+                if (data.status === 'success') {
+                    const cacheBust = data.path + (data.path.includes('?') ? '&' : '?') + 'v=' + Date.now();
+                    document.getElementById('profile-img').src = cacheBust;
+                    const headerAvatar = document.querySelector('.profile-avatar img.avatar-img');
+                    if (headerAvatar) headerAvatar.src = cacheBust;
+                    toast('Profile photo removed.');
+                } else {
+                    toast(data.message || 'Failed to remove.');
+                }
+            } catch {
+                toast('Error removing photo.');
+            } finally {
+                uploadInProgress = false;
+            }
+        }
+
+        async function removeCoverPhoto() {
+            if (uploadInProgress) return;
+            uploadInProgress = true;
+            const fd = new FormData();
+            fd.append('photo_action', 'remove_cover');
+            fd.append('csrf_token', document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
+            try {
+                const res = await fetch('profile.php', { method: 'POST', body: fd });
+                const data = await res.json();
+                if (data.status === 'success') {
+                    const cacheBust = data.path + (data.path.includes('?') ? '&' : '?') + 'v=' + Date.now();
+                    document.getElementById('cover-img').src = cacheBust;
+                    toast('Cover photo removed.');
+                } else {
+                    toast(data.message || 'Failed to remove.');
+                }
+            } catch {
+                toast('Error removing cover.');
+            } finally {
+                uploadInProgress = false;
+            }
+        }
+
+        // Existing edit functions for text sections...
 
         // Edit mode functionality
         let editMode = false;
@@ -552,17 +905,21 @@ $stmt->close();
             
             if (editMode) {
                 editButtons.forEach(btn => btn.classList.remove('hidden'));
-                editModeBtn.innerHTML = '<i data-lucide="x" class="icon-sm"></i> Cancel Edit';
-                editModeBtn.classList.remove('btn-outline');
-                editModeBtn.classList.add('btn-secondary');
+                if (editModeBtn) {
+                    editModeBtn.innerHTML = '<i data-lucide="x" class="icon-sm"></i> Cancel Edit';
+                    editModeBtn.classList.remove('btn-outline');
+                    editModeBtn.classList.add('btn-secondary');
+                }
             } else {
                 editButtons.forEach(btn => btn.classList.add('hidden'));
-                editModeBtn.innerHTML = '<i data-lucide="edit-2" class="icon-sm"></i> Edit Profile';
-                editModeBtn.classList.remove('btn-secondary');
-                editModeBtn.classList.add('btn-outline');
+                if (editModeBtn) {
+                    editModeBtn.innerHTML = '<i data-lucide="edit-2" class="icon-sm"></i> Edit Profile';
+                    editModeBtn.classList.remove('btn-secondary');
+                    editModeBtn.classList.add('btn-outline');
+                }
             }
             
-            lucide.createIcons();
+            if (window.lucide) lucide.createIcons();
         }
 
         function editSection(sectionType) {
@@ -585,14 +942,14 @@ $stmt->close();
 
         function editTextSection(container, textClass, label) {
             const textElement = container.querySelector('.' + textClass);
-            const currentText = textElement.textContent.trim();
+            const currentText = (textElement?.textContent || '').trim();
             
             container.innerHTML = `
                 <div class="edit-form">
                     <textarea class="form-textarea" rows="4" placeholder="Enter your ${label.toLowerCase()}...">${currentText}</textarea>
                     <div class="form-actions">
                         <button class="btn btn-gradient btn-sm" onclick="saveTextSection('${textClass}', '${label}')">Save</button>
-                        <button class="btn btn-outline btn-sm" onclick="cancelEdit('${textClass}', '${currentText}')">Cancel</button>
+                        <button class="btn btn-outline btn-sm" onclick="cancelEdit('${textClass}', '${currentText.replace(/"/g, '&quot;')}')">Cancel</button>
                     </div>
                 </div>
             `;
@@ -616,66 +973,63 @@ $stmt->close();
         }
 
         function editContactSection(container) {
-        const phoneSpan = document.querySelector('.profile-contact .contact-item:first-child span');
-        const emailSpan = document.querySelector('.profile-contact .contact-item:last-child span');
+            const phoneSpan = document.querySelector('.profile-contact .contact-item:first-child span');
+            const emailSpan = document.querySelector('.profile-contact .contact-item:last-child span');
 
-        const currentPhone = phoneSpan.textContent.trim();
-        const currentEmail = emailSpan.textContent.trim();
+            const currentPhone = phoneSpan ? phoneSpan.textContent.trim() : '';
+            const currentEmail = emailSpan ? emailSpan.textContent.trim() : '';
 
-        container.innerHTML = `
-            <div class="edit-form">
-                <div class="form-group">
-                    <label class="form-label">Phone Number</label>
-                    <input type="tel" class="form-input" id="edit-phone" value="${currentPhone}">
+            container.innerHTML = `
+                <div class="edit-form">
+                    <div class="form-group">
+                        <label class="form-label">Phone Number</label>
+                        <input type="tel" class="form-input" id="edit-phone" value="${currentPhone}">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Email Address</label>
+                        <input type="email" class="form-input" id="edit-email" value="${currentEmail}">
+                        <small class="form-note">Changing your email will also update your login email.</small>
+                    </div>
+                    <div class="form-actions">
+                        <button class="btn btn-gradient btn-sm" onclick="saveContactSection()">Save</button>
+                        <button class="btn btn-outline btn-sm" onclick="cancelContactEdit()">Cancel</button>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label class="form-label">Email Address</label>
-                    <input type="email" class="form-input" id="edit-email" value="${currentEmail}">
-                    <small class="form-note">Changing your email will also update your login email.</small>
+            `;
+        }
+
+        let originalSocialLinks = {};
+
+        function editSocialSection(container) {
+            const facebookEl = container.querySelector('.facebook');
+            const instagramEl = container.querySelector('.instagram');
+            const linkedinEl = container.querySelector('.linkedin');
+
+            originalSocialLinks.facebook = facebookEl ? facebookEl.href : 'https://facebook.com/';
+            originalSocialLinks.instagram = instagramEl ? instagramEl.href : 'https://instagram.com/';
+            originalSocialLinks.linkedin = linkedinEl ? linkedinEl.href : 'https://linkedin.com/in/';
+
+            container.innerHTML = `
+                <div class="edit-form">
+                    <div class="form-group">
+                        <label class="form-label">Facebook URL</label>
+                        <input type="url" class="form-input" id="edit-facebook" value="${originalSocialLinks.facebook}">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Instagram URL</label>
+                        <input type="url" class="form-input" id="edit-instagram" value="${originalSocialLinks.instagram}">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">LinkedIn URL</label>
+                        <input type="url" class="form-input" id="edit-linkedin" value="${originalSocialLinks.linkedin}">
+                    </div>
+                    <div class="form-actions">
+                        <button class="btn btn-gradient btn-sm" onclick="saveSocialSection()">Save</button>
+                        <button class="btn btn-outline btn-sm" onclick="cancelSocialEdit()">Cancel</button>
+                    </div>
                 </div>
-                <div class="form-actions">
-                    <button class="btn btn-gradient btn-sm" onclick="saveContactSection()">Save</button>
-                    <button class="btn btn-outline btn-sm" onclick="cancelContactEdit()">Cancel</button>
-                </div>
-            </div>
-        `;
-    }
-
-let originalSocialLinks = {};
-
-function editSocialSection(container) {
-    // Grab current links from the DOM
-    const facebookEl = container.querySelector('.facebook');
-    const instagramEl = container.querySelector('.instagram');
-    const linkedinEl = container.querySelector('.linkedin');
-
-    originalSocialLinks.facebook = facebookEl ? facebookEl.href : 'https://facebook.com/';
-    originalSocialLinks.instagram = instagramEl ? instagramEl.href : 'https://instagram.com/';
-    originalSocialLinks.linkedin = linkedinEl ? linkedinEl.href : 'https://linkedin.com/in/';
-
-    container.innerHTML = `
-        <div class="edit-form">
-            <div class="form-group">
-                <label class="form-label">Facebook URL</label>
-                <input type="url" class="form-input" id="edit-facebook" value="${originalSocialLinks.facebook}">
-            </div>
-            <div class="form-group">
-                <label class="form-label">Instagram URL</label>
-                <input type="url" class="form-input" id="edit-instagram" value="${originalSocialLinks.instagram}">
-            </div>
-            <div class="form-group">
-                <label class="form-label">LinkedIn URL</label>
-                <input type="url" class="form-input" id="edit-linkedin" value="${originalSocialLinks.linkedin}">
-            </div>
-            <div class="form-actions">
-                <button class="btn btn-gradient btn-sm" onclick="saveSocialSection()">Save</button>
-                <button class="btn btn-outline btn-sm" onclick="cancelSocialEdit()">Cancel</button>
-            </div>
-        </div>
-    `;
-}
-
-
+            `;
+        }
 
         function saveTextSection(textClass, label) {
             const textarea = document.querySelector('.form-textarea');
@@ -688,7 +1042,7 @@ function editSocialSection(container) {
                 body: `${label.toLowerCase()}=${encodeURIComponent(newText)}`
             })
             .then(response => response.text())
-            .then(data => {
+            .then(() => {
                 container.innerHTML = `<p class="${textClass}">${newText}</p>`;
             })
             .catch(error => console.error(error));
@@ -706,105 +1060,91 @@ function editSocialSection(container) {
                 body: `skills=${encodeURIComponent(skills.join(', '))}`
             })
             .then(response => response.text())
-            .then(data => {
+            .then(() => {
                 const skillsHTML = skills.map(skill => `<span class="skill-tag">${skill}</span>`).join('');
                 container.innerHTML = `<div class="skills-grid">${skillsHTML}</div>`;
             })
             .catch(error => console.error(error));
-
         }
 
         function saveContactSection() {
-    const phone = document.getElementById('edit-phone').value;
-    const email = document.getElementById('edit-email').value;
+            const phone = document.getElementById('edit-phone').value;
+            const email = document.getElementById('edit-email').value;
 
-    const container = document.getElementById('contact-content');
-    const phoneSpan = document.querySelector('.profile-contact .contact-item:first-child span');
-    const emailSpan = document.querySelector('.profile-contact .contact-item:last-child span');
+            const container = document.getElementById('contact-content');
+            const phoneSpan = document.querySelector('.profile-contact .contact-item:first-child span');
+            const emailSpan = document.querySelector('.profile-contact .contact-item:last-child span');
 
-    // Update the displayed spans only
-    phoneSpan.textContent = phone;
-    emailSpan.textContent = email;
+            if (phoneSpan) phoneSpan.textContent = phone;
+            if (emailSpan) emailSpan.textContent = email;
 
-    // Remove the edit form
-    container.innerHTML = `
-        <div class="contact-form-view">
-            <div class="form-group">
-                <label class="form-label">Phone Number</label>
-                <div class="form-display">${phone}</div>
-            </div>
-            <div class="form-group">
-                <label class="form-label">Email Address</label>
-                <div class="form-display">${email}</div>
-            </div>
-        </div>
-    `;
+            container.innerHTML = `
+                <div class="contact-form-view">
+                    <div class="form-group">
+                        <label class="form-label">Phone Number</label>
+                        <div class="form-display">${phone}</div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Email Address</label>
+                        <div class="form-display">${email}</div>
+                    </div>
+                </div>
+            `;
 
-    // Send AJAX request
-    fetch('profile.php', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: `phone=${encodeURIComponent(phone)}&email=${encodeURIComponent(email)}`
-    })
-    .then(res => res.json())
-    .then(data => {
-        if (data.status === 'success') {
-            console.log(data.message);
-        } else {
-            console.error(data.message);
+            fetch('profile.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: `phone=${encodeURIComponent(phone)}&email=${encodeURIComponent(email)}`
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    console.log(data.message);
+                } else {
+                    console.error(data.message);
+                }
+            })
+            .catch(err => console.error('Fetch error:', err));
         }
-    })
-    .catch(err => console.error('Fetch error:', err));
-}
 
+        function saveSocialSection() {
+            const facebook = document.getElementById('edit-facebook').value.trim();
+            const instagram = document.getElementById('edit-instagram').value.trim();
+            const linkedin = document.getElementById('edit-linkedin').value.trim();
+            const container = document.getElementById('social-content');
 
-function saveSocialSection() {
-    const facebook = document.getElementById('edit-facebook').value.trim();
-    const instagram = document.getElementById('edit-instagram').value.trim();
-    const linkedin = document.getElementById('edit-linkedin').value.trim();
-    const container = document.getElementById('social-content');
+            container.innerHTML = `
+                <a href="${facebook}" class="social-link facebook" target="_blank">
+                    <i data-lucide="facebook" class="icon-sm"></i>
+                    <span>Facebook</span>
+                    <i data-lucide="external-link" class="icon-xs external-icon"></i>
+                </a>
+                <a href="${instagram}" class="social-link instagram" target="_blank">
+                    <i data-lucide="instagram" class="icon-sm"></i>
+                    <span>Instagram</span>
+                    <i data-lucide="external-link" class="icon-xs external-icon"></i>
+                </a>
+                <a href="${linkedin}" class="social-link linkedin" target="_blank">
+                    <i data-lucide="linkedin" class="icon-sm"></i>
+                    <span>LinkedIn</span>
+                    <i data-lucide="external-link" class="icon-xs external-icon"></i>
+                </a>
+            `;
 
-    // Update DOM
-    container.innerHTML = `
-        <a href="${facebook}" class="social-link facebook" target="_blank">
-            <i data-lucide="facebook" class="icon-sm"></i>
-            <span>Facebook</span>
-            <i data-lucide="external-link" class="icon-xs external-icon"></i>
-        </a>
-        <a href="${instagram}" class="social-link instagram" target="_blank">
-            <i data-lucide="instagram" class="icon-sm"></i>
-            <span>Instagram</span>
-            <i data-lucide="external-link" class="icon-xs external-icon"></i>
-        </a>
-        <a href="${linkedin}" class="social-link linkedin" target="_blank">
-            <i data-lucide="linkedin" class="icon-sm"></i>
-            <span>LinkedIn</span>
-            <i data-lucide="external-link" class="icon-xs external-icon"></i>
-        </a>
-    `;
+            if (window.lucide) lucide.createIcons();
 
-    lucide.createIcons();
-
-    // Update original values so cancel restores the latest saved values
-    originalSocialLinks.facebook = facebook;
-    originalSocialLinks.instagram = instagram;
-    originalSocialLinks.linkedin = linkedin;
-
-    // AJAX request
-    fetch('profile.php', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: `facebook=${encodeURIComponent(facebook)}&instagram=${encodeURIComponent(instagram)}&linkedin=${encodeURIComponent(linkedin)}`
-    })
-    .then(res => res.json())
-    .then(data => {
-        if (data.status === 'success') console.log(data.message);
-        else console.error(data.message);
-    })
-    .catch(err => console.error('Fetch error:', err));
-}
-
-
+            fetch('profile.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: `facebook=${encodeURIComponent(facebook)}&instagram=${encodeURIComponent(instagram)}&linkedin=${encodeURIComponent(linkedin)}`
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === 'success') console.log(data.message);
+                else console.error(data.message);
+            })
+            .catch(err => console.error('Fetch error:', err));
+        }
 
         function cancelEdit(textClass, originalText) {
             const container = document.querySelector('.edit-form').closest('.editable-content');
@@ -830,64 +1170,53 @@ function saveSocialSection() {
         }
 
         function cancelContactEdit() {
-    const container = document.getElementById('contact-content');
-    const phone = document.querySelector('.profile-contact .contact-item:first-child span').textContent;
-    const email = document.querySelector('.profile-contact .contact-item:last-child span').textContent;
+            const container = document.getElementById('contact-content');
+            const phone = document.querySelector('.profile-contact .contact-item:first-child span')?.textContent || '';
+            const email = document.querySelector('.profile-contact .contact-item:last-child span')?.textContent || '';
 
-    container.innerHTML = `
-        <div class="contact-form-view">
-            <div class="form-group">
-                <label class="form-label">Phone Number</label>
-                <div class="form-display">${phone}</div>
-            </div>
-            <div class="form-group">
-                <label class="form-label">Email Address</label>
-                <div class="form-display">${email}</div>
-            </div>
-        </div>
-    `;
-}
-
-
-        function cancelSocialEdit() {
-    const container = document.getElementById('social-content');
-
-    container.innerHTML = `
-        <a href="${originalSocialLinks.facebook}" class="social-link facebook" target="_blank">
-            <i data-lucide="facebook" class="icon-sm"></i>
-            <span>Facebook</span>
-            <i data-lucide="external-link" class="icon-xs external-icon"></i>
-        </a>
-        <a href="${originalSocialLinks.instagram}" class="social-link instagram" target="_blank">
-            <i data-lucide="instagram" class="icon-sm"></i>
-            <span>Instagram</span>
-            <i data-lucide="external-link" class="icon-xs external-icon"></i>
-        </a>
-        <a href="${originalSocialLinks.linkedin}" class="social-link linkedin" target="_blank">
-            <i data-lucide="linkedin" class="icon-sm"></i>
-            <span>LinkedIn</span>
-            <i data-lucide="external-link" class="icon-xs external-icon"></i>
-        </a>
-    `;
-
-    lucide.createIcons();
-}
-
-
-
-        function openImageUpload() {
-            //alert('Profile image upload functionality would be implemented here');
+            container.innerHTML = `
+                <div class="contact-form-view">
+                    <div class="form-group">
+                        <label class="form-label">Phone Number</label>
+                        <div class="form-display">${phone}</div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Email Address</label>
+                        <div class="form-display">${email}</div>
+                    </div>
+                </div>
+            `;
         }
 
-        function openCoverUpload() {
-            //alert('Cover image upload functionality would be implemented here');
+        function cancelSocialEdit() {
+            const container = document.getElementById('social-content');
+
+            container.innerHTML = `
+                <a href="${originalSocialLinks.facebook}" class="social-link facebook" target="_blank">
+                    <i data-lucide="facebook" class="icon-sm"></i>
+                    <span>Facebook</span>
+                    <i data-lucide="external-link" class="icon-xs external-icon"></i>
+                </a>
+                <a href="${originalSocialLinks.instagram}" class="social-link instagram" target="_blank">
+                    <i data-lucide="instagram" class="icon-sm"></i>
+                    <span>Instagram</span>
+                    <i data-lucide="external-link" class="icon-xs external-icon"></i>
+                </a>
+                <a href="${originalSocialLinks.linkedin}" class="social-link linkedin" target="_blank">
+                    <i data-lucide="linkedin" class="icon-sm"></i>
+                    <span>LinkedIn</span>
+                    <i data-lucide="external-link" class="icon-xs external-icon"></i>
+                </a>
+            `;
+
+            if (window.lucide) lucide.createIcons();
         }
 
         // Profile sharing
         document.querySelector('[onclick*="Share Profile"]')?.addEventListener('click', function() {
             if (navigator.share) {
                 navigator.share({
-                    title: 'Alex Rivera - Senior Brand Designer',
+                    title: '<?php echo htmlspecialchars($User_FirstName . " " . $User_LastName); ?>',
                     text: 'Check out my profile on Graphio',
                     url: window.location.href
                 });

@@ -37,6 +37,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $User_ConfirmPassword = $_POST["User_ConfirmPassword"];
     }
 
+    $default_ProfilePic = "../media/default_user_photo.jpg";
+    $default_CoverPhoto = "../media/default_user_cover_photo.jpg";
+
     if ($User_FirstName && $User_LastName && $User_Email && $User_Password && $User_ConfirmPassword) {
         $check_email = mysqli_query($connections, "SELECT * FROM user WHERE User_Email='$User_Email'");
         $check_email_row = mysqli_num_rows($check_email);
@@ -46,7 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } else if ($User_Password != $User_ConfirmPassword) {
             $User_ConfirmPasswordErr = "Password did not match!";
         } else {
-            $query = mysqli_query($connections, "INSERT INTO user (User_FirstName, User_LastName, User_Email, User_Password, User_Type) VALUES ('$User_FirstName','$User_LastName','$User_Email','$User_Password','1')");
+            $query = mysqli_query($connections, "INSERT INTO user (User_FirstName, User_LastName, User_Email, User_Password, User_Photo, User_CoverPhoto, User_Type) VALUES ('$User_FirstName','$User_LastName','$User_Email','$User_Password','$default_ProfilePic','$default_CoverPhoto','1')");
 
             echo "<script language='javascript'>alert('New Record has been inserted!')</script>";
             echo "<script>window.location.href='login.php';</script>";
