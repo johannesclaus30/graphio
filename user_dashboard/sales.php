@@ -179,7 +179,7 @@ $stmt->close();
                 </div>
 
                 <!-- Sales Chart (placeholder) -->
-                <div class="chart-section">
+                <!-- <div class="chart-section">
                     <div class="section-card">
                         <div class="section-header">
                             <h2 class="section-title">Revenue Trend</h2>
@@ -197,7 +197,7 @@ $stmt->close();
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
 
                 <!-- Recent Sales -->
                 <div class="sales-section">
