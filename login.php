@@ -1,5 +1,14 @@
 <?php
 
+session_start();
+include("connections.php");
+
+if(isset($_SESSION["User_ID"])) {
+    header("Location: user/dashboard.php");
+    exit(); 
+} 
+
+
 $User_Email = $User_Password = "";
 $User_EmailErr = $User_PasswordErr = "";
 
@@ -17,7 +26,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     if($User_Email && $User_Password) {
-        include("connections.php");
         $check_email = mysqli_query($connections, "SELECT * FROM user WHERE User_Email='$User_Email'");
         $check_email_row = mysqli_num_rows($check_email);
 

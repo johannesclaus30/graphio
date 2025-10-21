@@ -1,9 +1,18 @@
 <?php
 
+session_start();
 include("connections.php");
+
+if(isset($_SESSION["User_ID"])) {
+    header("Location: user/dashboard.php");
+    exit(); 
+} 
+
 
 $User_FirstName = $User_LastName = $User_Email = $User_Password = $User_ConfirmPassword = $User_Type = "";
 $User_FirstNameErr = $User_LastNameErr = $User_EmailErr = $User_PasswordErr = $User_ConfirmPasswordErr = "";
+
+
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
