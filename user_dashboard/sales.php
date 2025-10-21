@@ -1,5 +1,57 @@
 <?php
+session_start();
+include("../connections.php");
 
+// Require login (seller/designer)
+if (!isset($_SESSION["User_ID"])) {
+    header("Location: ../login.php");
+    exit();
+}
+$User_ID = (int) $_SESSION["User_ID"];
+$currencySymbol = "₱";
+
+// Normalize design photo path from this folder level
+function normalizeForThis(string $path, string $default = '../media/default_design_photo.jpg'): string {
+    $p = trim($path);
+    if ($p === '') return $default;
+    if (preg_match('#^https?://#i', $p)) return $p;
+    if ($p[0] === '/') return $p;
+    if (strpos($p, '../') === 0) return $p;
+    if (strpos($p, './') === 0) $p = substr($p, 2);
+    return '../' . ltrim($p, '/');
+}
+
+// Totals for this seller from sales table
+$totals = ['sum' => 0.00, 'count' => 0];
+$stmt = $connections->prepare("SELECT COALESCE(SUM(Sales_Amount),0) AS s, COUNT(*) AS c FROM sales WHERE User_ID = ?");
+$stmt->bind_param("i", $User_ID);
+$stmt->execute();
+$res = $stmt->get_result()->fetch_assoc();
+$stmt->close();
+if ($res) {
+    $totals['sum'] = (float)$res['s'];
+    $totals['count'] = (int)$res['c'];
+}
+
+// Recent 10 sales joined with design by Payment_ID (we store Design_ID in Payment_ID)
+$recentSales = [];
+$stmt = $connections->prepare("
+    SELECT s.Sales_ID, s.Sales_Amount, s.Sales_Date, s.Payment_ID,
+           d.Design_Name, d.Design_Category, d.Design_Photo
+    FROM sales s
+    LEFT JOIN design d ON d.Design_ID = s.Payment_ID
+    WHERE s.User_ID = ?
+    ORDER BY s.Sales_Date DESC
+    LIMIT 10
+");
+$stmt->bind_param("i", $User_ID);
+$stmt->execute();
+$r = $stmt->get_result();
+while ($row = $r->fetch_assoc()) {
+    $row['Design_Photo'] = normalizeForThis($row['Design_Photo'] ?? '');
+    $recentSales[] = $row;
+}
+$stmt->close();
 ?>
 
 <!DOCTYPE html>
@@ -27,8 +79,6 @@
                     
                     <nav class="header-nav">
                         <a href="../designs" class="nav-link">Designs</a>
-                        <a href="../careers" class="nav-link">Careers</a>
-                        <a href="../artists" class="nav-link">Artists</a>
                         <a href="../about.html" class="nav-link">About</a>
                     </nav>
                     
@@ -89,11 +139,11 @@
                             </div>
                             <div class="stat-trend positive">
                                 <i data-lucide="trending-up" class="icon-xs"></i>
-                                <span>+12.5%</span>
+                                <span></span>
                             </div>
                         </div>
                         <div class="stat-content">
-                            <h3 class="stat-value">$3,245</h3>
+                            <h3 class="stat-value"><?php echo $currencySymbol . number_format($totals['sum'], 2); ?></h3>
                             <p class="stat-label">Total Earnings</p>
                         </div>
                     </div>
@@ -105,49 +155,17 @@
                             </div>
                             <div class="stat-trend positive">
                                 <i data-lucide="trending-up" class="icon-xs"></i>
-                                <span>+8.2%</span>
+                                <span></span>
                             </div>
                         </div>
                         <div class="stat-content">
-                            <h3 class="stat-value">127</h3>
+                            <h3 class="stat-value"><?php echo number_format($totals['count']); ?></h3>
                             <p class="stat-label">Total Sales</p>
-                        </div>
-                    </div>
-
-                    <div class="stat-card">
-                        <div class="stat-header">
-                            <div class="stat-icon avg-price">
-                                <i data-lucide="bar-chart-3" class="icon-md"></i>
-                            </div>
-                            <div class="stat-trend positive">
-                                <i data-lucide="trending-up" class="icon-xs"></i>
-                                <span>+3.8%</span>
-                            </div>
-                        </div>
-                        <div class="stat-content">
-                            <h3 class="stat-value">$25.55</h3>
-                            <p class="stat-label">Average Price</p>
-                        </div>
-                    </div>
-
-                    <div class="stat-card">
-                        <div class="stat-header">
-                            <div class="stat-icon conversion">
-                                <i data-lucide="target" class="icon-md"></i>
-                            </div>
-                            <div class="stat-trend negative">
-                                <i data-lucide="trending-down" class="icon-xs"></i>
-                                <span>-2.1%</span>
-                            </div>
-                        </div>
-                        <div class="stat-content">
-                            <h3 class="stat-value">4.8%</h3>
-                            <p class="stat-label">Conversion Rate</p>
                         </div>
                     </div>
                 </div>
 
-                <!-- Time Period Filter -->
+                <!-- Time Period Filter (static UI only) -->
                 <div class="filters-section">
                     <div class="filter-group">
                         <label class="filter-label">Time Period:</label>
@@ -160,7 +178,7 @@
                     </div>
                 </div>
 
-                <!-- Sales Chart -->
+                <!-- Sales Chart (placeholder) -->
                 <div class="chart-section">
                     <div class="section-card">
                         <div class="section-header">
@@ -169,7 +187,6 @@
                                 <select class="chart-type-select">
                                     <option value="revenue">Revenue</option>
                                     <option value="sales">Sales Count</option>
-                                    <option value="conversion">Conversion Rate</option>
                                 </select>
                             </div>
                         </div>
@@ -187,144 +204,61 @@
                     <div class="section-card">
                         <div class="section-header">
                             <h2 class="section-title">Recent Sales</h2>
-                            <a href="#" class="section-link">View All</a>
                         </div>
                         <div class="sales-table">
                             <div class="table-header">
                                 <div class="table-row">
                                     <div class="table-cell header">Design</div>
-                                    <div class="table-cell header">Customer</div>
                                     <div class="table-cell header">Date</div>
-                                    <div class="table-cell header">Price</div>
-                                    <div class="table-cell header">Status</div>
+                                    <div class="table-cell header">Amount</div>
+                                    <div class="table-cell header">Link</div>
                                 </div>
                             </div>
                             <div class="table-body">
-                                <div class="table-row">
-                                    <div class="table-cell">
-                                        <div class="design-info">
-                                            <div class="design-thumbnail">
-                                                <i data-lucide="image" class="thumbnail-icon"></i>
+                                <?php if (empty($recentSales)): ?>
+                                    <div class="table-row">
+                                        <div class="table-cell" colspan="4" style="color:#6b7280;">No sales yet.</div>
+                                    </div>
+                                <?php else: ?>
+                                    <?php foreach ($recentSales as $row): ?>
+                                        <div class="table-row">
+                                            <div class="table-cell">
+                                                <div class="design-info">
+                                                    <div class="design-thumbnail">
+                                                        <?php if (!empty($row['Design_Photo'])): ?>
+                                                            <img src="<?php echo htmlspecialchars($row['Design_Photo']); ?>" alt="" style="width:40px;height:40px;object-fit:cover;border-radius:6px;">
+                                                        <?php else: ?>
+                                                            <i data-lucide="image" class="thumbnail-icon"></i>
+                                                        <?php endif; ?>
+                                                    </div>
+                                                    <div class="design-details">
+                                                        <span class="design-name"><?php echo htmlspecialchars($row['Design_Name'] ?? 'Design'); ?></span>
+                                                        <span class="design-category"><?php echo htmlspecialchars($row['Design_Category'] ?? ''); ?></span>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div class="design-details">
-                                                <span class="design-name">Modern Logo Pack</span>
-                                                <span class="design-category">Logo Design</span>
+                                            <div class="table-cell">
+                                                <span class="sale-date"><?php echo htmlspecialchars(date("M d, Y", strtotime($row['Sales_Date']))); ?></span>
+                                                <span class="sale-time"><?php echo htmlspecialchars(date("h:i A", strtotime($row['Sales_Date']))); ?></span>
                                             </div>
-                                        </div>
-                                    </div>
-                                    <div class="table-cell">
-                                        <div class="customer-info">
-                                            <span class="customer-name">Sarah Johnson</span>
-                                            <span class="customer-email">sarah.j@email.com</span>
-                                        </div>
-                                    </div>
-                                    <div class="table-cell">
-                                        <span class="sale-date">Dec 15, 2024</span>
-                                        <span class="sale-time">2:30 PM</span>
-                                    </div>
-                                    <div class="table-cell">
-                                        <span class="sale-price">$45.00</span>
-                                    </div>
-                                    <div class="table-cell">
-                                        <span class="status-badge completed">Completed</span>
-                                    </div>
-                                </div>
-
-                                <div class="table-row">
-                                    <div class="table-cell">
-                                        <div class="design-info">
-                                            <div class="design-thumbnail">
-                                                <i data-lucide="image" class="thumbnail-icon"></i>
+                                            <div class="table-cell">
+                                                <span class="sale-price"><?php echo $currencySymbol . number_format((float)$row['Sales_Amount'], 2); ?></span>
                                             </div>
-                                            <div class="design-details">
-                                                <span class="design-name">Business Card Template</span>
-                                                <span class="design-category">Print Design</span>
+                                            <div class="table-cell">
+                                                <?php if (!empty($row['Payment_ID'])): ?>
+                                                    <a class="btn btn-outline btn-sm" href="../view/view_design.php?id=<?php echo (int)$row['Payment_ID']; ?>">View</a>
+                                                <?php else: ?>
+                                                    <span style="color:#6b7280;">N/A</span>
+                                                <?php endif; ?>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="table-cell">
-                                        <div class="customer-info">
-                                            <span class="customer-name">Mike Chen</span>
-                                            <span class="customer-email">mike.chen@company.com</span>
-                                        </div>
-                                    </div>
-                                    <div class="table-cell">
-                                        <span class="sale-date">Dec 14, 2024</span>
-                                        <span class="sale-time">4:15 PM</span>
-                                    </div>
-                                    <div class="table-cell">
-                                        <span class="sale-price">$25.00</span>
-                                    </div>
-                                    <div class="table-cell">
-                                        <span class="status-badge completed">Completed</span>
-                                    </div>
-                                </div>
-
-                                <div class="table-row">
-                                    <div class="table-cell">
-                                        <div class="design-info">
-                                            <div class="design-thumbnail">
-                                                <i data-lucide="image" class="thumbnail-icon"></i>
-                                            </div>
-                                            <div class="design-details">
-                                                <span class="design-name">Social Media Kit</span>
-                                                <span class="design-category">Social Media</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="table-cell">
-                                        <div class="customer-info">
-                                            <span class="customer-name">Emily Rodriguez</span>
-                                            <span class="customer-email">emily.r@startup.io</span>
-                                        </div>
-                                    </div>
-                                    <div class="table-cell">
-                                        <span class="sale-date">Dec 13, 2024</span>
-                                        <span class="sale-time">11:45 AM</span>
-                                    </div>
-                                    <div class="table-cell">
-                                        <span class="sale-price">$35.00</span>
-                                    </div>
-                                    <div class="table-cell">
-                                        <span class="status-badge processing">Processing</span>
-                                    </div>
-                                </div>
-
-                                <div class="table-row">
-                                    <div class="table-cell">
-                                        <div class="design-info">
-                                            <div class="design-thumbnail">
-                                                <i data-lucide="image" class="thumbnail-icon"></i>
-                                            </div>
-                                            <div class="design-details">
-                                                <span class="design-name">Website Mockup</span>
-                                                <span class="design-category">Web Design</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="table-cell">
-                                        <div class="customer-info">
-                                            <span class="customer-name">David Park</span>
-                                            <span class="customer-email">david.park@agency.com</span>
-                                        </div>
-                                    </div>
-                                    <div class="table-cell">
-                                        <span class="sale-date">Dec 12, 2024</span>
-                                        <span class="sale-time">9:20 AM</span>
-                                    </div>
-                                    <div class="table-cell">
-                                        <span class="sale-price">$75.00</span>
-                                    </div>
-                                    <div class="table-cell">
-                                        <span class="status-badge completed">Completed</span>
-                                    </div>
-                                </div>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                
             </div>
         </main>
 
@@ -346,59 +280,11 @@
     </div>
 
     <script>
-        // Initialize Lucide icons
         document.addEventListener('DOMContentLoaded', function() {
             lucide.createIcons();
-            initializePage();
         });
 
-        function initializePage() {
-            // Filter button functionality
-            const filterButtons = document.querySelectorAll('.filter-btn');
-            filterButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    filterButtons.forEach(btn => btn.classList.remove('active'));
-                    this.classList.add('active');
-                    updateSalesData(this.dataset.period);
-                });
-            });
-
-            // Chart type selector
-            const chartSelect = document.querySelector('.chart-type-select');
-            chartSelect.addEventListener('change', function() {
-                updateChartType(this.value);
-            });
-
-            // User menu dropdown
-            const userMenu = document.querySelector('.user-menu');
-            const userAvatar = document.querySelector('.user-avatar');
-            const dropdownMenu = document.querySelector('.dropdown-menu');
-
-            userAvatar.addEventListener('click', function(e) {
-                e.stopPropagation();
-                dropdownMenu.classList.toggle('show');
-            });
-
-            document.addEventListener('click', function() {
-                dropdownMenu.classList.remove('show');
-            });
-        }
-
-        function updateSalesData(period) {
-            // Simulate data update based on time period
-            console.log('Updating sales data for period:', period);
-            // In a real app, this would fetch new data from the API
-        }
-
-        function updateChartType(type) {
-            // Simulate chart type change
-            console.log('Updating chart type to:', type);
-            // In a real app, this would update the chart visualization
-        }
-
-        function exportSalesData() {
-            alert('Sales data export functionality would be implemented here');
-        }
+        // (Optional) Hook up time period buttons later to filter by ?period=...
     </script>
 </body>
 </html>
