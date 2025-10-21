@@ -133,7 +133,7 @@ if(isset($_SESSION["User_ID"])) {
                             <div class="stat-content">
                                 <div class="stat-text">
                                     <p class="stat-label">Earnings</p>
-                                    <p class="stat-value">$4,750</p>
+                                    <p class="stat-value">₱4,750</p>
                                 </div>
                                 <div class="stat-icon yellow">
                                     <i data-lucide="wallet" class="icon-md"></i>
@@ -240,7 +240,7 @@ if(isset($_SESSION["User_ID"])) {
                                 <div class="card-stats">
                                     <div class="stat-row">
                                         <span class="stat-name">This Month</span>
-                                        <span class="stat-number positive">+$1,240</span>
+                                        <span class="stat-number positive">₱1,240</span>
                                     </div>
                                     <button class="btn btn-full btn-green">
                                         View Analytics

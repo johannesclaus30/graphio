@@ -234,7 +234,7 @@ if (!isset($_SESSION["User_ID"])) {
                                                     Price (USD) *
                                                 </label>
                                                 <div class="price-input-wrapper">
-                                                    <span class="price-prefix">$</span>
+                                                    <span class="price-prefix">₱</span>
                                                     <input 
                                                         type="number" 
                                                         id="design-price" 
@@ -247,7 +247,7 @@ if (!isset($_SESSION["User_ID"])) {
                                                         required
                                                     >
                                                 </div>
-                                                <p class="field-help">Minimum price: $1.00</p>
+                                                <p class="field-help">Minimum price: ₱1.00</p>
                                             </div>
                                         </div>
 
@@ -346,24 +346,24 @@ if (!isset($_SESSION["User_ID"])) {
                                         </h3>
                                     </div>
                                     <div class="sidebar-card-content">
-                                        <div class="pricing-suggestions">
+                                        <!-- <div class="pricing-suggestions">
                                             <div class="price-range">
                                                 <span class="price-category">Logo Design</span>
-                                                <span class="price-value">$25 - $150</span>
+                                                <span class="price-value">₱25 - ₱150</span>
                                             </div>
                                             <div class="price-range">
                                                 <span class="price-category">Brand Identity</span>
-                                                <span class="price-value">$50 - $300</span>
+                                                <span class="price-value">₱50 - ₱300</span>
                                             </div>
                                             <div class="price-range">
                                                 <span class="price-category">UI/UX Kit</span>
-                                                <span class="price-value">$30 - $200</span>
+                                                <span class="price-value">₱30 - ₱200</span>
                                             </div>
                                             <div class="price-range">
                                                 <span class="price-category">Print Design</span>
-                                                <span class="price-value">$15 - $100</span>
+                                                <span class="price-value">₱15 - ₱100</span>
                                             </div>
-                                        </div>
+                                        </div> -->
                                         <p class="pricing-note">
                                             Prices vary based on complexity and uniqueness
                                         </p>

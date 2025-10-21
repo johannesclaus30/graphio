@@ -198,7 +198,7 @@ while ($row = mysqli_fetch_assoc($designsQuery)) {
                                 <p class="design-category"><?php echo htmlspecialchars($design['Design_Category']); ?></p>
                                 <div class="design-meta">
                                     <span class="design-date"><?php echo date("M d, Y", strtotime($design['Design_Created_At'])); ?></span>
-                                    <span class="design-price">$<?php echo htmlspecialchars($design['Design_Price']); ?></span>
+                                    <span class="design-price">₱<?php echo htmlspecialchars($design['Design_Price']); ?></span>
                                 </div>
                                 <div class="design-stats">
                                     <span class="stat">

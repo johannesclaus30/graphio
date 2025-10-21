@@ -166,7 +166,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         Design_Name = ?,
                         Design_Description = ?,
                         Design_Category = ?,
-                        Design_Category_Name = ?,
+                        Design_Category = ?,
                         Design_Price = ?,
                         Design_Url = ?,
                         Design_Photo = ?
@@ -383,12 +383,12 @@ $designCreatedAt = htmlspecialchars(date("M d, Y", strtotime($design['Design_Cre
                         </div>
 
                         <div class="form-field">
-                            <label class="form-label" for="design_price">Price (USD) *</label>
+                            <label class="form-label" for="design_price">Price (PHP) *</label>
                             <div class="price-input-wrapper">
-                                <span class="price-prefix">$</span>
+                                <span class="price-prefix">₱</span>
                                 <input class="form-input price-input" type="number" id="design_price" name="design_price" min="1" max="10000" step="0.01" required value="<?php echo $designPrice; ?>">
                             </div>
-                            <p class="note">Minimum price: $1.00</p>
+                            <p class="note">Minimum price: ₱1.00</p>
                         </div>
 
                         <div class="form-field" style="grid-column:1 / -1;">

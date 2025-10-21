@@ -208,7 +208,7 @@ $reviewCount = (int)$design['reviewCount'];
 
                         <div class="price-section">
                             <div class="price-container">
-                                <span class="current-price">$<?php echo $designPrice; ?></span>
+                                <span class="current-price">₱<?php echo $designPrice; ?></span>
                             </div>
                             <div class="price-info">
                                 <span class="license-info">
