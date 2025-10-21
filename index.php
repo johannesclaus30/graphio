@@ -24,8 +24,8 @@
                     <!-- Desktop Navigation -->
                     <nav class="nav-desktop">
                         <a href="designs" class="nav-link">Designs</a>
-                        <a href="careers" class="nav-link">Careers</a>
-                        <a href="artists" class="nav-link">Artists</a>
+                        <!-- <a href="careers" class="nav-link">Careers</a>
+                        <a href="artists" class="nav-link">Artists</a> -->
                         <a href="about.html" class="nav-link">About</a>
                     </nav>
 
@@ -300,7 +300,7 @@
             </section>
 
             <!-- Career Opportunities -->
-            <section id="careers" class="careers">
+            <!-- <section id="careers" class="careers">
                 <div class="container">
                     <div class="section-header">
                         <h2 class="section-title">Career Opportunities</h2>
@@ -552,20 +552,20 @@
                         </a>
                     </div>
                 </div>
-            </section>
+            </section> -->
 
             <!-- Featured Artists -->
             <section id="artists" class="featured-artists">
                 <div class="container">
-                    <div class="section-header">
+                    <!-- <div class="section-header">
                         <h2 class="section-title">Top Designers and Artists</h2>
                         <p class="section-description">
                             Work with talented professionals who bring your creative vision to life
                         </p>
-                    </div>
+                    </div> -->
 
                     <div class="artists-grid">
-                        <div class="artist-card">
+                        <!-- <div class="artist-card">
                             <a href="view_artist.html" class="logo-link">
                                 <div class="featured-badge">
                                 <i data-lucide="award" class="icon-xs"></i>
@@ -696,12 +696,12 @@
                                 
                                 <button class="btn btn-sm btn-outline artist-btn">View Profile</button>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
 
-                    <div class="section-footer">
+                    <!-- <div class="section-footer">
                         <button class="btn btn-lg btn-outline"><a href="artists" class="logo-link">Browse All Artists</a></button>
-                    </div>
+                    </div> -->
                 </div>
             </section>
 
@@ -716,7 +716,7 @@
                     </div>
 
                     <div class="cta-grid">
-                        <!-- For Clients -->
+                        <!-- For Clients
                         <div class="cta-card">
                             <div class="cta-icon">
                                 <i data-lucide="users" class="icon-lg"></i>
@@ -749,10 +749,10 @@
                                 <a href="login_business.html" class="logo-link">Apply Graphio for Business</a>
                                 <i data-lucide="arrow-right" class="icon-sm"></i>
                             </button>
-                        </div>
+                        </div> -->
 
                         <!-- For Designers -->
-                        <div class="cta-card">
+                        <!-- <div class="cta-card">
                             <div class="cta-icon">
                                 <i data-lucide="zap" class="icon-lg"></i>
                             </div>
@@ -782,25 +782,25 @@
                                 <a href="signup" class="logo-link">Be a Graphio Designer</a>
                                 <i data-lucide="arrow-right" class="icon-sm"></i>
                             </button>
-                        </div>
+                        </div> -->
                     </div>
 
                     <!-- Stats -->
                     <div class="cta-stats">
                         <div class="cta-stat">
-                            <div class="cta-stat-number">50K+</div>
+                            <div class="cta-stat-number">Editable</div>
                             <div class="cta-stat-label">Active Designs</div>
                         </div>
                         <div class="cta-stat">
-                            <div class="cta-stat-number">10K+</div>
-                            <div class="cta-stat-label">Happy Clients</div>
+                            <div class="cta-stat-number">Trusted</div>
+                            <div class="cta-stat-label">By Clients</div>
                         </div>
                         <div class="cta-stat">
-                            <div class="cta-stat-number">5K+</div>
+                            <div class="cta-stat-number">Professional</div>
                             <div class="cta-stat-label">Designers</div>
                         </div>
                         <div class="cta-stat">
-                            <div class="cta-stat-number">98%</div>
+                            <div class="cta-stat-number">Excellent</div>
                             <div class="cta-stat-label">Satisfaction Rate</div>
                         </div>
                     </div>

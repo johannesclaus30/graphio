@@ -2,35 +2,17 @@
 session_start();
 include("../connections.php");
 
-if (!isset($_SESSION["User_ID"])) {
-    $User_ID = 1; // Default to guest user
-} else {
-    $User_ID = $_SESSION["User_ID"];
-}
+// Allow guests to view. If logged in, use the ID for ownership checks.
+$User_ID = isset($_SESSION["User_ID"]) ? (int)$_SESSION["User_ID"] : null;
 
-// Require a design id in query string
+// Validate design id
 if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
     http_response_code(400);
     die("Design not specified.");
 }
-
 $designId = (int) $_GET['id'];
 
-// Get user info (for initials/avatar, etc.)
-$userStmt = $connections->prepare("SELECT User_ID, User_FirstName, User_LastName FROM user WHERE User_ID = ?");
-$userStmt->bind_param("i", $User_ID);
-$userStmt->execute();
-$userResult = $userStmt->get_result();
-if ($userResult->num_rows === 0) {
-    die("User not found.");
-}
-$user = $userResult->fetch_assoc();
-$User_Initials = strtoupper(substr($user['User_FirstName'],0,1) . substr($user['User_LastName'],0,1));
-$userStmt->close();
-
-// NOTE: This query currently restricts viewing to owner's designs only.
-// If you want non-owners to view/purchase, remove "AND d.User_ID = ?"
-// and don't bind $User_ID here.
+// Fetch the design publicly (exclude archived)
 $designStmt = $connections->prepare("
     SELECT 
         d.*,
@@ -38,10 +20,10 @@ $designStmt = $connections->prepare("
         COUNT(r.Design_Rate) AS reviewCount
     FROM design d
     LEFT JOIN rating r ON d.Design_ID = r.Design_ID
-    WHERE d.Design_ID = ? AND d.User_ID = ?
+    WHERE d.Design_ID = ? AND (d.Design_Status IS NULL OR d.Design_Status <> 2)
     GROUP BY d.Design_ID
 ");
-$designStmt->bind_param("ii", $designId, $User_ID);
+$designStmt->bind_param("i", $designId);
 $designStmt->execute();
 $designResult = $designStmt->get_result();
 
@@ -49,19 +31,66 @@ if ($designResult->num_rows === 0) {
     http_response_code(404);
     die("Design not found.");
 }
-
 $design = $designResult->fetch_assoc();
 $designStmt->close();
 
-// Prepare safe variables
+// Fetch owner info (to show designer details)
+$ownerId = (int) $design['User_ID'];
+$ownerStmt = $connections->prepare("
+    SELECT User_FirstName, User_LastName, COALESCE(User_Photo, '') AS User_Photo 
+    FROM user 
+    WHERE User_ID = ?
+");
+$ownerStmt->bind_param("i", $ownerId);
+$ownerStmt->execute();
+$ownerRes = $ownerStmt->get_result();
+$owner = $ownerRes->fetch_assoc();
+$ownerStmt->close();
+
+// Determine if viewer is the owner
+$isOwner = ($User_ID !== null && $User_ID === $ownerId);
+
+// Prepare viewer initials if logged in (optional, used in header)
+$User_Initials = "GU";
+if ($User_ID !== null) {
+    $viewerStmt = $connections->prepare("SELECT User_FirstName, User_LastName FROM user WHERE User_ID = ?");
+    $viewerStmt->bind_param("i", $User_ID);
+    $viewerStmt->execute();
+    $viewerRes = $viewerStmt->get_result();
+    if ($viewerRes->num_rows > 0) {
+        $viewer = $viewerRes->fetch_assoc();
+        $User_Initials = strtoupper(substr($viewer['User_FirstName'] ?? '', 0, 1) . substr($viewer['User_LastName'] ?? '', 0, 1));
+    } else {
+        $User_Initials = "U";
+    }
+    $viewerStmt->close();
+}
+
+// Helper: normalize asset paths for a page inside /view/
+// - leaves absolute URLs (http/https), site-root (/...), and ../... intact
+// - prefixes ../ to relative paths like "userProfilePhotos/..." so they work from /view/
+function normalizeForView($path, $default) {
+    $p = trim((string)$path);
+    if ($p === '') return $default;
+    if (preg_match('#^https?://#i', $p)) return $p; // absolute URL
+    if ($p[0] === '/') return $p;                   // site-root relative
+    if (strpos($p, '../') === 0) return $p;         // already relative to parent
+    if (strpos($p, './') === 0) $p = substr($p, 2);
+    return '../' . ltrim($p, '/');
+}
+
+// Safe variables for template
 $designName = htmlspecialchars($design['Design_Name'] ?? 'Design');
-$designDescription = htmlspecialchars($design['Design_Description'] ?? 'Description');
 $designCategory = htmlspecialchars($design['Design_Category'] ?? 'Category');
-$designPhoto = htmlspecialchars($design['Design_Photo'] ?? '../media/placeholder.png');
-$designPrice = htmlspecialchars($design['Design_Price'] ?? '0.00');
+$designPhoto = htmlspecialchars(normalizeForView($design['Design_Photo'] ?? '', '../media/placeholder.png'));
+$designPrice = htmlspecialchars(number_format((float)($design['Design_Price'] ?? 0), 2));
 $designCreatedAt = htmlspecialchars(date("M d, Y", strtotime($design['Design_Created_At'] ?? 'now')));
 $averageRate = number_format((float)$design['averageRate'], 1);
 $reviewCount = (int)$design['reviewCount'];
+$designDescription = htmlspecialchars($design['Design_Description'] ?? '');
+
+$ownerName = htmlspecialchars(trim(($owner['User_FirstName'] ?? '') . ' ' . ($owner['User_LastName'] ?? '')));
+$ownerPhoto = htmlspecialchars(normalizeForView($owner['User_Photo'] ?? '', '../media/default_user_photo.jpg'));
 ?>
 
 
@@ -107,22 +136,8 @@ $reviewCount = (int)$design['reviewCount'];
         <!-- Breadcrumb -->
         <div class="breadcrumb-section">
             <div class="container">
-                <?php if ($user['User_ID'] !== $design['User_ID']) {
-                    echo '
-                        <nav class="breadcrumb">
-                        <a href="../index" class="breadcrumb-link">
-                            <i data-lucide="home" class="icon-sm"></i>
-                            Home
-                        </a>
-                        <i data-lucide="chevron-right" class="breadcrumb-separator"></i>
-                        <a href="../designs.php" class="breadcrumb-link">Designs</a>
-                        <i data-lucide="chevron-right" class="breadcrumb-separator"></i>
-                        <span class="breadcrumb-current">' . htmlspecialchars($designName) . '</span>
-                    </nav>
-                    ';
-                } else {
-                    echo '
-                        <nav class="breadcrumb">
+                <?php if ($isOwner): ?>
+                    <nav class="breadcrumb">
                         <a href="../index" class="breadcrumb-link">
                             <i data-lucide="home" class="icon-sm"></i>
                             Home
@@ -130,10 +145,20 @@ $reviewCount = (int)$design['reviewCount'];
                         <i data-lucide="chevron-right" class="breadcrumb-separator"></i>
                         <a href="../user/user_designs.php" class="breadcrumb-link">My Designs</a>
                         <i data-lucide="chevron-right" class="breadcrumb-separator"></i>
-                        <span class="breadcrumb-current">' . htmlspecialchars($designName) . '</span>
+                        <span class="breadcrumb-current"><?php echo $designName; ?></span>
                     </nav>
-                    ';
-                } ?>
+                <?php else: ?>
+                    <nav class="breadcrumb">
+                        <a href="../index" class="breadcrumb-link">
+                            <i data-lucide="home" class="icon-sm"></i>
+                            Home
+                        </a>
+                        <i data-lucide="chevron-right" class="breadcrumb-separator"></i>
+                        <a href="../designs.php" class="breadcrumb-link">Designs</a>
+                        <i data-lucide="chevron-right" class="breadcrumb-separator"></i>
+                        <span class="breadcrumb-current"><?php echo $designName; ?></span>
+                    </nav>
+                <?php endif; ?>
             </div>
         </div>
 
@@ -175,17 +200,11 @@ $reviewCount = (int)$design['reviewCount'];
                         <div class="design-header">
                             <div class="design-category">
                                 <span class="category-tag"><?php echo $designCategory; ?></span>
-                                <!-- Example badge; show if needed -->
-                                <!-- <span class="featured-badge">
-                                    <i data-lucide="star" class="icon-xs"></i>
-                                    Featured
-                                </span> -->
                             </div>
                             <h1 class="design-title"><?php echo $designName; ?></h1>
                             <div class="design-meta">
                                 <div class="rating-section">
                                     <div class="stars">
-                                        <!-- Simple 5-star display; you can compute filled based on $averageRate if desired -->
                                         <?php for ($i = 1; $i <= 5; $i++): ?>
                                             <i data-lucide="star" class="star <?php echo ($i <= $averageRate) ? 'filled' : ''; ?>"></i>
                                         <?php endfor; ?>
@@ -218,41 +237,37 @@ $reviewCount = (int)$design['reviewCount'];
                             </div>
                         </div>
 
-                        <?php if ($user['User_ID'] !== $design['User_ID']){
-                        echo '
+                        <?php if (!$isOwner): ?>
                             <div class="purchase-section">
-                            <div class="purchase-actions">
-                                <button class="btn btn-gradient btn-large" onclick="purchaseDesign()">
-                                    <i data-lucide="shopping-cart" class="icon-sm"></i>
-                                    Purchase Design
-                                </button>
-                            </div>
-                            <div class="purchase-guarantee">
-                                <div class="guarantee-item">
-                                    <i data-lucide="shield" class="icon-sm guarantee-icon"></i>
-                                    <div class="guarantee-text">
-                                        <span class="guarantee-title">30-Day Money Back Guarantee</span>
-                                        <span class="guarantee-description">Full refund if not satisfied</span>
+                                <div class="purchase-actions">
+                                    <button class="btn btn-gradient btn-large" onclick="purchaseDesign()">
+                                        <i data-lucide="shopping-cart" class="icon-sm"></i>
+                                        Purchase Design
+                                    </button>
+                                </div>
+                                <div class="purchase-guarantee">
+                                    <div class="guarantee-item">
+                                        <i data-lucide="shield" class="icon-sm guarantee-icon"></i>
+                                        <div class="guarantee-text">
+                                            <span class="guarantee-title">30-Day Money Back Guarantee</span>
+                                            <span class="guarantee-description">Full refund if not satisfied</span>
+                                        </div>
+                                    </div>
+                                    <div class="guarantee-item">
+                                        <i data-lucide="download" class="icon-sm guarantee-icon"></i>
+                                        <div class="guarantee-text">
+                                            <span class="guarantee-title">Instant Download</span>
+                                            <span class="guarantee-description">Access files immediately after purchase</span>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="guarantee-item">
-                                    <i data-lucide="download" class="icon-sm guarantee-icon"></i>
-                                    <div class="guarantee-text">
-                                        <span class="guarantee-title">Instant Download</span>
-                                        <span class="guarantee-description">Access files immediately after purchase</span>
-                                    </div>
-                                </div>
                             </div>
-                        </div>
-                        ';
-                        } else {
-                            echo '<div class="own-design-note">
+                        <?php else: ?>
+                            <div class="own-design-note">
                                 <i data-lucide="info" class="icon-sm info-icon"></i>
                                 <span class="info-text">This is your own design. You cannot purchase it.</span>
-                            </div>';
-                        }
-                        
-                        ?>
+                            </div>
+                        <?php endif; ?>
 
                         <br>
 
@@ -261,11 +276,11 @@ $reviewCount = (int)$design['reviewCount'];
                                 <h3 class="section-title">About the Designer</h3>
                             </div>
                             <div class="designer-card">
-                                <div class="designer-avatar">
-                                    <img src="../media/default_user_photo.jpg" alt="Designer" class="avatar-img">
-                                </div>
+                                <!-- <div class="designer-avatar">
+                                    <img src="<?php echo $ownerPhoto; ?>" alt="Designer" class="avatar-img">
+                                </div> -->
                                 <div class="designer-details">
-                                    <h4 class="designer-name"><?php echo htmlspecialchars($user['User_FirstName'] . " " . $user['User_LastName']); ?></h4>
+                                    <h4 class="designer-name"><?php echo $ownerName; ?></h4>
                                     <p class="designer-title">Designer</p>
                                     <div class="designer-stats">
                                         <span class="designer-stat"><?php echo $averageRate; ?>★ Rating</span>
@@ -273,10 +288,10 @@ $reviewCount = (int)$design['reviewCount'];
                                         <span class="designer-stat">Member</span>
                                     </div>
                                 </div>
-                                <div class="designer-actions">
+                                <!-- <div class="designer-actions">
                                     <a href="../user/profile" class="btn btn-outline btn-sm">View Profile</a>
                                     <button class="btn btn-gradient btn-sm" onclick="contactDesigner()">Contact</button>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                     </div>
@@ -290,10 +305,7 @@ $reviewCount = (int)$design['reviewCount'];
                             <div class="content-section">
                                 <h2 class="section-title">Description</h2>
                                 <div class="description-content">
-                                    <p>
-                                        <!-- This is a placeholder description for "<?php echo $designName; ?>". You can store a description field in your database and display it here. -->
-                                        <?php echo $designDescription; ?>
-                                    </p>
+                                    <p><?php echo $designDescription; ?></p>
                                 </div>
                             </div>
 
@@ -311,7 +323,7 @@ $reviewCount = (int)$design['reviewCount'];
                                     </div>
                                     <div class="spec-item">
                                         <span class="spec-label">Price</span>
-                                        <span class="spec-value">$<?php echo $designPrice; ?></span>
+                                        <span class="spec-value">₱<?php echo $designPrice; ?></span>
                                     </div>
                                     <div class="spec-item">
                                         <span class="spec-label">License</span>
@@ -327,8 +339,7 @@ $reviewCount = (int)$design['reviewCount'];
                                     <div class="reviews-summary">
                                         <div class="review-score">
                                             <span class="score-number"><?php echo $averageRate; ?></span>
-                                            <div class="score-stars">
-                    
+                                            <div class="review-stars">
                                                 <?php for ($i = 1; $i <= 5; $i++): ?>
                                                     <i data-lucide="star" class="star <?php echo ($i <= $averageRate) ? 'filled' : ''; ?>"></i>
                                                 <?php endfor; ?>

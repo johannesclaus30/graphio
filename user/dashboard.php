@@ -90,7 +90,7 @@ if(isset($_SESSION["User_ID"])) {
                     </div>
                 </section>
 
-                <!-- Quick Stats -->
+                <!-- Quick Stats
                 <section class="stats-section">
                     <div class="stats-grid">
                         <div class="stat-card">
@@ -141,7 +141,7 @@ if(isset($_SESSION["User_ID"])) {
                             </div>
                         </div>
                     </div>
-                </section>
+                </section> -->
 
                 <!-- Main Actions -->
                 <section class="actions-section">
@@ -172,7 +172,7 @@ if(isset($_SESSION["User_ID"])) {
                         </div>
 
                         <!-- Hire Designers -->
-                        <div class="action-card" onclick="">
+                        <!-- <div class="action-card" onclick="">
                             <a href="login_business" class="logo-link-white">
                             <div class="card-header">
                                 <div class="card-header-top">
@@ -194,7 +194,7 @@ if(isset($_SESSION["User_ID"])) {
                                 </div>
                             </div>
                             </a>
-                        </div>
+                        </div> -->
 
                         <!-- My Graphiofolio -->
                         <div class="action-card" onclick="">
@@ -238,10 +238,10 @@ if(isset($_SESSION["User_ID"])) {
                             </div>
                             <div class="card-content">
                                 <div class="card-stats">
-                                    <div class="stat-row">
+                                    <!-- <div class="stat-row">
                                         <span class="stat-name">This Month</span>
                                         <span class="stat-number positive">₱1,240</span>
-                                    </div>
+                                    </div> -->
                                     <button class="btn btn-full btn-green">
                                         View Analytics
                                     </button>
@@ -251,7 +251,7 @@ if(isset($_SESSION["User_ID"])) {
                         </div>
 
                         <!-- Reviews -->
-                        <div class="action-card" onclick="">
+                        <!-- <div class="action-card" onclick="">
                             <a href="../user_dashboard/reviews" class="logo-link-white">
                             <div class="card-header">
                                 <div class="card-header-top">
@@ -280,9 +280,9 @@ if(isset($_SESSION["User_ID"])) {
                                 </div>
                             </div>
                             </a>
-                        </div>
+                        </div> -->
 
-                        <!-- Account Settings -->
+                        <!-- Account Settings
                         <div class="action-card" onclick="">
                             <a href="../user_dashboard/account_settings" class="logo-link-white">
                             <div class="card-header">
@@ -309,7 +309,7 @@ if(isset($_SESSION["User_ID"])) {
                                 </div>
                             </div>
                             </a>
-                        </div>
+                        </div> -->
                     </div>
                 </section>
 
