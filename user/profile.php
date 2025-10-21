@@ -103,7 +103,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 // Fetch recent designs (limit to 3 for preview)
 $recentDesigns = [];
-$stmt = $connections->prepare("SELECT Design_ID, Design_Name, Design_Description, Design_Category, Design_Price, Design_Photo, Design_Created_At FROM design WHERE User_ID = ? ORDER BY Design_Created_At DESC LIMIT 3");
+$stmt = $connections->prepare("SELECT Design_ID, Design_Name, Design_Description, Design_Category, Design_Price, Design_Photo, Design_Created_At FROM design WHERE User_ID = ? AND Design_Status <> 2 ORDER BY Design_Created_At DESC LIMIT 3");
 $stmt->bind_param("i", $User_ID);
 $stmt->execute();
 $result = $stmt->get_result();
@@ -192,7 +192,7 @@ $stmt->close();
                 <div class="cover-image">
                     <img src="../media/default_user_cover_photo.jpg" alt="Cover" class="cover-img">
                     <div class="cover-overlay"></div>
-                    <button class="cover-edit-btn" onclick="openCoverUpload()">
+                    <button type="file" class="cover-edit-btn" onclick="openCoverUpload()">
                         <i data-lucide="camera" class="icon-sm"></i>
                         Edit Cover
                     </button>
@@ -876,11 +876,11 @@ function saveSocialSection() {
 
 
         function openImageUpload() {
-            alert('Profile image upload functionality would be implemented here');
+            //alert('Profile image upload functionality would be implemented here');
         }
 
         function openCoverUpload() {
-            alert('Cover image upload functionality would be implemented here');
+            //alert('Cover image upload functionality would be implemented here');
         }
 
         // Profile sharing

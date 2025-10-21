@@ -9,17 +9,24 @@ if (!isset($_SESSION["User_ID"])) {
 
 $User_ID = $_SESSION["User_ID"];
 
+// CSRF token
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+$csrfToken = $_SESSION['csrf_token'];
+
 // Get user info
 $userQuery = mysqli_query($connections, "SELECT * FROM user WHERE User_ID='$User_ID'");
 $user = mysqli_fetch_assoc($userQuery);
 $User_Initials = strtoupper(substr($user['User_FirstName'],0,1) . substr($user['User_LastName'],0,1));
 
-// Get all user designs
+// Get all user designs (exclude archived)
 $designsQuery = mysqli_query($connections, "
     SELECT d.*, IFNULL(AVG(r.Design_Rate), 0) AS averageRate
     FROM design d
     LEFT JOIN rating r ON d.Design_ID = r.Design_ID
     WHERE d.User_ID = '$User_ID'
+      AND (d.Design_Status IS NULL OR d.Design_Status <> 2)
     GROUP BY d.Design_ID
     ORDER BY d.Design_Created_At DESC
 ");
@@ -43,6 +50,12 @@ while ($row = mysqli_fetch_assoc($designsQuery)) {
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <style>
+        .banner { margin: 16px 0; padding: 12px 14px; border-radius: 8px; font-size: 14px; }
+        .banner.success { background: #ecfdf5; color: #065f46; border: 1px solid #a7f3d0; }
+        .banner.error { background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; }
+        .design-actions form { display:inline; } /* keep buttons inline inside overlay */
+    </style>
 </head>
 <body>
     <div class="min-h-screen">
@@ -63,7 +76,9 @@ while ($row = mysqli_fetch_assoc($designsQuery)) {
                         <a href="dashboard" class="btn btn-outline btn-sm">Dashboard</a>
                         <div class="profile-menu">
                             <button class="profile-avatar">
-                                <img src="../media/default_user_photo.jpg" alt="Profile" class="avatar-img">
+                                <a href="../user/profile">
+                                    <img src="../media/default_user_photo.jpg" alt="Profile" class="avatar-img">
+                                </a>
                             </button>
                         </div>
                         
@@ -102,6 +117,21 @@ while ($row = mysqli_fetch_assoc($designsQuery)) {
                         
                         
                     </div>
+                    <?php if (isset($_GET['archived']) && $_GET['archived'] == '1'): ?>
+                        <div class="banner success">Design deleted successfully.</div>
+                    <?php endif; ?>
+                    <?php if (isset($_GET['error'])): ?>
+                        <div class="banner error">
+                            <?php
+                                $err = $_GET['error'];
+                                if ($err === 'invalid_csrf') echo 'Invalid request token.';
+                                elseif ($err === 'invalid_id') echo 'Invalid design ID.';
+                                elseif ($err === 'not_allowed') echo 'You are not allowed to delete this design.';
+                                elseif ($err === 'db') echo 'A database error occurred.';
+                                else echo 'An error occurred.';
+                            ?>
+                        </div>
+                    <?php endif; ?>
                 </div>
             </section>
 
@@ -114,24 +144,9 @@ while ($row = mysqli_fetch_assoc($designsQuery)) {
                             <?php foreach ($designs as $category): ?>
                             <button class="filter-tab" data-filter="<?php echo htmlspecialchars($category['Design_Category']); ?>"><?php echo htmlspecialchars($category['Design_Category']); ?></button>
                             <?php endforeach; ?>
-
-                            <!-- <button class="filter-tab active" data-filter="all">All Designs</button>
-                            <button class="filter-tab" data-filter="logo">Logo Design</button>
-                            <button class="filter-tab" data-filter="branding">Branding</button>
-                            <button class="filter-tab" data-filter="print">Print Design</button>
-                            <button class="filter-tab" data-filter="digital">Digital Design</button>
-                            <button class="filter-tab" data-filter="ui-ux">UI/UX</button> -->
                         </div>
                         
                         <div class="sort-options">
-                            <!-- <select class="sort-select">
-                                <option value="newest">Newest First</option>
-                                <option value="oldest">Oldest First</option>
-                                <option value="popular">Most Popular</option>
-                                <option value="views">Most Viewed</option>
-                                <option value="downloads">Most Downloaded</option>
-                            </select> -->
-                            
                             <div class="view-options">
                                 <button class="view-btn active" data-view="grid">
                                     <i data-lucide="grid-3x3" class="icon-sm"></i>
@@ -155,10 +170,26 @@ while ($row = mysqli_fetch_assoc($designsQuery)) {
                                 <img src="<?php echo htmlspecialchars($design['Design_Photo']); ?>" alt="<?php echo htmlspecialchars($design['Design_Name']); ?>" class="design-img">
                                 <div class="design-overlay">
                                     <div class="design-actions">
-                                        <button class="action-btn" title="Preview"><i data-lucide="eye" class="icon-sm"></i></button>
-                                        <button class="action-btn" title="Edit"><i data-lucide="edit-2" class="icon-sm"></i></button>
-                                        <button class="action-btn" title="Share"><i data-lucide="share-2" class="icon-sm"></i></button>
-                                        <button class="action-btn danger" title="Delete"><i data-lucide="trash-2" class="icon-sm"></i></button>
+                                        <!-- View -->
+                                        <a href="../view/view_design.php?id=<?php echo urlencode($design['Design_ID']); ?>">
+                                            <button class="action-btn" title="Preview">
+                                                <i data-lucide="eye" class="icon-sm"></i>
+                                            </button>
+                                        </a>
+                                        <!-- Edit -->
+                                        <a href="edit_design.php?id=<?php echo urlencode($design['Design_ID']); ?>">
+                                            <button class="action-btn" title="Edit">
+                                                <i data-lucide="edit-2" class="icon-sm"></i>
+                                            </button>
+                                        </a>
+                                        <!-- Archive (soft delete) -->
+                                        <form action="archive_design.php" method="POST" onsubmit="return confirmArchive(event);">
+                                            <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrfToken); ?>">
+                                            <input type="hidden" name="design_id" value="<?php echo (int)$design['Design_ID']; ?>">
+                                            <button type="submit" class="action-btn danger" title="Archive">
+                                                <i data-lucide="trash-2" class="icon-sm"></i>
+                                            </button>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -272,9 +303,7 @@ while ($row = mysqli_fetch_assoc($designsQuery)) {
         // Filter functionality
         document.querySelectorAll('.filter-tab').forEach(tab => {
             tab.addEventListener('click', function() {
-                // Remove active class from all tabs
                 document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
-                // Add active class to clicked tab
                 this.classList.add('active');
                 
                 const filter = this.getAttribute('data-filter');
@@ -307,25 +336,26 @@ while ($row = mysqli_fetch_assoc($designsQuery)) {
             });
         });
 
-        // Modal functions (placeholders)
-        function openFilterModal() {
-            alert('Filter modal would open here');
+        // Confirm archive
+        function confirmArchive(e) {
+            if (!confirm('Are you sure you want to delete this design?')) {
+                e.preventDefault();
+                return false;
+            }
+            return true;
         }
 
-        function openUploadModal() {
-            alert('Upload design modal would open here');
+        // Load more functionality (guarded if absent)
+        const loadMoreBtn = document.querySelector('.load-more-btn');
+        if (loadMoreBtn) {
+            loadMoreBtn.addEventListener('click', function() {
+                this.innerHTML = '<i data-lucide="loader-2" class="icon-sm animate-spin"></i> Loading...';
+                setTimeout(() => {
+                    this.innerHTML = 'Load More Designs';
+                    alert('More designs would be loaded here');
+                }, 1000);
+            });
         }
-
-        // Load more functionality
-        document.querySelector('.load-more-btn').addEventListener('click', function() {
-            this.innerHTML = '<i data-lucide="loader-2" class="icon-sm animate-spin"></i> Loading...';
-            
-            // Simulate loading
-            setTimeout(() => {
-                this.innerHTML = 'Load More Designs';
-                alert('More designs would be loaded here');
-            }, 1000);
-        });
     </script>
 </body>
 </html>
