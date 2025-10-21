@@ -166,7 +166,7 @@ $stmt->close();
                 </div>
 
                 <!-- Time Period Filter (static UI only) -->
-                <div class="filters-section">
+                <!-- <div class="filters-section">
                     <div class="filter-group">
                         <label class="filter-label">Time Period:</label>
                         <div class="filter-buttons">
@@ -176,7 +176,7 @@ $stmt->close();
                             <button class="filter-btn" data-period="1y">1 Year</button>
                         </div>
                     </div>
-                </div>
+                </div> -->
 
                 <!-- Sales Chart (placeholder) -->
                 <!-- <div class="chart-section">
