@@ -231,7 +231,7 @@ if (!isset($_SESSION["User_ID"])) {
 
                                             <div class="form-group">
                                                 <label for="design-price" class="form-label">
-                                                    Price (USD) *
+                                                    Price (PHP) *
                                                 </label>
                                                 <div class="price-input-wrapper">
                                                     <span class="price-prefix">₱</span>

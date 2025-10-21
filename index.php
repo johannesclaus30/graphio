@@ -48,8 +48,6 @@
             </div>
             <div id="myLinks" class="toggle-infos">
                         <a href="designs" class="nav-link">Designs</a><br>
-                        <a href="careers" class="nav-link">Careers</a><br>
-                        <a href="artists" class="nav-link">Artists</a><br>
                         <a href="about.html" class="nav-link">About</a><br>
                     </div>
         </header>
