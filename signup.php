@@ -105,8 +105,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <!-- Desktop Navigation -->
                     <nav class="nav-desktop">
                         <a href="designs" class="nav-link">Designs</a>
-                        <a href="careers" class="nav-link">Careers</a>
-                        <a href="artists" class="nav-link">Artists</a>
+                        <!-- <a href="careers" class="nav-link">Careers</a>
+                        <a href="artists" class="nav-link">Artists</a> -->
                         <a href="about.html" class="nav-link">About</a>
                     </nav>
 
